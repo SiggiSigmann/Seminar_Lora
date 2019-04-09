@@ -1,0 +1,58 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+\usepackage{hyperref}
+\usepackage[a4paper, left=2cm, right=5cm, top=2cm]{geometry}
+\renewcommand{\baselinestretch}{1.5}
+\usepackage{cite}
+\usepackage{bibgerm}
+
+\begin{document}
+    \tableofcontents
+    \newpage
+    \begin{abstract} 
+       \cite{WhatIsLoRa}
+       \cite{Semtech}
+    \end{abstract}
+
+    \section{Einführung in Lora}
+        \cite{WhatIsLoRa}
+        \cite{LoraLimit}
+    was ist lora, wo und wofür wird es benuzt, wie weit kann man senden und wie schnell s...
+    \section{Aufbau eines Lora-Netzwek}
+    \subsection{Gateway}
+        \cite{Loriot}
+        \cite{TheThing}
+        \cite{WhatIsLoRa}
+        \cite{LoRaSpec}
+        \cite{RFC8376}
+    Wie baut man ein Netzwek mit einem Gateway auf. Wie greift man auf die übermittelten Daten zu ...
+    \subsection{??End-Gerät zu End-Gerät}
+    Sehr wenig quellen. Uhrprünglich nicht vorgesehen
+    \section{Lora Funktionsweise}
+        \cite{RFC8376}
+        \cite{LoRaSpec}
+    \subsection{Schichtenmodell}
+    \subsection{Protokoll}
+    \subsection{Übertragungsart}
+    hardware
+    \section{Lora Geräte Klassen}
+        \cite{RFC8376}
+        \cite{LoraClasses}
+    \subsection{Class A}
+    \subsection{Class B}
+    \subsection{Class C}
+    \section{Sicherheit}
+        \cite{LoRaSecur}
+        \cite{RFC8376}
+        \cite{WhatIsLoRa}
+    \section{Sonsitge quellen}
+    \url{https://lora-alliance.org/resource-hub}
+
+    \newpage
+    \bibliographystyle{geralpha}
+    \bibliography{myBib}
+    %richtige namen finden
+\end{document}
