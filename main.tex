@@ -23,23 +23,24 @@
     \end{abstract}
 
     \section{Einführung in Lora}
-    Lora ist ein Low Power, Wide Area (LPWA) Netzwerkprotokol und somit sehr gut für batteriebetribene kabellose Geräte geeignet. Deswegen wir Lora auch of im Internet of Things (IoT) bereich verwendet.
-    Mittels der bi-direktionalen kommunikation ist es möglich Daten und Befehle über weite Strecken zu übertragen. Leider leidet darunter die Geschwindigkeit, sodas sich Lora nicht als WLAN ersatz eignet.
-    Trozdem können zwischen 0.3 und 50 kbps erreicht werden. In Europa werden 863 MHz bis 870 MHz verwendet. Allerdings vareiert der Frewuenzbereich für ander Kontinete.
-    
-    Das Lora Protooll ist im RPC 8376 definiert.
+    Lora ist ein Low Power, Wide Area (LPWA) Netzwerkprotokoll und somit sehr gut für batteriebetriebene kabellose Geräte geeignet. Deswegen wir Lora auch of im Internet of Things (IoT) Bereich verwendet.
+    Mittels der bidirektionalen Kommunikation ist es möglich Daten und Befehle über weite Strecken zu übertragen. Leider leidet darunter die Geschwindigkeit, sodas sich Lora nicht als WLAN Ersatz eignet.
+    Trotzdem können zwischen 0.3 und 50 kbps erreicht werden. In Europa werden 863 MHz bis 870 MHz verwendet. Allerdings variiert der Frequenzbereich für andere Kontinente. Je nach Bedingungen können so bis zu 20km entfernte Endgeräte erkannt und mit diesen kommuniziert werden.
+    Es ist sogar möglich den Standort des Gerätes zu bestimmen.
 
+    Das Lora Protokoll ist im RPC 8376 definiert.
+    
+    Eine Alternative zu Lora ist Sigfox, hierrauf werde ich nicht weiter eingehen.
         \cite{WhatIsLoRa}
         \cite{LoraLimit}
     \newline{}\newline{} Es wird folgen: Was ist lora, wo und wofür wird es benutzt, wie weit kann man senden und wie schnell...
     \section{Aufbau eines Lora-Netzwerk}
     \subsection{Gateway}
-    Um die mittels Lora übertragenen Daten weiter zu verarbeiten, ist ein Gateway nötig, das über Lora empfangenen Daten an einen im Internet befindlichen Server sendet. Dies wird möglich indem das Gateway die RF Pakete in IP/TCP Pakete umwandelt.
+    Um die mittels Lora übertragenen Daten weiterzuverarbeiten, ist ein Gateway nötig, das über Lora empfangenen Daten an einen im Internet befindlichen Server sendet. Dies wird möglich, indem das Gateway die RF Pakete in IP/TCP Pakete umwandelt.
     Die Endgeräte kommunizieren direkt mit dem Gateway (Single-Hop-Connection) und stellen somit eine Sterntopologie her.
 
-    Ein Endgeräte kann gleichzeitig an mehrer Gateways senden. Dabei sind die Endgeräte in Multicast gruppen unterteilt 
-        
-    \cite{TheThing}
+    Ein Endgeräte kann gleichzeitig an mehren Gateways senden. Dabei sind die Endgeräte in Multicast Gruppen unterteilt.
+        \cite{TheThing}
         \cite{WhatIsLoRa}
         \cite{LoRaSpec}
         \cite{RFC8376}
@@ -47,8 +48,8 @@
     \subsection{??End-Gerät zu End-Gerät}
     Sehr wenig Quellen. Urprünglich nicht vorgesehen
     \section{Lora Funktionsweise}
-    Die Datenrate ist einstellbar, jedoch wird die reichweite bei höherer Datenrate gemindet. Ein Vorteil von Lora ist, das die einzelnen Datenraten nicht interferiern und so jedes Endgerät seine eigene Datenrate unabhängig von den anderen Verwenden kann.
-    Außerdem wird die Datenrate und die Snedeleistung für jedes Gerät seperat gesteuert (ADR, Adapriv Data Rate)
+    Die Datenrate ist einstellbar, jedoch wird die Reichweite bei höherer Datenrate gemindert. Ein Vorteil von Lora ist, das die einzelnen Datenraten nicht interferieren und so jedes Endgerät seine eigene Datenrate unabhängig von den anderen Verwenden kann.
+    Außerdem wird die Datenrate und die Sendeleistung für jedes Gerät separat gesteuert (ADR, Adaprive Data Rate)
         \cite{RFC8376}
         \cite{LoRaSpec}
     \subsection{Schichtenmodell}
@@ -60,41 +61,41 @@
         \cite{RFC8376}
         \cite{LoraClasses}
     \subsection{Klasse A}
-    Klasse A Zeichnet sich durch sehr geringer Stromverbrauch as. Die kommunikation kann bi-direktionalen stadtfinden, allerdings muss die Kommunikation von dem Endgeräte gestarted werden. Das bieted die möglichkeit das das endgerät wenn keine Datenen gesendet werde müssen in einen sehr 
-    sparsamen Schlafmodus wechselt. Um das Endgeräte nicht zum "aufwachen" zwingen zu müssen wurde auf einen Hardbeat oder ähnliches verzichted. Das Endgerät kann so lange "schlafen" wie es möchte. Dadurch is die Klasse A acuh die potenziel Stromsparendste Endgeräteklasse.
-
-    Das endgerät started die Kommunikation in dem es Daten an das Gateway sendet(uplink). Daraufhin hat das Gateway die möglichkeit 2 mal Daten zum Endgeräte senden(downlink). Da die kommunikation asynchron stadtfinden warted das Endgeräte bis es beide uplinks entpfangen hat.gewünscht.
-
-    Um zu ermitteln wann gesendet werden dar wird das ALOHA-Protokoll verwendet.
-    Da das Gateway nicht immer Daten an die Endgeräte senden kann muss es diese zwischenspeichern um diese bei der Nächsten kommunikation zum senden.
+    Klasse A zeichnet sich durch sehr geringer Stromverbrauch aus. Die Kommunikation kann bidirektionalen Stadtfinden, allerdings muss die Kommunikation von dem Endgeräte gestartet werden. Das bieted die möglichkeit das das Endgerät, wenn keine Daten gesendet werden müssen, in einen sehr
+    sparsamen Schlafmodus wechselt. Um das Endgeräte nicht zum "aufwachen" zwingen zu müssen, wurde auf einen "Hardbeat" oder ähnliches verzichtet. Das Endgerät kann so lange "schlafen" wie es möchte. Dadurch ist die Klasse A auch die potenziell Stromsparende Endgeräteklasse.
+    
+    Das Endgerät startet die Kommunikation in dem es Daten an das Gateway sendet(uplink). Daraufhin hat das Gateway die Möglichkeit 2 mal Daten zum Endgeräte senden(downlink). Da die Kommunikation asynchron Stadtfinden wartet das Endgeräte bis es beide uplinks empfangen hat.gewünscht.
+    
+    Um zu ermitteln, wann gesendet werden darf, wird das ALOHA-Protokoll verwendet.
+    Da das Gateway nicht immer Daten an die Endgeräte senden kann, muss es diese zwischenspeichern um diese bei der Nächsten Kommunikation zum senden.
     \subsection{Klasse B}
-    Die Klasse B bieted bi-direktionale kommunikation mit einer deterministischem downlink latenz. Um diese latenz zu gewährleisten muss die Kommunikation Synchron ablaufen. Außerdem muss festgestellt werden ob das Endgerät bzw das Gateway noch in reichweite ist. Dies wird mittels einens peroidischem "beacon" die zu festgelegten
+    Die Klasse B bietet bidirektionale Kommunikation mit einer deterministischem downlink Latenz. Um diese latenz zu gewährleisten, muss die Kommunikation Synchron ablaufen. Außerdem muss festgestellt werden, ob das Endgerät bzw das Gateway noch in Reichweite ist. Dies wird mittels einens periodischem "beacon" die zu festgelegten
     Zeitpunkten gesendet werde realisiert.
 
     Die Latenz ist einstellbar und kann bis zu 128 Sekunden.
 
-    Obwohl das Endgerät durch die peroidischen "beacons" nicht "schalfen" kann, ist die Klasse B für den batteriebetrib gedacht.
-
+    Obwohl das Endgerät durch die periodischen "beacons" nicht "schalfen" kann, ist die Klasse B für den Batteriebetrieb gedacht.
     \subsection{Klasse C}
-    Um eine möglichst geringe/keine Latzen zu erzielen ist die Klasse C gemacht. Dies bedeuted aber auch das der Stromverbrauch am höchsten ist und somit nicht für den batteriebetrib geeignet.
-    Das Gateway kann immer Daten senden außer wenn das Endgerät gerade daten sendet. Hier sind Geschwindigkeit von bis zu 50mb möglich.
+    Um eine möglichst geringe/keine Latzen zu erzielen ist die Klasse C gemacht. Dies bedeutet aber auch das der Stromverbrauch am höchsten ist und somit nicht für den Batteriebetrieb geeignet.
+    Das Gateway kann immer Daten senden außer wenn das Endgerät gerade Daten sendet. Hier sind Geschwindigkeit von bis zu 50mb möglich.
 
-
-    Es ist auch möglich wärend des betriebes eines Endgerätes die Klasse zu wächseln. Dies wird am haufigste zwischen A und B getan/ ist nur zwischen A und B möglich.
+    Es ist auch möglich während des Betriebes eines Endgerätes die Klasse zu wechseln. Dies wird am häufigste zwischen A und B getan/ ist nur zwischen A und B möglich.
     \section{Sicherheit}
-    Lora bieted die end-to-end sicherheit an, indem es die Signale zwei mal verschlüsselt.
+    Lora bietet die end-to-end Sicherheit an, indem es die Signale zweimal verschlüsselt.
 
-    Die erste Verschlüsselung dient dazu die gesendeten Daten vor eventuellen mithörern zu verschlüsseln. Die verschlüsselung geschieht mit einem 128-bit Network-session-key.
+    Die erste Verschlüsselung dient dazu die gesendeten Daten vor eventuellen Mithörern zu verschlüsseln. Die Verschlüsselung geschieht mit einem 128-bit Network-Session-Key.
 
-    Die zweite Verschlüsselung wird bis zur endgültigen weiterverarbeitung der Daten auf z.B. einen Server verwendet und ist ein 128 bit Application -Session-Key.
+    Die zweite Verschlüsselung wird bis zur endgültigen Weiterverarbeitung der Daten auf z.B. einen Server verwendet und ist ein 128 bit Application-Session-Key.
 
-    Das zur Verschlüsselung verwendete Protokoll ist AES. Auch zu Authentifizierung und zur überprüfung der Integrität wir AES verwednet.
+    Das zur Verschlüsselung verwendete Protokoll ist AES. Auch zu Authentifizierung und zur Überprüfung der Integrität wir AES verwendet.
     \cite{LoRaSecur}
         \cite{RFC8376}
         \cite{WhatIsLoRa}
     \section{Sonstige quellen}
     \url{https://lora-alliance.org/resource-hub}
+    QuickStart für ein kleines Projekt: \url{https://www.thethingsnetwork.org/docs/devices/node/quick-start.html#setup-arduino-ide}
 
+    Weitere Infos \url{http://www.multitech.com/documents/publications/marketing-guides/lora_device_dev_guide_orange.pdf}
     \newpage
     \bibliographystyle{geralpha}
     \bibliography{myBib}
