@@ -19,6 +19,7 @@
     \newpage
     \begin{abstract} 
        \cite{WhatIsLoRa}
+       \newline
        \cite{Semtech}
     \end{abstract}
 
@@ -31,17 +32,39 @@
     Das Lora Protokoll ist im RPC 8376 definiert.
     
     Eine Alternative zu Lora ist Sigfox, hierrauf werde ich nicht weiter eingehen.
-        \cite{WhatIsLoRa}
+    \newline    
+    \cite{WhatIsLoRa}(Opptimiert für Batterie kapazität(teilnehmer) Reichweite, Kosten
+    mehrjährige Batterielaufzeit, kleine Datenmengen, große Reichweite, LPWAn (LowPower WAN)
+    
+    Kriterien für lora:Netzwerk Architektur, Recihweite, Batterielaufzit, Interreferenzrobustheit, Anzahl Konten, Sicherheit, bidirektionale Kommunikation, verschiedene applikationsunterstuzung
+    
+    Oritentiert für Mobile Adressierbare entgeräte)
         \cite{LoraLimit}
     \newline{}\newline{} Es wird folgen: Was ist lora, wo und wofür wird es benutzt, wie weit kann man senden und wie schnell...
     \section{Aufbau eines Lora-Netzwerk}
+    \cite{WhatIsLoRa}(Architektur hat größen Einfluss auf Batterie, anz Teilnehmer, qualität, sicherheit,
+    
+    )
     \subsection{Gateway}
     Um die mittels Lora übertragenen Daten weiterzuverarbeiten, ist ein Gateway nötig, das über Lora empfangenen Daten an einen im Internet befindlichen Server sendet. Dies wird möglich, indem das Gateway die RF Pakete in IP/TCP Pakete umwandelt.
     Die Endgeräte kommunizieren direkt mit dem Gateway (Single-Hop-Connection) und stellen somit eine Sterntopologie her.
 
     Ein Endgeräte kann gleichzeitig an mehren Gateways senden. Dabei sind die Endgeräte in Multicast Gruppen unterteilt.
         \cite{TheThing}
-        \cite{WhatIsLoRa}
+        \cite{WhatIsLoRa}(
+            Meistens wird ein Netzförmiges Netzt aufgabeut. Knoten leiten NAchrichten weiter => größere Reichweite aber kompliziert, erlaubt weniger Teilnehmer und energieaufwändig). 
+
+            Lora Sternförmig => Energieeffizent, Knoten senden direkt an Gatewas. Gateways senden an Server, Server muss doppelte Pakete fltern, Sicherheitscheck, Ack über bestes Gateway senden, datenrate anpassen.
+
+            Keine Handover
+
+            Gateway müssen viele geräte handeln da stern. ereichen durch (addaptive Datenrate, ulti chanel/multi modem transive) mehere nachrichten auch verschiedenn chanels gleichzeitig empfangen
+
+            Wichtige faktoren(#chanels, datenrate(time on air), paylod länge, sendeheufigkeit)
+        
+            Skalliert sehr gut => gmacht für große Nutzerzahlen
+            Neues gateway kann Knoten 6-8 x verbessern
+            )
         \cite{LoRaSpec}
         \cite{RFC8376}
     \newline{}\newline{} Es wird folgen: Wie baut man ein Netzwek mit einem Gateway auf. Wie greift man auf die übermittelten Daten zu ...
@@ -52,9 +75,28 @@
     Außerdem wird die Datenrate und die Sendeleistung für jedes Gerät separat gesteuert (ADR, Adaprive Data Rate)
         \cite{RFC8376}
         \cite{LoRaSpec}
+        \cite{WhatIsLoRa}()
     \subsection{Schichtenmodell}
+
+    \cite{WhatIsLoRa}(
+
+    Application
+
+    Lora MAC
+
+    MacOptins(Classes)
+
+    LoraModialtion(Regionales ISB)
+    )
+    Lora: Long Range ist Physikalische schicht(gibt an wie die kabellose übertragung geschieht)
+    LoraWan:protokoll das.
     \subsection{Protokoll}
     \subsection{Übertragungsart}
+    \cite{WhatIsLoRa}(normal FSK, schon sehr efficent. Lora "chirp spread spectrum odulation". Ist wie FSk aber größere Rechiweite, robuster. Stammt aus dem Militär/raumfahrt.Lora als erstes für kommerziellen billigen eibstaz.
+    
+    Spread spectrum => signale sind Ortohonal für versch. spreizraten, fakto koreliert mit datenrate => verschiedene Datenraten auf einem Kanal
+    
+    Nähere Geräte sind schneller => höhere Datenrate => kürzee übertrgungsdauer und lassen somit merh zeit für andere, => bessere Batterielaufzeit. Deswegen sidn symetrische up/downlinks nötig.)
     Frequenzhopping, spread spectrum, code-chanels
     \section{Lora Geräte Klassen}
     Vieleicht zu klein => in anderes Kapittel stopfen.
@@ -62,7 +104,14 @@
     Die Endgeräte sind je nach kommunikationsart/protokoll art in drei Klassen (A, B und C) unterteilt. 
         \cite{RFC8376}
         \cite{LoraClasses}
-    \subsection{Klasse A}
+        \cite{WhatIsLoRa}(Asynhrone Knoten wegen Batterie => event/scheduled driven verwendet ALOHA
+        
+        Normal netze müssen sich synchronisiern und nachrichten abrufen. Lora parziell nicht => laut GSMA 3 bis 5 fach effizenter)
+    
+        zur besserne anpassung/ anpassung an batterie
+        
+        EU: 10 Kanäle (8: 250bps bis 5.5kbps) (1: FSK 50kbps) (high rate Lora 114kbps))
+        \subsection{Klasse A}
     Klasse A zeichnet sich durch sehr geringer Stromverbrauch aus. Die Kommunikation kann bidirektionalen Stadtfinden, allerdings muss die Kommunikation von dem Endgeräte gestartet werden. Das bieted die möglichkeit das das Endgerät, wenn keine Daten gesendet werden müssen, in einen sehr
     sparsamen Schlafmodus wechselt. Um das Endgeräte nicht zum "aufwachen" zwingen zu müssen, wurde auf einen "Hardbeat" oder ähnliches verzichtet. Das Endgerät kann so lange "schlafen" wie es möchte. Dadurch ist die Klasse A auch die potenziell Stromsparende Endgeräteklasse.
     
@@ -92,7 +141,7 @@
     Das zur Verschlüsselung verwendete Protokoll ist AES. Auch zu Authentifizierung und zur Überprüfung der Integrität wir AES verwendet.
     \cite{LoRaSecur}
         \cite{RFC8376}
-        \cite{WhatIsLoRa}
+        \cite{WhatIsLoRa}(Applikationsverschlüsselung(schutz der Daten for mitlesen) Netzwerk(Autentiizierung der Knoten) AFS, Key Exnage IEEE EU164)
 
     \section{Live-Beispiel}
     wenn vorhanden.
