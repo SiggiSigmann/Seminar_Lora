@@ -229,23 +229,37 @@
                 
                 Das beacon und die enthaltenen daten werden an die applikation geschiht. Der server kann den beacon auswerten. ziwschen beacon und uplink wird random time verwendet um kolisionen zu verhindern .\marginpar{Nachschuen wie genau das funktioniert}
                 änderungen an pingslotperiode .. muss mitgeteilt werden. Hierzu ist klasse A nötig => wechel zu A, wechel zu B.
+            
+                Beacon wird genutzt um clockdrivt auszugleichen. Wenn kein beacon empfanen wird  => Bacenless mode. Dieser wird bis zu 2 stunden beibehalten. Reines verlassen auf interne Uhr. Wenn beacon empfagne wird, wird zeit zurückgesetzt.
             )
             \subsubsection{Klassenwechsel A nach B}
                 \cite{LoRaSpec}(
-                    Endgerät fart LoRaWAN layer an. LAyer sucht beacon. MAc command DeviceTImeReq um schneller bacon zu bekommen nutzen. Danach wird das ClassB feld auf 1 gesetzt. Bei den geöfneten fenstern wrd der maximal mögliche clockdrift berücksichtigt.
+                    Endgerät fart LoRaWAN layer an. Layer sucht beacon. Mac command DeviceTImeReq um schneller bacon zu bekommen nutzen. Danach wird das ClassB feld auf 1 gesetzt. Bei den geöfneten fenstern wrd der maximal mögliche clockdrift berücksichtigt.
                     Downlink läuft wie bei A ab.
 
 
                 )
             \subsubsection{Uplink}
-            \cite{LoRaSpec}(Wie bei)
+                \cite{LoRaSpec}(Wie bei)
             \subsubsection{Downlink}
-            \cite{LoRaSpec}(wie bei A, frequenzplan kann sich unterschieden. AUch Multikasts möglich,)        
+                \cite{LoRaSpec}(wie bei A, frequenzplan kann sich unterschieden. AUch Multikasts möglich,)
+                \paragraph{Singelcast}
+                    \cite{LoRaSpec}()
+                \paragraph{Multicast}
+                    \cite{LoRaSpec}(
+                        sepearate Adresse für Multicast
+                        Festgelegt durch layer oder manuell für gruppenmulticast
+                        Nicht führ MAC geeignet, 
+                    )
+
         \subsection{Klasse C}
             Um eine möglichst geringe/keine Latzen zu erzielen ist die Klasse C gemacht. Dies bedeutet aber auch das der Stromverbrauch am höchsten ist und somit nicht für den Batteriebetrieb geeignet.
             Das Gateway kann immer Daten senden außer wenn das Endgerät gerade Daten sendet. Hier sind Geschwindigkeit von bis zu 50mb möglich.
 
             Es ist auch möglich während des Betriebes eines Endgerätes die Klasse zu wechseln. Dies wird am häufigste zwischen A und B getan/ ist nur zwischen A und B möglich.
+            \cite{LoRaSpec}(
+                öffnet RX1 und RX2 fenster wie in Klasse A. Immer wenn  nicht gesendet wird oder RX1 offen ist, ist RX2 offen. Multicast ist auch möglich.
+            )
     \section{Sicherheit}
         Lora bietet die end-to-end Sicherheit an, indem es die Signale zweimal verschlüsselt.
 
