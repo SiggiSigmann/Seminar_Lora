@@ -16,6 +16,7 @@
 
 \begin{document}
     \maketitle
+    \newpage
     \tableofcontents
     \newpage
     \begin{abstract} 
@@ -50,6 +51,9 @@
     \section{Aufbau eines Lora-Netzwerk}
     \cite{WhatIsLoRa}(Architektur hat größen Einfluss auf Batterie, anz Teilnehmer, qualität, sicherheit,
     
+    )
+    \cite{LoRaSpec}(
+        Geschwindigkeit ist kompromiss zwischen abstand/geschw. die untersch freuenzen bze. geschwindigkeiten beinflussen sich nicht gegeseitig => keine inteferenz
     )
     \subsection{Gateway}
     Um die mittels Lora übertragenen Daten weiterzuverarbeiten, ist ein Gateway nötig, das über Lora empfangenen Daten an einen im Internet befindlichen Server sendet. Dies wird möglich, indem das Gateway die RF Pakete in IP/TCP Pakete umwandelt.
