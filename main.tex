@@ -78,7 +78,6 @@
                 )
             \cite{LoRaSpec}(
                 Applikation Server -> Zentraler Server(leitend Pakete weiter) -> Gateway(wandelt lorawan in ip Pakete um) -> Endgerät/Knoten       )
-            \cite{RFC8376}
             \newline{}\newline{} Es wird folgen: Wie baut man ein Netzwek mit einem Gateway auf. Wie greift man auf die übermittelten Daten zu ...
         \subsection{Netzwerkbeitritt}
         \cite{LoRaSpec}(wei arten OTAA(Over the air activation), ABP(Activation by Personalization)
@@ -88,7 +87,6 @@
     \section{Lora Funktionsweise}
         Die Datenrate ist einstellbar, jedoch wird die Reichweite bei höherer Datenrate gemindert. Ein Vorteil von Lora ist, das die einzelnen Datenraten nicht interferieren und so jedes Endgerät seine eigene Datenrate unabhängig von den anderen Verwenden kann.
         Außerdem wird die Datenrate und die Sendeleistung für jedes Gerät separat gesteuert (ADR, Adaprive Data Rate)
-            \cite{RFC8376}
             \cite{LoRaSpec}
             \cite{WhatIsLoRa}()
         \subsection{Schichtenmodell}
@@ -161,7 +159,6 @@
         die Counter Werte sollen so weit wie möglich nur einam verwendet werden.
         
         )
-        \cite{RFC8376}
         \cite{LoraClasses}
         \cite{WhatIsLoRa}(Asynchrone Knoten wegen Batterie => Event/Scheduler gesteuert verwendet ALOHA
         
@@ -269,7 +266,6 @@
 
         Das zur Verschlüsselung verwendete Protokoll ist AES. Auch zu Authentifizierung und zur Überprüfung der Integrität wir AES verwendet.
         \cite{LoRaSecur}
-            \cite{RFC8376}
             \cite{WhatIsLoRa}(Applikationsverschlüsselung(schutz der Daten for mitlesen) Netzwerk(Autentiizierung der Knoten) AFS, Key Exnage IEEE EU164)
             \cite{LoRaSpec}(symetrischer Schlüssel => nur einer benötigt, Sessionkey ist abgeleited von Knoten-rootkey. JoinServer setllt verbindung der Keys her.
             )
