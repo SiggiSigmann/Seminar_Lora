@@ -26,40 +26,40 @@
     \end{abstract}
 
     \section{Einführung in Lora}
-    Lora ist ein Low Power, Wide Area (LPWA) Netzwerkprotokoll und somit sehr gut für batteriebetriebene kabellose Geräte geeignet. Deswegen wir Lora auch of im Internet of Things (IoT) Bereich verwendet.
-    Mittels der bidirektionalen Kommunikation ist es möglich Daten und Befehle über weite Strecken zu übertragen. Leider leidet darunter die Geschwindigkeit, sodas sich Lora nicht als WLAN Ersatz eignet.
-    Trotzdem können zwischen 0.3 und 50 kbps erreicht werden. In Europa werden 863 MHz bis 870 MHz verwendet. Allerdings variiert der Frequenzbereich für andere Kontinente. Je nach Bedingungen können so bis zu 20km entfernte Endgeräte erkannt und mit diesen kommuniziert werden.
-    Es ist sogar möglich den Standort des Gerätes zu bestimmen.
-    
-    Eine Alternative zu Lora ist Sigfox, hierrauf werde ich nicht weiter eingehen.
-    \newline    
-    \cite{WhatIsLoRa}(Optimiert für Batterie Kapazität(Teilnehmer) Reichweite, Kosten
-    mehrjährige Batterielaufzeit, kleine Datenmengen, große Reichweite, LPWAN (Low Power WAN)
-    
-    Kriterien für Lora: Netzwerk Architektur, Reichweite, Batterielaufzeit, Interreferenzrobustheit, Anzahl Konten, Sicherheit, bidirektionale Kommunikation, verschiedene Anwendungsunterstützung
-    
-    Orientiert für Mobile Adressierbare Endgeräte)
-    \newline{}
-        \cite{LoraLimit}(
-            alternativen: Sigfox, Ingneu, Dash7
+        Lora ist ein Low Power, Wide Area (LPWA) Netzwerkprotokoll und somit sehr gut für batteriebetriebene kabellose Geräte geeignet. Deswegen wir Lora auch of im Internet of Things (IoT) Bereich verwendet.
+        Mittels der bidirektionalen Kommunikation ist es möglich Daten und Befehle über weite Strecken zu übertragen. Leider leidet darunter die Geschwindigkeit, sodas sich Lora nicht als WLAN Ersatz eignet.
+        Trotzdem können zwischen 0.3 und 50 kbps erreicht werden. In Europa werden 863 MHz bis 870 MHz verwendet. Allerdings variiert der Frequenzbereich für andere Kontinente. Je nach Bedingungen können so bis zu 20km entfernte Endgeräte erkannt und mit diesen kommuniziert werden.
+        Es ist sogar möglich den Standort des Gerätes zu bestimmen.
+        
+        Eine Alternative zu Lora ist Sigfox, hierrauf werde ich nicht weiter eingehen.
+        \newline    
+        \cite{WhatIsLoRa}(Optimiert für Batterie Kapazität(Teilnehmer) Reichweite, Kosten
+        mehrjährige Batterielaufzeit, kleine Datenmengen, große Reichweite, LPWAN (Low Power WAN)
+        
+        Kriterien für Lora: Netzwerk Architektur, Reichweite, Batterielaufzeit, Interreferenzrobustheit, Anzahl Konten, Sicherheit, bidirektionale Kommunikation, verschiedene Anwendungsunterstützung
+        
+        Orientiert für Mobile Adressierbare Endgeräte)
+        \newline{}
+            \cite{LoraLimit}(
+                alternativen: Sigfox, Ingneu, Dash7
 
-            Klassen Kompromiss zwischen Reichweite, Performance(Latzen/ Durchsatz) und Energiebedarf
+                Klassen Kompromiss zwischen Reichweite, Performance(Latzen/ Durchsatz) und Energiebedarf
 
-            Energiesparend durch ADR (Adaptive Daten Rate)
-        )
-    \newline{}\newline{} Es wird folgen: Was ist lora, wo und wofür wird es benutzt, wie weit kann man senden und wie schnell...
+                Energiesparend durch ADR (Adaptive Daten Rate)
+            )
+        \newline{}\newline{} Es wird folgen: Was ist lora, wo und wofür wird es benutzt, wie weit kann man senden und wie schnell...
     \section{Aufbau eines Lora-Netzwerk}
-    \cite{WhatIsLoRa}(Architektur hat größen Einfluss auf Batterie, anz Teilnehmer, qualität, sicherheit,
-    
-    )
-    \cite{LoRaSpec}(
-        Geschwindigkeit ist kompromiss zwischen abstand/geschw. die untersch freuenzen bze. geschwindigkeiten beinflussen sich nicht gegeseitig => keine inteferenz
-    )
+        \cite{WhatIsLoRa}(Architektur hat größen Einfluss auf Batterie, anz Teilnehmer, qualität, sicherheit,
+        
+        )
+        \cite{LoRaSpec}(
+            Geschwindigkeit ist kompromiss zwischen abstand/geschw. die untersch freuenzen bze. geschwindigkeiten beinflussen sich nicht gegeseitig => keine inteferenz
+        )
     \subsection{Gateway}
-    Um die mittels Lora übertragenen Daten weiterzuverarbeiten, ist ein Gateway nötig, das über Lora empfangenen Daten an einen im Internet befindlichen Server sendet. Dies wird möglich, indem das Gateway die RF Pakete in IP/TCP Pakete umwandelt.
-    Die Endgeräte kommunizieren direkt mit dem Gateway (Single-Hop-Connection) und stellen somit eine Sterntopologie her.
+        Um die mittels Lora übertragenen Daten weiterzuverarbeiten, ist ein Gateway nötig, das über Lora empfangenen Daten an einen im Internet befindlichen Server sendet. Dies wird möglich, indem das Gateway die RF Pakete in IP/TCP Pakete umwandelt.
+        Die Endgeräte kommunizieren direkt mit dem Gateway (Single-Hop-Connection) und stellen somit eine Sterntopologie her.
 
-    Ein Endgeräte kann gleichzeitig an mehren Gateways senden. Dabei sind die Endgeräte in Multicast Gruppen unterteilt.
+        Ein Endgeräte kann gleichzeitig an mehren Gateways senden. Dabei sind die Endgeräte in Multicast Gruppen unterteilt.
         \cite{TheThing}
         \cite{WhatIsLoRa}(
             Meistens wird ein Netzförmiges Netzt aufgebaut. Knoten leiten Nachrichten weiter => größere Reichweite aber kompliziert, erlaubt weniger Teilnehmer und energieaufwändig). 
@@ -78,70 +78,68 @@
         \cite{LoRaSpec}(
             Applikation Server -> Zentraler Server(leitend Pakete weiter) -> Gateway(wandelt lorawan in ip Pakete um) -> Endgerät/Knoten       )
         \cite{RFC8376}
-    \newline{}\newline{} Es wird folgen: Wie baut man ein Netzwek mit einem Gateway auf. Wie greift man auf die übermittelten Daten zu ...
-    \subsection{??End-Gerät zu End-Gerät}
-    Sehr wenig Quellen. Urprünglich nicht vorgesehen
+        \newline{}\newline{} Es wird folgen: Wie baut man ein Netzwek mit einem Gateway auf. Wie greift man auf die übermittelten Daten zu ...
     \section{Lora Funktionsweise}
-    Die Datenrate ist einstellbar, jedoch wird die Reichweite bei höherer Datenrate gemindert. Ein Vorteil von Lora ist, das die einzelnen Datenraten nicht interferieren und so jedes Endgerät seine eigene Datenrate unabhängig von den anderen Verwenden kann.
-    Außerdem wird die Datenrate und die Sendeleistung für jedes Gerät separat gesteuert (ADR, Adaprive Data Rate)
-        \cite{RFC8376}
-        \cite{LoRaSpec}
-        \cite{WhatIsLoRa}()
-    \subsection{Schichtenmodell}
+        Die Datenrate ist einstellbar, jedoch wird die Reichweite bei höherer Datenrate gemindert. Ein Vorteil von Lora ist, das die einzelnen Datenraten nicht interferieren und so jedes Endgerät seine eigene Datenrate unabhängig von den anderen Verwenden kann.
+        Außerdem wird die Datenrate und die Sendeleistung für jedes Gerät separat gesteuert (ADR, Adaprive Data Rate)
+            \cite{RFC8376}
+            \cite{LoRaSpec}
+            \cite{WhatIsLoRa}()
+        \subsection{Schichtenmodell}
 
-    \cite{WhatIsLoRa}(
+        \cite{WhatIsLoRa}(
 
-    Application
+        Application
 
-    Lora MAC
+        Lora MAC
 
-    MacOptins(Classes)
+        MacOptins(Classes)
 
-    LoraModialtion(Regionales ISB)
-    )
-    Lora: Long Range ist Physikalische schicht(gibt an wie die kabellose übertragung geschieht)
-    LoraWan:protokoll das.
-    \subsection{Protokoll}
-    \subsection{Übertragungsart}
-    \cite{LoRaSpec}(
-        Knoten können zu jeder Zeit, auf beliebigen Kanälen, beliebig schnell, beliebig lange senden, solange folgende regeln befolgt werden.
-        \begin{itemize}
+        LoraModialtion(Regionales ISB)
+        )
+        Lora: Long Range ist Physikalische schicht(gibt an wie die kabellose übertragung geschieht)
+        LoraWan:protokoll das.
+        \subsection{Protokoll}
+        \subsection{Übertragungsart}
+            \cite{LoRaSpec}(
+                Knoten können zu jeder Zeit, auf beliebigen Kanälen, beliebig schnell, beliebig lange senden, solange folgende regeln befolgt werden.
+                \begin{itemize}
+                    
+                        \item Channels werden per Pseudozufallszahl geändert
+                        \item Sendezeit erfüllt die Regionalen Bestimmungen
+                    
+                \end{itemize}
+            )
+
+            \cite{LoraLimit}(
+                Chrip Signal => Zeitliche Änderung in Trägerfrequenz(höhere Frequenz als Datenrate)(positiv chrip/negativ chrip)
+
+                Datensignal wird in Chrip Signal moduliert. Resultierende Signal ist breitbandiger als Datensignal. Maximale Datenrate auch mit Rauschen erreichbar.
+
+                Durch orthogonale "Spread Factor" mehrere Signale auf einem Chanel
+            )
+            \cite{WhatIsLoRa}(normal FSK, schon sehr efficent. Lora "chirp spread spectrum odulation". Ist wie FSk aber größere Rechiweite, robuster. Stammt aus dem Militär/raumfahrt.Lora als erstes für kommerziellen billigen Einsatz.
             
-                \item Channels werden per Pseudozufallszahl geändert
-                \item Sendezeit erfüllt die Regionalen Bestimmungen
+            Spread spectrum => signale sind Ortohonal für versch. spreizraten, fakto koreliert mit datenrate => verschiedene Datenraten auf einem Kanal
             
-        \end{itemize}
-    )
+            Nähere Geräte sind schneller => höhere Datenrate => kürzee übertrgungsdauer und lassen somit merh zeit für andere, => bessere Batterielaufzeit. Deswegen sidn symetrische up/downlinks nötig.)
+            Frequenzhopping, spread spectrum, code-chanels
+                \subsubsection{Adaptive Data Rate}
+                \cite{LoraLimit}(
+                    Datenrate und Funkfrequenz(RF) werde passend zum Abstand angepasst
 
-    \cite{LoraLimit}(
-        Chrip Signal => Zeitliche Änderung in Trägerfrequenz(höhere Frequenz als Datenrate)(positiv chrip/negativ chrip)
+                    nahe Knoten => hohe Datenrate => kurze Sendezeit => weniger RF-Power
+                    kann nach Bedarf geändert werden
 
-        Datensignal wird in Chrip Signal moduliert. Resultierende Signal ist breitbandiger als Datensignal. Maximale Datenrate auch mit Rauschen erreichbar.
+                    => immer möglichst schnelle senden => weniger Energie
 
-        Durch orthogonale "Spread Factor" mehrere Signale auf einem Chanel
-    )
-    \cite{WhatIsLoRa}(normal FSK, schon sehr efficent. Lora "chirp spread spectrum odulation". Ist wie FSk aber größere Rechiweite, robuster. Stammt aus dem Militär/raumfahrt.Lora als erstes für kommerziellen billigen Einsatz.
-    
-    Spread spectrum => signale sind Ortohonal für versch. spreizraten, fakto koreliert mit datenrate => verschiedene Datenraten auf einem Kanal
-    
-    Nähere Geräte sind schneller => höhere Datenrate => kürzee übertrgungsdauer und lassen somit merh zeit für andere, => bessere Batterielaufzeit. Deswegen sidn symetrische up/downlinks nötig.)
-    Frequenzhopping, spread spectrum, code-chanels
-    \subsubsection{Adaptive Data Rate}
-    \cite{LoraLimit}(
-        Datenrate und Funkfrequenz(RF) werde passend zum Abstand angepasst
-
-        nahe Knoten => hohe Datenrate => kurze Sendezeit => weniger RF-Power
-        kann nach Bedarf geändert werden
-
-        => immer möglichst schnelle senden => weniger Energie
-
-    )
+                )
     \section{Lora Geräte Klassen}
-    \cite{LoRaSpec}(GGeräte müssen mindestens A können, alle die mehr können werden auch "high class End-Devices" genannt)
-    Vieleicht zu klein => in anderes Kapitel stopfen.
+        \cite{LoRaSpec}(GGeräte müssen mindestens A können, alle die mehr können werden auch "high class End-Devices" genannt)
+        Vieleicht zu klein => in anderes Kapitel stopfen.
 
-    Die Endgeräte sind je nach Kommunikationsart/Protokoll Art in drei Klassen (A, B und C) unterteilt. 
-   )
+        Die Endgeräte sind je nach Kommunikationsart/Protokoll Art in drei Klassen (A, B und C) unterteilt. 
+        )
         \cite{RFC8376}
         \cite{LoraClasses}
         \cite{WhatIsLoRa}(Asynchrone Knoten wegen Batterie => Event/Scheduler gesteuert verwendet ALOHA
@@ -152,76 +150,76 @@
         
         EU: 10 Kanäle (8: 250bps bis 5.5kbps) (1: FSK 50kbps) (high rate Lora 114kbps)
 
-)
+        )
         \subsection{Klasse A}
-    Klasse A zeichnet sich durch sehr geringer Stromverbrauch aus. Die Kommunikation kann bidirektionalen Stadtfinden, allerdings muss die Kommunikation von dem Endgeräte gestartet werden. Das bieted die möglichkeit das das Endgerät, wenn keine Daten gesendet werden müssen, in einen sehr
-    sparsamen Schlafmodus wechselt. Um das Endgeräte nicht zum "aufwachen" zwingen zu müssen, wurde auf einen "Hardbeat" oder ähnliches verzichtet. Das Endgerät kann so lange "schlafen" wie es möchte. Dadurch ist die Klasse A auch die potenziell Stromsparende Endgeräteklasse.
-    
-    Das Endgerät startet die Kommunikation in dem es Daten an das Gateway sendet(uplink). Daraufhin hat das Gateway die Möglichkeit 2 mal Daten zum Endgeräte senden(downlink). Da die Kommunikation asynchron Stadtfinden wartet das Endgeräte bis es beide uplinks empfangen hat.gewünscht.
-    
-    Um zu ermitteln, wann gesendet werden darf, wird das ALOHA-Protokoll verwendet.
-    Da das Gateway nicht immer Daten an die Endgeräte senden kann, muss es diese zwischenspeichern um diese bei der Nächsten Kommunikation zum senden.
-    \cite{LoRaSpec}(Es wird zwischen up- / downlink unterschieden)
+            Klasse A zeichnet sich durch sehr geringer Stromverbrauch aus. Die Kommunikation kann bidirektionalen Stadtfinden, allerdings muss die Kommunikation von dem Endgeräte gestartet werden. Das bieted die möglichkeit das das Endgerät, wenn keine Daten gesendet werden müssen, in einen sehr
+            sparsamen Schlafmodus wechselt. Um das Endgeräte nicht zum "aufwachen" zwingen zu müssen, wurde auf einen "Hardbeat" oder ähnliches verzichtet. Das Endgerät kann so lange "schlafen" wie es möchte. Dadurch ist die Klasse A auch die potenziell Stromsparende Endgeräteklasse.
+            
+            Das Endgerät startet die Kommunikation in dem es Daten an das Gateway sendet(uplink). Daraufhin hat das Gateway die Möglichkeit 2 mal Daten zum Endgeräte senden(downlink). Da die Kommunikation asynchron Stadtfinden wartet das Endgeräte bis es beide uplinks empfangen hat.gewünscht.
+            
+            Um zu ermitteln, wann gesendet werden darf, wird das ALOHA-Protokoll verwendet.
+            Da das Gateway nicht immer Daten an die Endgeräte senden kann, muss es diese zwischenspeichern um diese bei der Nächsten Kommunikation zum senden.
+            \cite{LoRaSpec}(Es wird zwischen up- / downlink unterschieden)
 
-    \subsubsection{Uplink}
+            \subsubsection{Uplink}
 
-    \cite{LoRaSpec} 
-    (vom Knoten zum Gateway(1..n), Lora radio packet mode, (Preamble, PHDR, PHDR\_CRC, PHYPayload, CRC(cyklische Rendundanz Prüfung))
-        )
+                \cite{LoRaSpec} 
+                    (vom Knoten zum Gateway(1..n), Lora radio packet mode, (Preamble, PHDR, PHDR\_CRC, PHYPayload, CRC(cyklische Rendundanz Prüfung))
+                 )
 
-    \subsubsection{Downlink}
+            \subsubsection{Downlink}
 
-    \cite{LoRaSpec}
-    (
-        radio packet explicit mode, vom Gateway(1) zum Knoten(1), ausgelöst vom Netzwerkserver, auch multikasts möglich, (Preamble, PHDR, PHDR\_CRC, PHYPayload)
-    Um Nachricht kurz zu halten kein CRC am ende, nach Reciever\_Delay1 / Reciever\_Delay2 kann empfangen werden (rx1, rx2) 
-    )
-    \paragraph{Rx1}
-    \cite{LoRaSpec}(
-        Frequenz abhänig von Uplinkfrequenz, Datenrate abhängig on Uplinkdatenrate, wird nach Reciever\_Delay 1 +/- 20 msec erwarted, Datenrate auch abhänig von Regionalen regeln, Standart: Datenrate = Uplinkdatenrate
-    )
-    \paragraph{Rx2}
-    \cite{LoRaSpec}(
-        feste Frequenz/Dtanetnrate, nach Delay2 +/- 20 msec, Frequenz/Datenrate mittels MAC änderbar
-    )
-    \cite{LoRaSpec}(
-        Öffnungslänge muss für Preamble ausreichen, nach RX1 + MIC und autentigitätscheck muss nicht zwingen RX2 geöffnet werden, Sender muss in einem der beiden Fenster stattfinden, Falls Downlink über beide Fenster => feames müsen gleich sein. Knoten dürfen nich während empfangen/ zwischen RX1 und RX2 senden, ender Protokolle dürfen gesprochen werden wenn gesendet werden darf
-    )
-    \subsection{Klasse B}
-    Die Klasse B bietet bidirektionale Kommunikation mit einer deterministischem downlink Latenz. Um diese latenz zu gewährleisten, muss die Kommunikation Synchron ablaufen. Außerdem muss festgestellt werden, ob das Endgerät bzw das Gateway noch in Reichweite ist. Dies wird mittels einens periodischem "beacon" die zu festgelegten
-    Zeitpunkten gesendet werde realisiert.
+                \cite{LoRaSpec}
+                (
+                    radio packet explicit mode, vom Gateway(1) zum Knoten(1), ausgelöst vom Netzwerkserver, auch multikasts möglich, (Preamble, PHDR, PHDR\_CRC, PHYPayload)
+                Um Nachricht kurz zu halten kein CRC am ende, nach Reciever\_Delay1 / Reciever\_Delay2 kann empfangen werden (rx1, rx2) 
+                )
+                \paragraph{Rx1}
+                    \cite{LoRaSpec}(
+                        Frequenz abhänig von Uplinkfrequenz, Datenrate abhängig on Uplinkdatenrate, wird nach Reciever\_Delay 1 +/- 20 msec erwarted, Datenrate auch abhänig von Regionalen regeln, Standart: Datenrate = Uplinkdatenrate
+                    )
+                \paragraph{Rx2}
+                    \cite{LoRaSpec}(
+                        feste Frequenz/Dtanetnrate, nach Delay2 +/- 20 msec, Frequenz/Datenrate mittels MAC änderbar
+                    )
+                    \cite{LoRaSpec}(
+                        Öffnungslänge muss für Preamble ausreichen, nach RX1 + MIC und autentigitätscheck muss nicht zwingen RX2 geöffnet werden, Sender muss in einem der beiden Fenster stattfinden, Falls Downlink über beide Fenster => feames müsen gleich sein. Knoten dürfen nich während empfangen/ zwischen RX1 und RX2 senden, ender Protokolle dürfen gesprochen werden wenn gesendet werden darf
+                    )
+        \subsection{Klasse B}
+            Die Klasse B bietet bidirektionale Kommunikation mit einer deterministischem downlink Latenz. Um diese latenz zu gewährleisten, muss die Kommunikation Synchron ablaufen. Außerdem muss festgestellt werden, ob das Endgerät bzw das Gateway noch in Reichweite ist. Dies wird mittels einens periodischem "beacon" die zu festgelegten
+            Zeitpunkten gesendet werde realisiert.
 
-    Die Latenz ist einstellbar und kann bis zu 128 Sekunden.
+            Die Latenz ist einstellbar und kann bis zu 128 Sekunden.
 
-    Obwohl das Endgerät durch die periodischen "beacons" nicht "schalfen" kann, ist die Klasse B für den Batteriebetrieb gedacht.
-    \subsection{Klasse C}
-    Um eine möglichst geringe/keine Latzen zu erzielen ist die Klasse C gemacht. Dies bedeutet aber auch das der Stromverbrauch am höchsten ist und somit nicht für den Batteriebetrieb geeignet.
-    Das Gateway kann immer Daten senden außer wenn das Endgerät gerade Daten sendet. Hier sind Geschwindigkeit von bis zu 50mb möglich.
+            Obwohl das Endgerät durch die periodischen "beacons" nicht "schalfen" kann, ist die Klasse B für den Batteriebetrieb gedacht.
+        \subsection{Klasse C}
+            Um eine möglichst geringe/keine Latzen zu erzielen ist die Klasse C gemacht. Dies bedeutet aber auch das der Stromverbrauch am höchsten ist und somit nicht für den Batteriebetrieb geeignet.
+            Das Gateway kann immer Daten senden außer wenn das Endgerät gerade Daten sendet. Hier sind Geschwindigkeit von bis zu 50mb möglich.
 
-    Es ist auch möglich während des Betriebes eines Endgerätes die Klasse zu wechseln. Dies wird am häufigste zwischen A und B getan/ ist nur zwischen A und B möglich.
+            Es ist auch möglich während des Betriebes eines Endgerätes die Klasse zu wechseln. Dies wird am häufigste zwischen A und B getan/ ist nur zwischen A und B möglich.
     \section{Sicherheit}
-    Lora bietet die end-to-end Sicherheit an, indem es die Signale zweimal verschlüsselt.
+        Lora bietet die end-to-end Sicherheit an, indem es die Signale zweimal verschlüsselt.
 
-    Die erste Verschlüsselung dient dazu die gesendeten Daten vor eventuellen Mithörern zu verschlüsseln. Die Verschlüsselung geschieht mit einem 128-bit Network-Session-Key.
+        Die erste Verschlüsselung dient dazu die gesendeten Daten vor eventuellen Mithörern zu verschlüsseln. Die Verschlüsselung geschieht mit einem 128-bit Network-Session-Key.
 
-    Die zweite Verschlüsselung wird bis zur endgültigen Weiterverarbeitung der Daten auf z.B. einen Server verwendet und ist ein 128 bit Application-Session-Key.
+        Die zweite Verschlüsselung wird bis zur endgültigen Weiterverarbeitung der Daten auf z.B. einen Server verwendet und ist ein 128 bit Application-Session-Key.
 
-    Das zur Verschlüsselung verwendete Protokoll ist AES. Auch zu Authentifizierung und zur Überprüfung der Integrität wir AES verwendet.
-    \cite{LoRaSecur}
-        \cite{RFC8376}
-        \cite{WhatIsLoRa}(Applikationsverschlüsselung(schutz der Daten for mitlesen) Netzwerk(Autentiizierung der Knoten) AFS, Key Exnage IEEE EU164)
-        \cite{LoRaSpec}(symetrischer Schlüssel => nur einer benötigt, Sessionkey ist abgeleited von Knoten-rootkey. JoinServer setllt verbindung der Keys her.
-        )
+        Das zur Verschlüsselung verwendete Protokoll ist AES. Auch zu Authentifizierung und zur Überprüfung der Integrität wir AES verwendet.
+        \cite{LoRaSecur}
+            \cite{RFC8376}
+            \cite{WhatIsLoRa}(Applikationsverschlüsselung(schutz der Daten for mitlesen) Netzwerk(Autentiizierung der Knoten) AFS, Key Exnage IEEE EU164)
+            \cite{LoRaSpec}(symetrischer Schlüssel => nur einer benötigt, Sessionkey ist abgeleited von Knoten-rootkey. JoinServer setllt verbindung der Keys her.
+            )
     \section{Live-Beispiel}
-    wenn vorhanden.
+        wenn vorhanden.
 
     \section{Fazit}
     \section{Sonstige quellen}
-    \url{https://lora-alliance.org/resource-hub}
-    QuickStart für ein kleines Projekt: \url{https://www.thethingsnetwork.org/docs/devices/node/quick-start.html#setup-arduino-ide}
+        \url{https://lora-alliance.org/resource-hub}
+        QuickStart für ein kleines Projekt: \url{https://www.thethingsnetwork.org/docs/devices/node/quick-start.html#setup-arduino-ide}
 
-    Weitere Infos \url{http://www.multitech.com/documents/publications/marketing-guides/lora_device_dev_guide_orange.pdf}
-    \newpage
+        Weitere Infos \url{http://www.multitech.com/documents/publications/marketing-guides/lora_device_dev_guide_orange.pdf}
+        \newpage
     \bibliographystyle{geralpha}
     \bibliography{myBib}
     %richtige namen finden
