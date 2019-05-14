@@ -101,12 +101,30 @@
             
             \cite{LoRaSpec}( Sicherheit(zähler, ...), leited pakete weiter, filtert pakete, merher gateway via ip verbunden, kontrolliert datenrate, chanäle, adaptiv data rate api.
         \subsection{?? Applicationsserver}
+        \subsection{End-Gerät}
         \subsection{Netzwerkbeitritt}
+            End-Geräte sind immer bestimmten Netzwerken zugeordnet. Es gibt zwei wege um ein neue End-geräte zu einem bestehenden Netzwerk hinzuzufügen.
 
-        \cite{LoRaSpec}(wei arten OTAA(Over the air activation), ABP(Activation by Personalization)
-                Jedes gerät hat eine vorgegebene DevEUI (wie MAc adresse eines PCs), JoinEUI muss angegeben werden und adressiert den Join server \marginpar{Was macht der? wohin damit?}
+            \cite{LoRaSpec}(wei arten OTAA(Over the air activation), ABP(Activation by Personalization)
+                    Jedes gerät hat eine vorgegebene DevEUI (wie MAc adresse eines PCs), JoinEUI muss angegeben werden und adressiert den Join server \marginpar{Was macht der? wohin damit?}
+                    
+            )
+            
+                ABP steht für "Activation by Personalization" und bedeutet Wörtlich übersetzt Aktivierung durch Personalisierung. 
+
+            \subsubsection{ABP}
+                Die einfachste Art des Beitritts heist ABP was für "Activation by Personalization" zu deutsch "Aktivierung durch Personalisierung" steht. Hierbei muss lediglich vor inbetribnhme des End-Gerätes 3 Konstanden definiert Werden. Manche Hersteller "brennen" diese 
+                drei Werte fest in den chip ein, sodas er nicht geändert werden kann. Flls es nicht möglich ist dem hersteller die gewünschten werte zukommen zu lasse, sind solche End-Geräte nicht für den Beitritt mittels ABP geeignet.
                 
-        )
+                Als erstes muss die DeviceAddress angegeben werden. Diese Adresse existiert nur einmal im Netztwerk und wird verwendet um das Endgerät zu indentifizieren. Die Adrsse wird vom Netzwerkserver erzeugt und muss manuel von dort kopiert werden.
+
+                Der NWKSKEY ist für die verschlüsselung der Datenpakete bis zu Gateway zustendig \marginpar{realy? überprüfe die komplette aussage}. Auch dieser Key wird vom Netzwerkserver erzeugt und muss manuell in den code eingetragen werden.
+            
+                Der letzt Wert heißt APPSKEY und sichert die kommunikation vom End-Gerät zu dem Applikationsserver ab. Der Schlüssel wird genau wie der NWKSKEY vom Netzwerkserver erzeugt und verwalted.
+            
+                Mehr Infomationen zu den vonkioinsweise der Schlüssel finden Sie in dem Kapittel \nameref{sec:Sicherheit}.
+            \subsubsection{OTAA}
+            test
         \subsubsection{joinserver}
     \section{Lora Funktionsweise}
     )
@@ -173,7 +191,7 @@
                     => immer möglichst schnelle senden => weniger Energie
 
                 )
-                \section{Notitz: protokoll/paket hierfor erklären}
+                \subsubsection{Notitz: protokoll/paket hierfor erklären}
     \section{Lora Geräte Klassen}
         \cite{LoRaSpec}(GGeräte müssen mindestens A können, alle die mehr können werden auch "high class End-Devices" genannt)
         Vieleicht zu klein => in anderes Kapitel stopfen. Bei mehrfacher übertrageung wird nicht erhöht
@@ -285,7 +303,7 @@
             \cite{LoRaSpec}(
                 öffnet RX1 und RX2 fenster wie in Klasse A. Immer wenn  nicht gesendet wird oder RX1 offen ist, ist RX2 offen. Multicast ist auch möglich.
             )
-    \section{Sicherheit}
+    \section{Sicherheit} \label{sec:Sicherheit}
         Lora bietet die end-to-end Sicherheit an, indem es die Signale zweimal verschlüsselt.
 
         Die erste Verschlüsselung dient dazu die gesendeten Daten vor eventuellen Mithörern zu verschlüsseln. Die Verschlüsselung geschieht mit einem 128-bit Network-Session-Key.
