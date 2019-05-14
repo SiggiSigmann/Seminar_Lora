@@ -1,6 +1,8 @@
 \documentclass[a4paper,12pt]{article}
 
 \usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\graphicspath{{./Bilder/}}
 \usepackage[T1]{fontenc}
 \usepackage[ngerman]{babel}
 \usepackage{hyperref}
@@ -50,18 +52,28 @@
             )
         \newline{}\newline{} Es wird folgen: Was ist lora, wo und wofür wird es benutzt, wie weit kann man senden und wie schnell...
     \section{Aufbau eines Lora-Netzwerk}
-        \cite{WhatIsLoRa}(Architektur hat größen Einfluss auf Batterie, anz Teilnehmer, qualität, sicherheit,
-        
-        )
-        \cite{LoRaSpec}(
-            Geschwindigkeit ist kompromiss zwischen abstand/geschw. die untersch freuenzen bze. geschwindigkeiten beinflussen sich nicht gegeseitig => keine inteferenz
-        )
-        \subsection{Gateway}
-            Um die mittels Lora übertragenen Daten weiterzuverarbeiten, ist ein Gateway nötig, das über Lora empfangenen Daten an einen im Internet befindlichen Server sendet. Dies wird möglich, indem das Gateway die RF Pakete in IP/TCP Pakete umwandelt.
-            Die Endgeräte kommunizieren direkt mit dem Gateway (Single-Hop-Connection) und stellen somit eine Sterntopologie her.
+        Lora wird auch Deswegen gerne für IoT-Geräte verwendet, weil der Netzwekaufbau ermöglicht die über Lora verwendeten Daten im Internet abzurufen und so ohne weiteres das Gerät mit dem Internet zu verbinden. Um die von den End-Geräten gesendeten LoRa Pakete auf IP/TCP Pakete umzusetzen wird ein Gateway benötigt, das auf der einen Seite LoRa pakete empfängt/sendet und auf der anderen Seite TCP/IP Pakete verwendet.
+        Das Gateway implementiert aber keinerlei Logic. Hierzu ist ein Netzwerkserver zuständig der druch die Gateways das Netzwerk kontrolliert und seuert. Gleichzeitig stellt er die verbindung zu einem Applicationsserver her an den er die vondem Gateway empfangenen Daten sendet und von dem auch Daten an die entgeräte, wieder über das Gateway, gesendet werden.
+        Diese Architektur wurde gewählt um die laufzeit der End-Gerät, Anzahl der End-Geräte, Qualität des Signals und SIcherheit des Netzwerkes möglichst hoch zu halten.
 
-            Ein Endgeräte kann gleichzeitig an mehren Gateways senden. Dabei sind die Endgeräte in Multicast Gruppen unterteilt.
-            \cite{TheThing}
+
+        \cite{WhatIsLoRa}(Architektur hat größen Einfluss auf Batterie, anz Teilnehmer, qualität, sicherheit,
+
+
+        \includegraphics[width=\textwidth]{Netzwerkaufbau}
+        
+        \subsection{Gateway}
+            Das Teilnetz das aus dem Gateway und meheren LoRa-End-Geräten besteht ist Sternförmig aufbau. Jedes End-Gerät kommuniziert diret mit dem Gateway. Diese Atrt der Kommunikation wird auch (Single-Hop-Connection) zu Deutsch (Einfacher-Sprung-verbindung) genannt, da die Gesendeten Daten ohne umwege an das Gateway gesendet werden.
+
+            Ein Endgeräte kann gleichzeitig an mehren Gateways senden. Der Netzwerkserver ist zuständig die Pakete auf Dublikate zu überprüfen und nur solche nur einmalig an die Appliaktion zu senden.\marginpar{Dabei sind die Endgeräte in Multicast Gruppen unterteilt.}
+            Ein weiterer Vorteil ist das kein Handover nötig ist, da alle Gateways fähig sind die Daten des Endgeräts zu verarbeiten bzw. weiterzusenden.
+            
+            Durch die Sernförmige Architektur des Netzes und die fähigkeit von allen in der Reichweite befindlichen Endgeräte Daten zu empfnagen, muss ein Gatway mit vielen End-Gerätn kommuniziert. 
+            Da es nicht möglich ist mit jedem Gerät nacheinander zu kommuniziern, muss dies gelichzeitig geschehen. Hierzu werden adaptive Datenraten und Mehrkanal-Multi-Modem-Transceiver verwendet um eine hohe End-Geräteanzahl zu ermöglichen.
+            Außerdem hängt die Anzahl der Teilnehmer davon ab wie geschickt die Kanäle gewählt wurden, welche Datenraten verwendet werden und wie lange gesendet werden muss um die Daten zu senden (man spricht auch von der "Time-On-Air").
+
+            Durch die genannt Eigenschaften der Gateways wird auch eine gute Skallierbarkeit erziehl. Dadurch kann ein neues Gateway die anzahl der Knoten um das 6 bis 8-fach erhöhen. \marginpar{realy?}
+            
             \cite{WhatIsLoRa}(
                 Meistens wird ein Netzförmiges Netzt aufgebaut. Knoten leiten Nachrichten weiter => größere Reichweite aber kompliziert, erlaubt weniger Teilnehmer und energieaufwändig). 
 
@@ -78,13 +90,17 @@
                 )
             \cite{LoRaSpec}(
                 Applikation Server -> Zentraler Server(leitend Pakete weiter) -> Gateway(wandelt lorawan in ip Pakete um) -> Endgerät/Knoten       )
-            \newline{}\newline{} Es wird folgen: Wie baut man ein Netzwek mit einem Gateway auf. Wie greift man auf die übermittelten Daten zu ...
+            \newline{}\newline{}
         \subsection{Netzwerkbeitritt}
         \cite{LoRaSpec}(wei arten OTAA(Over the air activation), ABP(Activation by Personalization)
                 Jedes gerät hat eine vorgegebene DevEUI (wie MAc adresse eines PCs), JoinEUI muss angegeben werden und adressiert den Join server \marginpar{Was macht der? wohin damit?}
                 
         )
     \section{Lora Funktionsweise}
+    )
+        \cite{LoRaSpec}(
+            Geschwindigkeit ist kompromiss zwischen abstand/geschw. die untersch freuenzen bze. geschwindigkeiten beinflussen sich nicht gegeseitig => keine inteferenz
+        )
         Die Datenrate ist einstellbar, jedoch wird die Reichweite bei höherer Datenrate gemindert. Ein Vorteil von Lora ist, das die einzelnen Datenraten nicht interferieren und so jedes Endgerät seine eigene Datenrate unabhängig von den anderen Verwenden kann.
         Außerdem wird die Datenrate und die Sendeleistung für jedes Gerät separat gesteuert (ADR, Adaprive Data Rate)
             \cite{LoRaSpec}
