@@ -63,7 +63,7 @@
         \includegraphics[width=\textwidth]{Netzwerkaufbau}
         
         \subsection{Gateway}
-            Das Teilnetz das aus dem Gateway und meheren LoRa-End-Geräten besteht ist Sternförmig aufbau. Jedes End-Gerät kommuniziert diret mit dem Gateway. Diese Atrt der Kommunikation wird auch (Single-Hop-Connection) zu Deutsch (Einfacher-Sprung-verbindung) genannt, da die Gesendeten Daten ohne umwege an das Gateway gesendet werden.
+            Das Teilnetz das aus dem Gateway und meheren LoRa-End-Geräten besteht ist Sternförmig aufbau. Jedes End-Gerät kommuniziert diret mit dem Gateway. Diese Atrt der Kommunikation wird auch (Single-Hop-Connection) zu Deutsch (Einfacher-Sprung-verbindung) genannt, da die Gesendeten Daten ohne umwege an das Gateway gesendet werden. Jedes Gatwy ist mit einem Netzwerkserver verbunden.
 
             Ein Endgeräte kann gleichzeitig an mehren Gateways senden. Der Netzwerkserver ist zuständig die Pakete auf Dublikate zu überprüfen und nur solche nur einmalig an die Appliaktion zu senden.\marginpar{Dabei sind die Endgeräte in Multicast Gruppen unterteilt.}
             Ein weiterer Vorteil ist das kein Handover nötig ist, da alle Gateways fähig sind die Daten des Endgeräts zu verarbeiten bzw. weiterzusenden.
@@ -90,12 +90,24 @@
                 )
             \cite{LoRaSpec}(
                 Applikation Server -> Zentraler Server(leitend Pakete weiter) -> Gateway(wandelt lorawan in ip Pakete um) -> Endgerät/Knoten       )
-            \newline{}\newline{}
+        \subsection{Netzwerkserver}
+            Der Netzwekserver ist das "Herzstück" eines jeden Lora-Netzwerkes. Im fallen viele AUfgaben zu. Er kann mit meheren Gatways und meheren Applicationsserver verbunden sein.
+
+            Die wichtigste Aufgabe ist das Steuern des Lora-Teils des Netzwerkes. Der Server verwalted jedes End-Gerät seperat indem es mit ihm den zu verwendendn Kanal aushanelt und die datenrate adaptiv kontrolliert wenn ADR(Adaptiv Data Rate) verwendet wird.
+            Weiterhin überprüft er die empfangen Pakete auf ihre Korrektheit und Integrität und filtert Duplikate ,die druch das Empfnagen des gleichen Signales an verschiendne Gatways, verursacht wurden. Dabei ermittelt er auch das Gateway das den besten empfang zu de ENd-Gerät hat und nutzt dieses um Daten an das endgeröt zu senden.
+            Es ist nicht immer möglich Daten direkt zu senden. Um die Appliaktion-Server zu endlasten Puffert der Netzwerkserver die Daten und sendet sie zum nächt möglichem Zeitpunkten zu senden.
+
+            Eine weitere sehr Wichtige Ausgabe ist es eine APi für den Applikationsserver bereitzustellen um eine einfache und shnelle kommunikation zu ermöglischen.
+            
+            \cite{LoRaSpec}( Sicherheit(zähler, ...), leited pakete weiter, filtert pakete, merher gateway via ip verbunden, kontrolliert datenrate, chanäle, adaptiv data rate api.
+        \subsection{?? Applicationsserver}
         \subsection{Netzwerkbeitritt}
+
         \cite{LoRaSpec}(wei arten OTAA(Over the air activation), ABP(Activation by Personalization)
                 Jedes gerät hat eine vorgegebene DevEUI (wie MAc adresse eines PCs), JoinEUI muss angegeben werden und adressiert den Join server \marginpar{Was macht der? wohin damit?}
                 
         )
+        \subsubsection{joinserver}
     \section{Lora Funktionsweise}
     )
         \cite{LoRaSpec}(
