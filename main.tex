@@ -21,11 +21,6 @@
     \newpage
     \tableofcontents
     \newpage
-    \begin{abstract} 
-       \cite{WhatIsLoRa}
-       \newline
-       \cite{Semtech}
-    \end{abstract}
 
     \section{Einführung in Lora}
         Lora ist ein Low Power, Wide Area (LPWA) Netzwerkprotokoll und somit sehr gut für batteriebetriebene kabellose Geräte geeignet. Deswegen wir Lora auch of im Internet of Things (IoT) Bereich verwendet.
@@ -112,13 +107,36 @@
             
 
             Jedes Endgerät muss zur korrektion funktion mehere wichtige Informationen Speichern.
+            \marginpar{ist das wichtig?}
             \begin{itemize}
                 \item DevEUI: Globale endgerätid die eindeutig für jedes endgerät definiert ist. (wie mac eines compueters)
-                \item JoinEUI: Globale Adresse des JoinServers
-                \item NwkKey
-                \item AppKey
+                \item JoinEUI: Globale Adresse des JoinServers an den die anfrage gehen soll. wird nur für OTAA geräte benötigt.
+                \item NwkKey und AppKey: Werden verwendet um spätere Schlüssel abzuleiten und die kommunikation während des Joinens abzusichern. Dafür mussen sie sowohl dem Join-Server als acuh dem Endgerät bekannt sein da sie nie übertragen werden.
             \end{itemize}
-        \subsection{Netzwerkbeitritt}
+    \section{Lora Funktionsweise}
+    )
+        \cite{LoRaSpec}(
+            Geschwindigkeit ist kompromiss zwischen abstand/geschw. die untersch freuenzen bze. geschwindigkeiten beinflussen sich nicht gegeseitig => keine inteferenz
+        )
+        Die Datenrate ist einstellbar, jedoch wird die Reichweite bei höherer Datenrate gemindert. Ein Vorteil von Lora ist, das die einzelnen Datenraten nicht interferieren und so jedes Endgerät seine eigene Datenrate unabhängig von den anderen Verwenden kann.
+        Außerdem wird die Datenrate und die Sendeleistung für jedes Gerät separat gesteuert (ADR, Adaprive Data Rate)
+            \cite{LoRaSpec}
+            \cite{WhatIsLoRa}()
+        \subsection{Schichtenmodell}
+
+            \cite{WhatIsLoRa}(
+
+            Application
+
+            Lora MAC
+
+            MacOptins(Classes)
+
+            LoraModialtion(Regionales ISB)
+            )
+            Lora: Long Range ist Physikalische schicht(gibt an wie die kabellose übertragung geschieht)
+            LoraWan:protokoll das.
+            \subsection{Netzwerkbeitritt}
             End-Geräte sind immer bestimmten Netzwerken zugeordnet. Es gibt zwei wege um ein neue End-geräte zu einem bestehenden Netzwerk hinzuzufügen.
 
             \cite{LoRaSpec}(wei arten OTAA(Over the air activation), ABP(Activation by Personalization)
@@ -131,6 +149,7 @@
 
             
             \subsubsection{OTAA}
+            \marginpar{umshreiben !!!!!}
             Die sicherste aber auch aufwendigste methode um ein End-Gerät mit einem Netzwerk zu verbinden heißt OTAA (Over-the-Air Activation). Hierbei muss jedes mal wenn einem Netzwerk beigetreten werden soll die Join-Prozedur ausgeführt werden.
             Hierfür müssen folgene 4 Werte Vorgegeben werden. DevEUI, JionEUI , NwkKey, AppKey(Verschlüsselung des join requests).
 
@@ -161,30 +180,6 @@
                 Nach der verwbindung muss das ResetInd Mac command im FOpt feld gesendet werden gesendet werden solange bis ein ResetConf erhalten wird\marginpar{hab noch nci von mac gesprochen}. NUn ist das Gerät im netzwerk und kann unter der eingestellten Adresse und mit den eigestellten schlüssel arbeiten.
            
                 Sobal dem Netzwerk erfolreich beigetreten wurde werden ein die benötigten schlüssel aud dem vorher gesetzetn Werten abgeleited. genauers dazu in kapitel \nameref{sec:Sicherheit}.
-            \subsubsection{joinserver}
-    \section{Lora Funktionsweise}
-    )
-        \cite{LoRaSpec}(
-            Geschwindigkeit ist kompromiss zwischen abstand/geschw. die untersch freuenzen bze. geschwindigkeiten beinflussen sich nicht gegeseitig => keine inteferenz
-        )
-        Die Datenrate ist einstellbar, jedoch wird die Reichweite bei höherer Datenrate gemindert. Ein Vorteil von Lora ist, das die einzelnen Datenraten nicht interferieren und so jedes Endgerät seine eigene Datenrate unabhängig von den anderen Verwenden kann.
-        Außerdem wird die Datenrate und die Sendeleistung für jedes Gerät separat gesteuert (ADR, Adaprive Data Rate)
-            \cite{LoRaSpec}
-            \cite{WhatIsLoRa}()
-        \subsection{Schichtenmodell}
-
-            \cite{WhatIsLoRa}(
-
-            Application
-
-            Lora MAC
-
-            MacOptins(Classes)
-
-            LoraModialtion(Regionales ISB)
-            )
-            Lora: Long Range ist Physikalische schicht(gibt an wie die kabellose übertragung geschieht)
-            LoraWan:protokoll das.
         \subsection{Protokoll}
             \cite{LoRaSpec}(
                 Mac commands werden benutzt um geräte zu steuern => frequenzen zu ändern, ...
