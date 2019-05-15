@@ -113,8 +113,8 @@
                 \item JoinEUI: Globale Adresse des JoinServers an den die anfrage gehen soll. wird nur für OTAA geräte benötigt.
                 \item NwkKey und AppKey: Werden verwendet um spätere Schlüssel abzuleiten und die kommunikation während des Joinens abzusichern. Dafür mussen sie sowohl dem Join-Server als acuh dem Endgerät bekannt sein da sie nie übertragen werden.
             \end{itemize}
-    \section{Lora Funktionsweise}
-    )
+    \section{LoraWan Funktionsweise}
+        Im felgenen Kapittel wird näher auf die funktionsweise von LoRaWAN eingegangen. Spezell, liegt der fokus auf dem Netzwerkebitritt, das verwendete Protokoll und wie die Daten  physikalisch Übertragen werden.
         \cite{LoRaSpec}(
             Geschwindigkeit ist kompromiss zwischen abstand/geschw. die untersch freuenzen bze. geschwindigkeiten beinflussen sich nicht gegeseitig => keine inteferenz
         )
@@ -123,6 +123,11 @@
             \cite{LoRaSpec}
             \cite{WhatIsLoRa}()
         \subsection{Schichtenmodell}
+            \marginpar{willst du das wirklich}
+            Lora: Long Range ist Physikalische schicht(gibt an wie die kabellose übertragung geschieht)
+            LoraWan:protokoll das. 
+
+            \includegraphics[width=\textwidth]{LoraLayer}
 
             \cite{WhatIsLoRa}(
 
@@ -134,9 +139,9 @@
 
             LoraModialtion(Regionales ISB)
             )
-            Lora: Long Range ist Physikalische schicht(gibt an wie die kabellose übertragung geschieht)
-            LoraWan:protokoll das.
-            \subsection{Netzwerkbeitritt}
+            
+
+        \subsection{Netzwerkbeitritt}
             End-Geräte sind immer bestimmten Netzwerken zugeordnet. Es gibt zwei wege um ein neue End-geräte zu einem bestehenden Netzwerk hinzuzufügen.
 
             \cite{LoRaSpec}(wei arten OTAA(Over the air activation), ABP(Activation by Personalization)
@@ -181,6 +186,7 @@
            
                 Sobal dem Netzwerk erfolreich beigetreten wurde werden ein die benötigten schlüssel aud dem vorher gesetzetn Werten abgeleited. genauers dazu in kapitel \nameref{sec:Sicherheit}.
         \subsection{Protokoll}
+            Der Netzwerkserver steuern mitfilfe von MAC-Komandos den Lorateil des Netzwerkes. MAC steht hierbei für "Media Access Protokoll" und bietet die möglichkeit die kommunikation mit den endgeräten, frequenzen, kanäle und vieles mehr zu stuern. Da die kommandos nur für den Netzwerkserver und die Endgeräte von bedeutung sind, werden diese nicht an den Applikationsserver gesendet sonder om Netzwerkserver herausgefiltert.
             \cite{LoRaSpec}(
                 Mac commands werden benutzt um geräte zu steuern => frequenzen zu ändern, ...
                 Application wird diese nie erhalten, läuft zwischen netzwerkserver und lora gerät ab.
