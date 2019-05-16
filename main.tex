@@ -119,16 +119,11 @@
         Im felgenen Kapittel wird näher auf die funktionsweise von LoRaWAN eingegangen. Spezell, liegt der fokus auf dem Netzwerkebitritt, das verwendete Protokoll und wie die Daten  physikalisch Übertragen werden.
         \cite{LoRaSpec}(
             Geschwindigkeit ist kompromiss zwischen abstand/geschw. die untersch freuenzen bze. geschwindigkeiten beinflussen sich nicht gegeseitig => keine inteferenz
+            Die Datenrate ist einstellbar, jedoch wird die Reichweite bei höherer Datenrate gemindert. Ein Vorteil von Lora ist, das die einzelnen Datenraten nicht interferieren und so jedes Endgerät seine eigene Datenrate unabhängig von den anderen Verwenden kann.
+            Außerdem wird die Datenrate und die Sendeleistung für jedes Gerät separat gesteuert (ADR, Adaprive Data Rate)
         )
-        Die Datenrate ist einstellbar, jedoch wird die Reichweite bei höherer Datenrate gemindert. Ein Vorteil von Lora ist, das die einzelnen Datenraten nicht interferieren und so jedes Endgerät seine eigene Datenrate unabhängig von den anderen Verwenden kann.
-        Außerdem wird die Datenrate und die Sendeleistung für jedes Gerät separat gesteuert (ADR, Adaprive Data Rate)
-            \cite{LoRaSpec}
-            \cite{WhatIsLoRa}()
+       
         \subsection{Schichtenmodell}
-            \marginpar{willst du das wirklich}
-            Lora: Long Range ist Physikalische schicht(gibt an wie die kabellose übertragung geschieht)
-            LoraWan:protokoll das. 
-
             \includegraphics[width=\textwidth]{LoraLayer}
 
             Das Schichtenmodell lässt sich in zwei Teile unterteilen. Der LoRa Teil ist der unterste und kümmert sich um die Physikalsche übertragung der Pakte und er LoRaWAN teil des Modells ist für die Stuerung des NEtzwerkes, implementierung der LoRaWAN-Klassen und das Überprüfen udn verschlüsseln der Daten zuständig.
@@ -141,10 +136,7 @@
 
             Die oberste schiecht nennt sich Applikationsschicht und ist dafür zuständig die Nutzdaten einer NAchricht passend zu verpacken zu verschlüsseln und zu authentfizieren.
 
-
             \cite{WhatIsLoRa}(Application, Lora MAC, MacOptins(Classes), LoraModialtion(Regionales ISB))
-            
-
         \subsection{Netzwerkbeitritt}
             End-Geräte sind immer bestimmten Netzwerken zugeordnet. Es gibt zwei wege um ein neue End-geräte zu einem bestehenden Netzwerk hinzuzufügen.
 
@@ -190,8 +182,19 @@
            
                 Sobal dem Netzwerk erfolreich beigetreten wurde werden ein die benötigten schlüssel aud dem vorher gesetzetn Werten abgeleited. genauers dazu in kapitel \nameref{sec:Sicherheit}.
         \subsection{Protokoll} \label{sec:protokoll}
-            Das LoRaWAN Protokoll ist obtimiert für Batteriebetrieben Endgeräte die draahtlos kommunizieren.
-            Der Netzwerkserver steuern mitfilfe von MAC-Komandos den Lorateil des Netzwerkes. MAC steht hierbei für "Media Access Protokoll" und bietet die möglichkeit die kommunikation mit den endgeräten, frequenzen, kanäle und vieles mehr zu stuern. Da die kommandos nur für den Netzwerkserver und die Endgeräte von bedeutung sind, werden diese nicht an den Applikationsserver gesendet sonder om Netzwerkserver herausgefiltert.
+            Das LoRaWAN Protokoll ist obtimiert für Batteriebetrieben Endgeräte die draahtlos kommunizieren möchten. Um energieeffizent zu sein setzt LoRa hauptsächlich auf zwei Punkte. Die Modulationstechnick und eine Adaptive Dtanenrate (ADR). Auch die 
+            "One-Hop" architektur trät zur energieeffizenz bei. Die Art wie LoRa siganle Moduliert wird in kapittel \nameref{sec:Modulation} besprochen. Um die gannannten Eigenschaften und das Lora Netzwes zu steuern werden sogenannte MAC commands verwendet. 
+            Diese werden von Dem Netzwerkserver oder von einem Endgerät gesendet. MAC steht hierbei für "Media Access Protokoll" und bietet die möglichkeit die kommunikation mit den endgeräten, frequenzen, kanäle und vieles mehr zu stuern\marginpar{doppeltgemoppelt}. 
+            Da die kommandos nur für den Netzwerkserver und die Endgeräte von bedeutung sind, werden diese nicht an den Applikationsserver gesendet sonder om Netzwerkserver herausgefiltert. Im folgenen wird näher auf die MAC komanndos und die Paketstruktur eingegangen.
+
+            Jedes Pakete besteht aus grundlegend aus 2 Felder (Preamble,  PHYPalyload). \marginpar{erkläre up und downlink} Falls es ich um einen Uplinkpaket handelt wird noch ein CRC code hinzugefügt \marginpar{erkläre crc}  (Preamble,  PHYPalyload, CRC). 
+            In diesem fall spricht man von einem implizit Paket oder von dem implezitem modus. Implizit modus bedeute das das es kein payload, codirungsrate und der CRC längenangebe gibt und diese somit eine feste zuvor definierte länge haben. Im expliziten modus werden noch 2 Felder hinzugefügt, 
+            PHDR und PHDR\_CRC. SOmit sihet ein explizitest paket folgernermasen aus( Preamble,PHDR, PHDR\_CRC, PHYPalyload). AUch hier gilt, im alle eines Uplinkpaketes wird am ende ein CRC felad angefügt => ( Preamble,PHDR, PHDR\_CRC, PHYPalyload, CRC).
+            
+            Die Preamble ist dafür gedacht dem Empfänger mitzuteilen das gleich Datengesendet werden. Deswegen wird hier nur ein Signal gesendet das ohne Informationen ist, aber von dem Empfänder wargenommen wird.
+
+            Da Tiele des LoraWAn protokols geschützt sind, finden sich über die PHDR und PHDR\_CRC felder kaum informationan \marginpar{hier das strikt einfügen}. ALlerdings geht herfor das der PHDR die länge des PHYPayloads und die Zieladresse beinhalten sollte. 
+            Das PHDR\_CRC Feld wird benutzt um sicherzustellen dass bie empfangenen Werte korekt sind mittels ddes CRC verfahrens \marginpar{erkläre CRC}.
             \cite{LoRaSpec}(
                 Mac commands werden benutzt um geräte zu steuern => frequenzen zu ändern, ...
                 Application wird diese nie erhalten, läuft zwischen netzwerkserver und lora gerät ab.
@@ -199,6 +202,9 @@
                 aufbau: 1byte command, x byte extra data.
                 müssen vom empfancher acknolaged werden. Reihenfolge ist zu be<chten. Alle nahrichten in einem farme müssen auch in einem frame ack werden. => Macbuffer ermöglicht dies. Wenn buffer überleuft werden die ältesten ack. \marginpar{(Was passiert mit dem rest?}
                 Aloha
+            )
+            \cite{LoraClasses}(
+                Um energieeffizent zu sein setzt LoRa hauptsächlich auf zwei Punkte. Die Modulationstechnick und eine Adaptive Dtanenrate (ADR)
             )
         \subsection{Übertragungsart}\label{sec:Modulation}
             \cite{LoRaSpec}(
@@ -234,7 +240,7 @@
                     => immer möglichst schnelle senden => weniger Energie
 
                 )
-                \subsubsection{Notitz: protokoll/paket hierfor erklären}
+                \cite{LoraClasses}(crip signal)
     \section{Lora Geräte Klassen} \label{sec:klassen}
         \cite{LoRaSpec}(GGeräte müssen mindestens A können, alle die mehr können werden auch "high class End-Devices" genannt)
         Vieleicht zu klein => in anderes Kapitel stopfen. Bei mehrfacher übertrageung wird nicht erhöht
