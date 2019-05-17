@@ -196,8 +196,26 @@
             Da Tiele des LoraWAn protokols geschützt sind, finden sich über die PHDR und PHDR\_CRC felder kaum informationan \marginpar{hier das strikt einfügen}. ALlerdings geht herfor das der PHDR die länge des PHYPayloads und die Zieladresse beinhalten sollte. 
             Das PHDR\_CRC Feld wird benutzt um sicherzustellen dass bie empfangenen Werte korekt sind mittels ddes CRC verfahrens \marginpar{erkläre CRC}.
             
-            Das CRC Feld 
+            Wie schon merhfach erwähnt wird in Uplinknachrichten ein zustätzliches CRC feld verwendet. CRC steht für Cyclic Redundancy Check und wird verwendet um die korrektheit der NAchricht zu bestätigen. PHDR, PHDR\_CRC und das CRC FLed werdenautomatisch vom dem Funktransceiver (modul asu empfänger und sender) hinzugefügt.
             
+            Die bis jetzt ebhandelten Felder des LoRa Paketes wurden alle von der LoRa Modulationsebene erstellt.
+
+            Die Darüberliegende Ebende "LoRa Mac" fügt nun das PHYPalyload Fled ein. PHYPalyload setht für Physikalische Payload. Es gibt 3 Mögliche PHY Payloads \marginpar{was heist PHYPalyoad?}. Entweder wird ein MACPaylod eingefügt oder es werden join-rejon-request oder aber es wird die join accept nachricht darin transportiert. 
+            Um die Daten bzw die MAC kommandos richtig auswerten zu können und um die korrektheit überprüfen zu können werden einige Headders und zusätzliche felder benötigt. Deswegen lässt sich das Feld weiter unterteilen in (MHDR, MACPayload). Für den Fall das der MACPaylod keine join-rejoin oder MAcPayload nachricht ist,
+            wir noch ein MIC feld hinzugefügt (MHDR, MACPayload, MIC). MIC steht für Message Integrity Code und wird verwendet um die korrektheit der Unterfelder MHDR | FHDR | FPort | FRMPayload festzustellen. DIese unbekannen felder werde im laufe des kapittels noch behandelt.
+
+            Das MHDR Feld beschribt wie die Daten im MACPayload Feld zu deuten sind. Wieder wird dieses Feld in Unterfelder Unterteilt. MTYpe, RFU und Major heisen die Unterfelder. Das MType feld beschreibt die Art der Nachricht. z.B: kann hier angegebn werden ob es sich um Datennachrichten, Join-Nachrichten, ... handelt. 
+            RFU steht für "Reserved for Future Usage" zu Deutsch "für zukünftige verwendeung reserviert". 
+            Daher kann dieses Feld in der version 1.1 und niedriger ignoriert werden.\marginpar{was ist wie verschlüsselt?}
+            Im Major Unterfeld wird ferwendet um das Format der Nachricht zu definieren. Momentan ist nur der wert 0 Definiert. 0 Steht für loRaWan R1. Die restlichen werde sind für zukünftige updates reserviert.
+
+            Mit der Unterteilung des \marginpar{wirklich richtig?} MACPayload springen wir din dem LoRaStack noch eine ebene höher in die Applickationsschicht. Enthalten im MAcPayload feld sind der Frameheader (FHDR), der Frame Port (FPort) und der Frame payload (FRMPayload).
+            
+            
+            
+
+
+
             \cite{LoRaSpec}(
                 Mac commands werden benutzt um geräte zu steuern => frequenzen zu ändern, ...
                 Application wird diese nie erhalten, läuft zwischen netzwerkserver und lora gerät ab.
@@ -208,6 +226,11 @@
 
                 CRC usw wurden fon sender erstellt und eingefügt.
             )
+
+
+            
+                
+            
             \cite{LoraClasses}(
                 Um energieeffizent zu sein setzt LoRa hauptsächlich auf zwei Punkte. Die Modulationstechnick und eine Adaptive Dtanenrate (ADR)
             )
