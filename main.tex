@@ -209,10 +209,17 @@
             Daher kann dieses Feld in der version 1.1 und niedriger ignoriert werden.\marginpar{was ist wie verschlüsselt?}
             Im Major Unterfeld wird ferwendet um das Format der Nachricht zu definieren. Momentan ist nur der wert 0 Definiert. 0 Steht für loRaWan R1. Die restlichen werde sind für zukünftige updates reserviert.
 
-            Mit der Unterteilung des \marginpar{wirklich richtig?} MACPayload springen wir din dem LoRaStack noch eine ebene höher in die Applickationsschicht. Enthalten im MAcPayload feld sind der Frameheader (FHDR), der Frame Port (FPort) und der Frame payload (FRMPayload).
+            Mit der Unterteilung des \marginpar{wirklich richtig?} MACPayload springen wir din dem LoRaStack noch eine ebene höher in die Applickationsschicht. Enthalten im MAcPayload feld sind der Frameheader (FHDR), der Frame Port (FPort) und der Frame payload (FRMPayload). Daten die gesendet werden sollen befinden sich in dem FRMPayload Feld. Wenn keine Datengesendet werden, kann das FRMPayload Feld auch MAC kommandos enthalten. IN dem Feld FPorts  \marginpar{hier tabelle} wird angegeben an welchen 
+            port und somit an welche teilapplikation die Daten geleidet werden. Es gib einige feste Ports. z.B. Port 0 Zeit an das das FRMPayload Feld MAC commands endthällt, 0x01 bis 0xDF sind Anwendungsspeziefische Ports und Port 244 \marginpar{zahlenbasen anpassen} ist für das LoRaWan Test LAyer protokoll reserviert. Falls ein andere Port als die geraden genannten angegeben wird, wird die nachricht verweorfen.Erneut kann der FHDR "Frame Header" in einzelne Felder unterteilt werden (DevAddr, FCtrl, FCnt, Fopts). 
             
-            
-            
+            In dem feld DevAddr wird die Zieladresse der NAchricht vermerkt. \marginpar{couter in gerät einführen} Im feld FCnt (Frame counter) wird der jeweilige counterwert für die bisher gezählten Nachrichten übermittelt.Hamit schützt man sich vor replay Attacken. Im FOpt feld können bis zu 5 MAC kommandos parallel zu Dtaen übermittelt werden. DIe Anzahl kommt auf die mege der mitgelieferten variablen an \marginpar{und fileicht erklären wie das mit den counter geht ,länge reinschreiben? udn erklärn das mac varialen haben können}.
+            Das Letzte feld das in Unterfelder unterilt wird ist das FCTRL feld. Hier wird das verhalten des Gerätes gestuert sowie nachrichten acknoleged. Es gibt leichte unterschiede für ein Up-Link und für Down-link Nachrichten. Beide NAchrichtentüpen haben ein ADR, ein ACK und ein FOptsLen feld. Im ADR wird definiert ob der snedende bereit ist im Modus "Adaptive Data Rate" Daten zu senden, siehe \nameref{sec:ADR}. Mit dem Ack Feld können empfangene nachrichten makiert werden. Ob NAchrichte bestätigt werden müssen steht im MType feld.
+            In dem FOptsLen feld wird die länge des FOpts feldes mitsamt des Headers eingetragen \marginpar{da steht noch was von port und so!!}.
+
+            Ein Downlinkpaket hat zusätzlich ein RFU feld das nicht verwednet wird und eun FPending feld. In diesem fled kann das Gateway bzw der Netzwerkserver dem Endgerät mitteilen, dass noch mehr Dtanen zu senden sind und mehr empfangsfenster\marginpar{erklären} geöffnet werden müssen.
+
+            Dahingegen hat ein Uplinkpaket ein ClassB feld indem das endgerät dem Gateway mitteilt, dass es gerne auf Funktionsklasse B wechseln würde und ien ADRACKReq feld. Dieses feld wird verwendet um zu überprüfen ob das NEtzwerk noch antworted. \marginpar{erklären!}.
+
 
 
 
@@ -258,7 +265,7 @@
             
             Nähere Geräte sind schneller => höhere Datenrate => kürzee übertrgungsdauer und lassen somit merh zeit für andere, => bessere Batterielaufzeit. Deswegen sidn symetrische up/downlinks nötig.)
             Frequenzhopping, spread spectrum, code-chanels
-                \subsubsection{Adaptive Data Rate}
+                \subsubsection{Adaptive Data Rate}\label{sec:ADR}
                 \cite{LoraLimit}(
                     Datenrate und Funkfrequenz(RF) werde passend zum Abstand angepasst
 
