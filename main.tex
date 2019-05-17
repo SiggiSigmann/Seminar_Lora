@@ -195,6 +195,9 @@
 
             Da Tiele des LoraWAn protokols geschützt sind, finden sich über die PHDR und PHDR\_CRC felder kaum informationan \marginpar{hier das strikt einfügen}. ALlerdings geht herfor das der PHDR die länge des PHYPayloads und die Zieladresse beinhalten sollte. 
             Das PHDR\_CRC Feld wird benutzt um sicherzustellen dass bie empfangenen Werte korekt sind mittels ddes CRC verfahrens \marginpar{erkläre CRC}.
+            
+            Das CRC Feld 
+            
             \cite{LoRaSpec}(
                 Mac commands werden benutzt um geräte zu steuern => frequenzen zu ändern, ...
                 Application wird diese nie erhalten, läuft zwischen netzwerkserver und lora gerät ab.
@@ -202,6 +205,8 @@
                 aufbau: 1byte command, x byte extra data.
                 müssen vom empfancher acknolaged werden. Reihenfolge ist zu be<chten. Alle nahrichten in einem farme müssen auch in einem frame ack werden. => Macbuffer ermöglicht dies. Wenn buffer überleuft werden die ältesten ack. \marginpar{(Was passiert mit dem rest?}
                 Aloha
+
+                CRC usw wurden fon sender erstellt und eingefügt.
             )
             \cite{LoraClasses}(
                 Um energieeffizent zu sein setzt LoRa hauptsächlich auf zwei Punkte. Die Modulationstechnick und eine Adaptive Dtanenrate (ADR)
