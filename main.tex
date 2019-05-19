@@ -220,16 +220,13 @@
 
             Dahingegen hat ein Uplinkpaket ein ClassB feld indem das endgerät dem Gateway mitteilt, dass es gerne auf Funktionsklasse B wechseln würde und ien ADRACKReq feld. Dieses feld wird verwendet um zu überprüfen ob das NEtzwerk noch antworted. \marginpar{erklären!}.
 
-
-
-
             \cite{LoRaSpec}(
                 Mac commands werden benutzt um geräte zu steuern => frequenzen zu ändern, ...
                 Application wird diese nie erhalten, läuft zwischen netzwerkserver und lora gerät ab.
                 Verschlüsselt hier oder da.
                 aufbau: 1byte command, x byte extra data.
                 müssen vom empfancher acknolaged werden. Reihenfolge ist zu be<chten. Alle nahrichten in einem farme müssen auch in einem frame ack werden. => Macbuffer ermöglicht dies. Wenn buffer überleuft werden die ältesten ack. \marginpar{(Was passiert mit dem rest?}
-                Aloha
+                
 
                 CRC usw wurden fon sender erstellt und eingefügt.
             )
@@ -242,6 +239,7 @@
                 Um energieeffizent zu sein setzt LoRa hauptsächlich auf zwei Punkte. Die Modulationstechnick und eine Adaptive Dtanenrate (ADR)
             )
         \subsection{Übertragungsart}\label{sec:Modulation}
+            \marginpar{wohin mit Kanalwahl}
             \cite{LoRaSpec}(
                 Knoten können zu jeder Zeit, auf beliebigen Kanälen, beliebig schnell, beliebig lange senden, solange folgende regeln befolgt werden.
                 \begin{itemize}
@@ -265,7 +263,7 @@
             
             Nähere Geräte sind schneller => höhere Datenrate => kürzee übertrgungsdauer und lassen somit merh zeit für andere, => bessere Batterielaufzeit. Deswegen sidn symetrische up/downlinks nötig.)
             Frequenzhopping, spread spectrum, code-chanels
-                \subsubsection{Adaptive Data Rate}\label{sec:ADR}
+            \subsubsection{Adaptive Data Rate}\label{sec:ADR}
                 \cite{LoraLimit}(
                     Datenrate und Funkfrequenz(RF) werde passend zum Abstand angepasst
 
@@ -277,7 +275,7 @@
                 )
                 \cite{LoraClasses}(crip signal)
     \section{Lora Geräte Klassen} \label{sec:klassen}
-        \cite{LoRaSpec}(GGeräte müssen mindestens A können, alle die mehr können werden auch "high class End-Devices" genannt)
+        \cite{LoRaSpec}(Geräte müssen mindestens A können, alle die mehr können werden auch "high class End-Devices" genannt)
         Vieleicht zu klein => in anderes Kapitel stopfen. Bei mehrfacher übertrageung wird nicht erhöht
 
         Die Endgeräte sind je nach Kommunikationsart/Protokoll Art in drei Klassen (A, B und C) unterteilt. 
@@ -307,8 +305,8 @@
             
             Um zu ermitteln, wann gesendet werden darf, wird das ALOHA-Protokoll verwendet.
             Da das Gateway nicht immer Daten an die Endgeräte senden kann, muss es diese zwischenspeichern um diese bei der Nächsten Kommunikation zum senden.
-            \cite{LoRaSpec}(Es wird zwischen up- / downlink unterschieden)
-
+            \cite{LoRaSpec}(Es wird zwischen up- / downlink unterschieden) Aloha
+           
             \subsubsection{Uplink}
 
                 \cite{LoRaSpec} 
