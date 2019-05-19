@@ -239,7 +239,22 @@
                 Um energieeffizent zu sein setzt LoRa hauptsächlich auf zwei Punkte. Die Modulationstechnick und eine Adaptive Dtanenrate (ADR)
             )
         \subsection{Übertragungsart}\label{sec:Modulation}
-            \marginpar{wohin mit Kanalwahl}
+            Um die Enstandenen Pakete in Signale umzusezenun didese effizent und gleichzeitg übertragen zu können nutzt LoRa Chirp Spread Spectrum (CSS). Hierbei werden die Frequenz über eine gewisse Zeit hinweg veränder. Durch erkennen in welche richtig, ansetigen oder Abfalleb, die frequenz verändert wird, können
+            1 und 0 Codiert werden. Man spricht bei einem Bit von einem Chrip-Impuls. Durch aneinanderreihe der verschiedenen impulse ist es möglich mehere Bits nacheinander zu übertragen. Das entstandene Signal wird auch al Sub-Chrip bezeichnet. Durch verwenden von Unterschiedlichen anstiegs und abfalszeiten ist es möglich mehere
+            Signale auf der Selben frequenz zu übertragen ohne das die Signale sich gegenseitig stören. DIes nennt man Spread Factor.
+            Auserdem kann die Paralelität durch verschiedene Frequenzbereiche verbessert werden. \marginpar{nachprüfen} CSS ist besonders für große reichweiten geegnet und somit auch bestens für Lora. Am besten ist das Signal wenn das endgerät nahe am Gateway ist. Je weiter es entfert desto schlechter wird das sgnal. Um die kommunikation 
+            trozdem zu ermöglichen wird der "spredding Factor" erhöht. Dies hat auch den Vorteil dass der Energieaufwand gering gehalten wird. Analog wie Menschen auf einer Party nicht immer versuchen lauter zu sprechen, sonder auch versuchen besonders langsam und deutlich zu scprecehn.
+
+            
+            Mann sichbrcht auch von Channels. CHannels können beliebeig benutzt werde. es gibt alerdings zwei regeln zu beachtn. 
+            \begin{itemize}   
+                \item Channels werden per Pseudozufallszahl geändert
+                \item Sendezeit erfüllt die Regionalen Bestimmungen
+            \end{itemize}
+
+            Das Aloha Protokoll wird verwendet um festzustellen wann gesendet werden soll. Dabei wird einfach gesendet wenn Daten zum senden vorhanden sind. Wenn nun zwei Sender gleichzeitig auf der selbern Frequenz senden möchten kommt es zu einer kollision. 
+            Dadurch kann das Gateway die empfangenen Dtane nicht mehr auswerden. Deswegen warten beide Endgeräte eine zufällige, unterschiedliche Zeit abe bist sie erneut senden.
+
             \cite{LoRaSpec}(
                 Knoten können zu jeder Zeit, auf beliebigen Kanälen, beliebig schnell, beliebig lange senden, solange folgende regeln befolgt werden.
                 \begin{itemize}
@@ -263,7 +278,16 @@
             
             Nähere Geräte sind schneller => höhere Datenrate => kürzee übertrgungsdauer und lassen somit merh zeit für andere, => bessere Batterielaufzeit. Deswegen sidn symetrische up/downlinks nötig.)
             Frequenzhopping, spread spectrum, code-chanels
+            \marginpar{soll ich verhältniss zwischen datarat sf und energie reinmachen?}
             \subsubsection{Adaptive Data Rate}\label{sec:ADR}
+                Adaprive Data Rate oder kurz ADR wird verwedent um immer die optimalste senderate und die optimale sendepower für das Endgerät zu finden und so schnellstmöglich die Daten zu senden. ADR kann nur verwendet werden wenn im FHDR feld des LoraPaketes das ADR Bit gesetzt ist, siehe \nameref{sec:protokoll}.
+                Die Steuerung duch ADR findet durch den Netzwerkserver statt. Sobald der NEtzwerkserver bereit ist, stzt er das bit im downlink. IST das endgerät ebenfalls bereit setzt es ebenfalls das bit und ADR kann verwendet werden. Flass es nicht möglich sein sollte ADR zu verwenen \marginpar{warum?} sollte es durch das Applikaionslayer gesteuret werden.
+
+                Die Steuerung dfindet durch spezielle MAC kommandos statt. Standartgemäs wird die höchset übertragunsstäreke verwedent allerdings auch die geringste Übertragunsrate. Flass diese gedrosselt werde soll wird vom Netzwerkserver das \textbf{LinkADRReq} MAC command benutzt. mIt diesem wird das Endgerät informiert, dass es die data rate, transmit power, 
+                repetition rate or channel ändern soll. Was auf welchen wert geändert werden soll wird in die Parameter codiert. Sobald die Werte geändert wurden, muss periodisch überprüft werden ob das Netzwerk die NAchrichten noch bekommt. Deswegen wird jedes mal wenn der uplinkframecounet \marginpar{hab ich das?} erhöht wird, wird der ADR\_ACK\_CNT counter verwedent.
+                Wenn dieser counter ein gewissen schwellenwert (ADR\_ACK\_Limit) überschreited, iwrd das ADRACKReq bit gesezt. DIeses signalisiert den NEtzwersverer das er mit einem Uplink ein Downlonk senden muss um die Verbindung zu bestätigen. Falls dieser Downlink nicht in ADR\_ACK\_Delay frames empfangen wird, wird zuerst die übertragusstärke auf max gesetzt. Flass möglich wird auserdem die Datenrate veringert um die Reichweite zu erhöhen. DIe 
+                Datenrate wird solange weiter jede ADR\_ACK\_Delay frames veringert bis diese minimal ist. Falls siese schon minimal ist müssen alle chanles wiederverswenet werden. DIes wird solange probiert biss eine verwbindung hergestellt werden kann.
+                
                 \cite{LoraLimit}(
                     Datenrate und Funkfrequenz(RF) werde passend zum Abstand angepasst
 
