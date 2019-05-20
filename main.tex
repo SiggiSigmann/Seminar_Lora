@@ -299,6 +299,10 @@
                 )
                 \cite{LoraClasses}(crip signal)
     \section{Lora Geräte Klassen} \label{sec:klassen}
+        Um maximal energie zu sparen aber trozdem die möglichkeit dass die endgeräte agiel Daten empfangen können wurden die Geräteklassen eingeführt. Das Hauptmerkmal der Klassen sind die unterschiedlichen empfangsmodien.
+        Es gibt 3 Klassen, A, B und C. Die Klasse A muss standartgemäß von jedem Endgerät implementiert werden. B und C sind Optional und müssen nicht vorhanden sein \marginpar{Joinen nur in A beschrieben?}. Alle 
+        Geräte die mehr als A können werden als "high class End-Devices" genannt. \marginpar{wohin mit counter?}
+
         \cite{LoRaSpec}(Geräte müssen mindestens A können, alle die mehr können werden auch "high class End-Devices" genannt)
         Vieleicht zu klein => in anderes Kapitel stopfen. Bei mehrfacher übertrageung wird nicht erhöht
 
@@ -311,7 +315,6 @@
         die Counter Werte sollen so weit wie möglich nur einam verwendet werden.
         
         )
-        \cite{LoraClasses}
         \cite{WhatIsLoRa}(Asynchrone Knoten wegen Batterie => Event/Scheduler gesteuert verwendet ALOHA
         
         Normal Netze müssen sich synchronisieren und Nachrichten abrufen. Lora partiell nicht => laut GSMA 3 bis 5 fach effizienter)
@@ -325,12 +328,9 @@
             Klasse A zeichnet sich durch sehr geringer Stromverbrauch aus. Die Kommunikation kann bidirektionalen Stadtfinden, allerdings muss die Kommunikation von dem Endgeräte gestartet werden. Das bieted die möglichkeit das das Endgerät, wenn keine Daten gesendet werden müssen, in einen sehr
             sparsamen Schlafmodus wechselt. Um das Endgeräte nicht zum "aufwachen" zwingen zu müssen, wurde auf einen "Hardbeat" oder ähnliches verzichtet. Das Endgerät kann so lange "schlafen" wie es möchte. Dadurch ist die Klasse A auch die potenziell Stromsparende Endgeräteklasse.
             
-            Das Endgerät startet die Kommunikation in dem es Daten an das Gateway sendet(uplink). Daraufhin hat das Gateway die Möglichkeit 2 mal Daten zum Endgeräte senden(downlink). Da die Kommunikation asynchron Stadtfinden wartet das Endgeräte bis es beide uplinks empfangen hat.gewünscht.
+            Das Endgerät startet die Kommunikation in dem es Daten an das Gateway sendet(uplink). Daraufhin hat das Gateway die Möglichkeit 2 mal Daten zum Endgeräte senden(downlink). Die Downlinkfenster werden RX1 und RX2 genannt.
+            Da die Kommunikation asynchron Stadtfinden wartet das Endgeräte bis es beide uplinks empfangen hat.
             
-            Um zu ermitteln, wann gesendet werden darf, wird das ALOHA-Protokoll verwendet.
-            Da das Gateway nicht immer Daten an die Endgeräte senden kann, muss es diese zwischenspeichern um diese bei der Nächsten Kommunikation zum senden.
-            \cite{LoRaSpec}(Es wird zwischen up- / downlink unterschieden) Aloha
-           
             \subsubsection{Uplink}
 
                 \cite{LoRaSpec} 
