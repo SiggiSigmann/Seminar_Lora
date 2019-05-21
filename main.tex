@@ -326,47 +326,47 @@
         )
         \subsection{Klasse A}\label{sec:ClassA}
             Klasse A zeichnet sich durch sehr geringer Stromverbrauch aus. Die Kommunikation kann bidirektionalen Stadtfinden, allerdings muss die Kommunikation von dem Endgeräte gestartet werden. Das bieted die möglichkeit das das Endgerät, wenn keine Daten gesendet werden müssen, in einen sehr
-            sparsamen Schlafmodus wechselt. Um das Endgeräte nicht zum "aufwachen" zwingen zu müssen, wurde auf einen "Hardbeat" oder ähnliches verzichtet. Das Endgerät kann so lange "schlafen" wie es möchte. Dadurch ist die Klasse A auch die potenziell Stromsparende Endgeräteklasse.
+            sparsamen Schlafmodus wechselt. Um das Endgeräte nicht zum \"aufwachen\" zwingen zu müssen, wurde auf einen Hardbeat oder ähnliches verzichtet. Dadurch kann das Endgerät so lange "schlafen" wie es möchte. Somit ist die Klasse A auch die potenziell Stromsparende Endgeräteklasse. 
+            Die Klasse A erlaubpt auserdem das das Endgerät andere Protokolle schickt solange es keine LoRa Daten sendet oder empfängt.
             
             Das Endgerät startet die Kommunikation in dem es Daten an das Gateway sendet(uplink). Daraufhin hat das Gateway die Möglichkeit 2 mal Daten zum Endgeräte senden(downlink). Die Downlinkfenster werden RX1 und RX2 genannt.
-            Da die Kommunikation asynchron Stadtfinden wartet das Endgeräte bis es beide uplinks empfangen hat.
+            Da die Kommunikation asynchron Stadtfinden, muss das endgerät wartet bis die uplinkphase abgeschlossen ist.
+
+            Die empfangsfenserr RX1 und RX2 mussen mindestens solange geöffnet bleiben das sie eine beginnende Übertrgung feststellen können. Flass keine übertragung epfangen wird, wird das fenseter weider geschlossen. Anderenfalls werden die Dtaen empfangen.
+            Das Empfangsfenster RX1 wird nach RECIEV\_DELAY1 zeiteiheiten +/- 20msec nach beendigung des Upliks geöffnet. Es wird die selbe freuqenz und Datenrate verwendet die auch be den uplik verwendet wurde.
+            Wenn festgestellt in RX1 festgestellt wurde das keine Weiteren Daten mehr epfangen werden müssen kann auf das öffnen des RX2 fensters auch verzichted werden.
+            RX2 wird wird nach RECIEV\_DELAY2 zeiteiheiten +/- 20msec nach beendigung des Upliks geöffnet. Allerdings ist die Datenrate und freuenz fest. Nur Mittels spezieller MAC commands kann dies verändert werden.
             
-            \subsubsection{Uplink}
+            Für alle join / rejoin aktivitäten wird immer die Klasse A verdendet \marginpar{Schon erklärt oder woanders}.
 
-                \cite{LoRaSpec} 
-                    (vom Knoten zum Gateway(1..n), Lora radio packet mode, (Preamble, PHDR, PHDR\_CRC, PHYPayload, CRC(cyklische Rendundanz Prüfung))
-                 )
-
-            \subsubsection{Downlink}
-
-                \cite{LoRaSpec}
-                (
-                    radio packet explicit mode, vom Gateway(1) zum Knoten(1), ausgelöst vom Netzwerkserver, auch multikasts möglich, (Preamble, PHDR, PHDR\_CRC, PHYPayload)
-                Um Nachricht kurz zu halten kein CRC am ende, nach Reciever\_Delay1 / Reciever\_Delay2 kann empfangen werden (rx1, rx2) 
-                
-                Fenster müssen lange genug für Preamble auf bleiben=> wenn erkannt wird empfangen wenn nicht fenster weider zu. Es darf nur gesendet werden wenn beide fenster zu sind.
-                Es ist auch erlabut andere protokole zu sprechen wenn ncht gesendet oder gehört wird.
-                )
-                \paragraph{Rx1}
-                    \cite{LoRaSpec}(
-                        Frequenz abhänig von Uplinkfrequenz, Datenrate abhängig on Uplinkdatenrate, wird nach Reciever\_Delay 1 +/- 20 msec erwarted, Datenrate auch abhänig von Regionalen regeln, Standart: Datenrate = Uplinkdatenrate
-                    )
-                \paragraph{Rx2}
-                    \cite{LoRaSpec}(
-                        feste Frequenz/Dtanetnrate, nach Delay2 +/- 20 msec, Frequenz/Datenrate mittels MAC änderbar
-                    )
-                    \cite{LoRaSpec}(
-                        Öffnungslänge muss für Preamble ausreichen, nach RX1 + MIC und autentigitätscheck muss nicht zwingen RX2 geöffnet werden, Sender muss in einem der beiden Fenster stattfinden, Falls Downlink über beide Fenster => feames müsen gleich sein. Knoten dürfen nich während empfangen/ zwischen RX1 und RX2 senden, ender Protokolle dürfen gesprochen werden wenn gesendet werden darf
-
-                        )
+            \cite{LoRaSpec}(
+                radio packet explicit mode, vom Gateway(1) zum Knoten(1), ausgelöst vom Netzwerkserver, auch multikasts möglich, (Preamble, PHDR, PHDR\_CRC, PHYPayload)
+            Um Nachricht kurz zu halten kein CRC am ende, nach Reciever\_Delay1 / Reciever\_Delay2 kann empfangen werden (rx1, rx2) 
+            
+            Fenster müssen lange genug für Preamble auf bleiben=> wenn erkannt wird empfangen wenn nicht fenster weider zu. Es darf nur gesendet werden wenn beide fenster zu sind.
+            ==>Es ist auch erlabut andere protokole zu sprechen wenn ncht gesendet oder gehört wird.<==
+            )
+            \cite{LoRaSpec}(
+                Frequenz abhänig von Uplinkfrequenz, Datenrate abhängig on Uplinkdatenrate, wird nach Reciever\_Delay 1 +/- 20 msec erwarted, Datenrate auch abhänig von Regionalen regeln, Standart: Datenrate = Uplinkdatenrate
+            )
+            \cite{LoRaSpec}(
+                feste Frequenz/Dtanetnrate, nach Delay2 +/- 20 msec, Frequenz/Datenrate mittels MAC änderbar
+            )
+            \cite{LoRaSpec}(
+                Öffnungslänge muss für Preamble ausreichen, nach RX1 + MIC und autentigitätscheck muss nicht zwingen RX2 geöffnet werden, Sender muss in einem der beiden Fenster stattfinden, Falls Downlink über beide Fenster => feames müsen gleich sein. Knoten dürfen nich während empfangen/ zwischen RX1 und RX2 senden, ender Protokolle dürfen gesprochen werden wenn gesendet werden darr
+            )
         \subsection{Klasse B}
             \marginpar{timersync?}
-            Die Klasse B bietet bidirektionale Kommunikation mit einer deterministischem downlink Latenz. Um diese latenz zu gewährleisten, muss die Kommunikation Synchron ablaufen. Außerdem muss festgestellt werden, ob das Endgerät bzw das Gateway noch in Reichweite ist. Dies wird mittels einens periodischem "beacon" die zu festgelegten
-            Zeitpunkten gesendet werde realisiert.
+            Die Klasse B bietet bidirektionale Kommunikation mit einer deterministischem downlink Latenz. Um diese latenz zu gewährleisten, muss die Kommunikation Synchron ablaufen. Außerdem muss festgestellt werden, ob das Endgerät bzw das Gateway noch in Reichweite ist. Dies wird mittels einens periodischem "beacon" die zu festgelegten.
+            DIeser BAcon wird regelmäßig vom GAteway gesendet und dint der syncronisation der Endgeräte.
+            Zeitpunkten gesendet werde realisiert. Die Latenz ist einstellbar und kann bis zu 128 Sekunden.
+            Die Endgeräte öffnen in regälmasigen ubständen ein empfangsfenster das pingslot genannt wird. Ein Downlink der in einem Pingslor gesendet wird wird ping genannt. Da dimmer Das gateway mit dem besten empfang die Daten an das GAteway sendet, muss das Endgerät selbständig feststellen wenn es einen Bacon mit einer unbekannten ID bekommt und durhch eien uplink dem server mitteilen das es in ierne neuen Umgebung ist. Dadurch lernt der seerver
+            wo sich das Entgerät befindet und kann das Gatewa mit dem besten empfang wählen.
 
-            Die Latenz ist einstellbar und kann bis zu 128 Sekunden.
+            
 
             Obwohl das Endgerät durch die periodischen "beacons" nicht "schalfen" kann, ist die Klasse B für den Batteriebetrieb gedacht.
+            
             \cite{LoRaSpec}(wird verwendet wenn mehr bedarf für empfangsfenster ist. Hierzu ist ein synchronsignal nötig=> zu bestimmten zeiten kann damit empfangen werden
                 Gateway sended Beacon für synchrinsation. Um daten empfangen zu werden werden empfangsslots => pingslots verwendet, werden periodisch geöffneto und mittels beacon synchronisiert. Normalerweise werde diese schnell geschlossen außer es wird etwas empfagne.
                 Gateway dessen beacon benutzt wird, wird nach empfangsqualität ausgewählt. Wenn neuer/unbekanter Beachon von einem anderen GAteway empfangen wird, wird der netzwerkserver benachrichted und dieser entscheidet welcher verwendet wird()passt rozte an).
@@ -383,25 +383,54 @@
                 Beacon wird genutzt um clockdrivt auszugleichen. Wenn kein beacon empfanen wird  => Bacenless mode. Dieser wird bis zu 2 stunden beibehalten. Reines verlassen auf interne Uhr. Wenn beacon empfagne wird, wird zeit zurückgesetzt.
             )
             \subsubsection{Klassenwechsel A nach B}
+                Um einen Wechel überhaupt zu ermöglichen muss der Netzwerkserber die devault ping-slot periodem die pingslot datenrate und den Pingslot channel kennen.
+
+                Ale endgeräte treten in Klasse A dem Netzwerk bei. Das wecheln in die klasse B wird durch folgenden Prozess realisiet.
+
+                Als erstes muss das Programm des ENdgerätes beim LoRaWAN layer anfrogen ob es möglich ist in klasse B zu wecheln. Der LAyer sucht nun nach einem baecon. Wird ein backen entdeckt, wird die BEACON\_LOCKED Servisprimitive \marginpar{erklären} zurückgeliefert. Wenn kein BAckoun empfangen wurde wir die BEACON\_NOT\_FOUND
+                primitive zurückgegeben. Um diesen proess zu beschleinigen kann das DeviceTimeReq MAC kommando verwendet werden. Damit wird das GAteway aufgefordert eien bAcon zu senden. Nun kann das endgerät in den modus B wächseln.
+
+                Als Zeites setzt der MAC Layer des engerätes das Class B BIt im FCtrl feld Des Upliks auf 1. Dadurch ist er auch verandwortlich die
+                Ping slots und für die Beacons zu öffen. Dabei muss mit der größt möglichen abweiching der Internen Uhr gerechnet werden und demensprechend die Epfangsfenster angepasst werden.
+                Der Inhalt der Empfangenenen Beacons wird mit der Signalsterke and das Programm des Endgerätes zur weiteren Verarbeitung gesendet. 
+                Dmait kann z.B. dem LoRaWan layer angewiesen werden die Uhr nachzustellen. 
+
                 \cite{LoRaSpec}(
                     Endgerät fart LoRaWAN layer an. Layer sucht beacon. Mac command DeviceTImeReq um schneller bacon zu bekommen nutzen. Danach wird das ClassB feld auf 1 gesetzt. Bei den geöfneten fenstern wrd der maximal mögliche clockdrift berücksichtigt.
                     Downlink läuft wie bei A ab.
 
 
                 )
-            \subsubsection{Uplink}
-                \cite{LoRaSpec}(Wie bei)
-            \subsubsection{Downlink}
-                \cite{LoRaSpec}(wie bei A, frequenzplan kann sich unterschieden. AUch Multikasts möglich,)
+            \subsubsection{Betrieb}
+                
+                Damit der NEtzwerkserver dem Endgerät mittielen kann dass die pingslots frequen und/oder die Datnerate geändert werden soll gibt es den PingSlotChannelReq Mac kommando. DIe werden sind in den argumenten enthalten.
+                    
+                Das Endgerät kann die Periode der Pingslots zu einer beliebigen Ziet ändern. Ist dies der Fall, so muss das ENdgerät in Köasse A wechseln mit mittels dem MAc kommando
+                PingSlotChannelReq die geämderte periode MItteilen \marginpar{wird andere gespeicher 1/s => hz}. Danach kann zuück in Kalsse B gewechselt werden.
+
+                Falls einige zeit kein Beacon empfangen wird, kann die syncronistion mit de Netzwerk verloren gehen. Dadruch funktoiniert die Kommunikation in Klasse B noicht merh und es wird in Klasse A gewechselt. Da sich nun die 
+                Kommunikationsstrategie verändet muss mit einem Uplink in dem das CLassB Fled 0 ist, der Netzwerkserver informiert werden. Nun kann versucht werden eine verbindung mit der Klasse A aufzubauen. Das Programm des Endgeätes kann versuchen
+                wieder in Klasse B zu wecheln.. DIeser prozess kann sich immer weider wiederholen.
+            \subsubsection{Singel / Multicast}
+                Die Downlink der Klasse B unterschidene sich nicht von denen der Klasse B. allerding kann sich derFreqenzplan untersdchedien.
+                
+                In Klasse B können die NAchrichten als Singelcast oder als Multicast nachrichten verwendet werden. Eine Singelcast nachricht wird an des geröt das im DevAffr fled der NAhcricht codiert ist gesendet. Im Multicastmodus wird das paket an alle ENdgeräte gesendet.
+                Damit die möglich ist müssen sich die geräte die selbe multicas Adresse und die dazugehörigen schlüssel teilen. Durch verschiedene Multicstadressen ist es möglich soganannte
+                multicas gruppen zu erzeugen die nciht alle sonder nur ein Teil aller entgeräte beinhalten. LoRaWan git allerding keine Methode vor wie die adressen und Schlüssel verteilt werden. Diese Aufgabe muss laso in der Applikationsebene sprich im Programm der ENtgeräte oder Direkt bei der Personlaisierung (Programerung) erledigt werden.
+                
+
                 \paragraph{Singelcast}
                     \cite{LoRaSpec}()
                 \paragraph{Multicast}
+                    In Mlticastadressen sind keine MAc kommandows erlaubt. Nur Daten dürfen als Multicastbnachricht übertragen weden. DIes wurde eingeführt da Multicastnachrichten nicht die selbe robutheit wie SIngelcastnachrichten haben.
+                    Die NAchrichten dürfen nicht acknloged werden \marginpar{unconfirmed / confirmed}. Das Fpending zeigt an das mehr Multicasnachrichten zu senden sind.
                     \cite{LoRaSpec}(
                         sepearate Adresse für Multicast
                         Festgelegt durch layer oder manuell für gruppenmulticast
                         Nicht führ MAC geeignet, 
                     )
-
+            \subsubsection{Beacon}
+                balabalabal
         \subsection{Klasse C}
             Um eine möglichst geringe/keine Latzen zu erzielen ist die Klasse C gemacht. Dies bedeutet aber auch das der Stromverbrauch am höchsten ist und somit nicht für den Batteriebetrieb geeignet.
             Das Gateway kann immer Daten senden außer wenn das Endgerät gerade Daten sendet. Hier sind Geschwindigkeit von bis zu 50mb möglich.
