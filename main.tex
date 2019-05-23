@@ -153,8 +153,8 @@
             End-Geräte sind immer bestimmten Netzwerken zugeordnet. Es gibt zwei wege um ein neue End-geräte zu einem bestehenden Netzwerk hinzuzufügen.
             \subsubsection{OTAA} \label{sec:OTAA}
             \marginpar{umshreiben !!!!!}
-            Die sicherste aber auch aufwendigste Methode um ein End-Gerät mit einem Netzwerk zu verbinden heißt OTAA ``Over-the-Air Activation‘‘. Hierbei muss jedes Mal wenn einem Netzwerk beigetreten werden soll die Join-Prozedur ausgeführt werden.
-            Hierfür müssen folgende 4 Konstanten Vorgegeben werden. DevEUI, JionEUI , NwkKey, AppKey\marginright(Verschlüsselung des join requests).
+            Die sicherste aber auch aufwendigste Methode um ein End-Gerät mit einem Netzwerk zu verbinden heißt OTAA ``Over-the-Air Activation''. Hierbei muss jedes Mal wenn einem Netzwerk beigetreten werden soll die Join-Prozedur ausgeführt werden.
+            Hierfür müssen folgende 4 Konstanten Vorgegeben werden. DevEUI, JionEUI , NwkKey, AppKey \marginpar{Verschlüsselung des join requests}.
 
             
             Als erstes muss das End-Gerät eine join- oder rejoin-Nachricht senden. Die NAchricht besteht aus der JoinEUI, dem DevEUI und einer DevNonce. MIt der DevNonce sollen replayattacs verhindert werden. Sie ist das beim ersten Join request 0 und sollte sich bei jedem Join-Request erhöhen. Außerdem muss sie auch dann noch gespeichert werden wenn kein Strom zur verfügung speht. Falls von dem gelichen endgerät eine Join-Reguest mit einer zu kleinen DevNonce empfagen wir, wird die NAchricht ignoriert und es ist nocht möglich dem Netzwerk beizutreten.
