@@ -214,11 +214,24 @@
                 ein ResetConf Kommando erhalten wird. Nun ist das Gerät im Netzwerk und kann unter der eingestellten 
                 Adresse und mit dem eigestellten Schlüssel arbeiten.\cite[S. 64]{LoRaSpec}    
         \subsection{Protokoll} \label{sec:protokoll}
-        Damit der Netzwerkserver das LoRa-Netzt steuern kann wurden, wurden Mac-Kommandos eingesetzt. Mit diesen Kommandos lassen sich wie schon gesehen, dem Netzwerk beitreten, mit dem Endgerät kommunizieren und Frequenzen, Kanäle und vieles mehr zu steuern.
-        Da die Kommandos nur für den Netzwerkserver und die Endgeräte von Bedeutung sind, werden diese nicht an den Applikationsserver gesendet sonder vom Netzwerkserver herausgefiltert. Im Folgenden wird näher auf die MAC-Kommandos und die Paketstruktur eingegangen.
-        Ein Uplink ist ein Paket dass vom Endgerät, das Bildlich gesprochen ``unter‘‘ dem Gateway sitzt, an das Gateway gesendet wir. Ein Downlink ist dem entsprächet ein Paket das vom Gateway an den Server gesendet wird.
-        \subsubsection{MAC-Kommandos}
-        \subsubsection{LoRa-Paketstruktur}
+            Das LoRaWAN Protokoll ist optimiert für Batteriebetrieben Endgeräte die drahtlos kommunizieren möchten. 
+            Um energieeffizent zu sein setzt LoRa hauptsächlich auf zwei Punkte. Die Modulationstechnick und eine 
+            Adaptive Dtanenrate (ADR). Auch die 
+            "One-Hop" architektur trät zur energieeffizenz bei. Die Art wie LoRa siganle Moduliert wird in Kapittel 
+            \nameref{sec:Modulation} besprochen. \cite[S,1 f]{LoraClasses}
+
+
+            Damit der Netzwerkserver das LoRa-Netzt steuern kann wurden, wurden Mac-Kommandos eingesetzt. Mit diesen 
+            Kommandos lassen sich wie schon gesehen, dem Netzwerk beitreten, mit dem Endgerät kommunizieren und 
+            Frequenzen, Kanäle und vieles mehr zu steuern.
+            Da die Kommandos nur für den Netzwerkserver und die Endgeräte von Bedeutung sind, werden diese nicht an 
+            den Applikationsserver gesendet sonder vom Netzwerkserver herausgefiltert. Im Folgenden wird näher auf 
+            die MAC-Kommandos und die Paketstruktur eingegangen.
+            Ein Uplink ist ein Paket dass vom Endgerät, das Bildlich gesprochen ``unter‘‘ dem Gateway sitzt, an das 
+            Gateway gesendet wir. Ein Downlink ist dem entsprächet ein Paket das vom Gateway an den Server gesendet 
+            wird.
+            \subsubsection{MAC-Kommandos}
+            \subsubsection{LoRa-Paketstruktur}
             Die Paketstruktur kommt wie beim ISO/OSI Schichtenmodel durch das ``durchlaufen‘‘ des Stacks zustande. 
             Da im Folgenden die Paketstruktur vom Groben ins Feine Betrachtend wird, werden hier als erstes die Felder
             der Modulationsschicht betrachtet.
@@ -296,77 +309,62 @@
             
             
         \subsection{Übertragungsart}\label{sec:Modulation}
+            Um die Entstandenen Pakete in Signale umzusetzen und diese effizient und gleichzeitig übertragen zu können
+            nutzt LoRa Chirp-Spread-Spectrum (CSS). Hierbei werden die Frequenz über eine gewisse Zeit hinweg 
+            veränder. Durch messen in welche richtig, ansteigen oder abfalle, die Frequenz verändert wird, können 1 
+            und 0 Codiert werden. Man spricht bei einem Bit von einem Chrip-Impuls. Durch aneinanderreihe der 
+            verschiedenen Impulsen ist es möglich mehrere Bits nacheinander zu übertragen. Das entstandene Signal 
+            wird auch al Sub-Chrip bezeichnet. Durch verwenden von Unterschiedlichen ansteigezeiten und abfallzeiten 
+            ist es möglich mehre Signale auf der selben Frequenz zu übertragen ohne das die Signale sich gegenseitig 
+            stören. Dies nennt man auch Spreading Factor. Außerdem kann die Parallelität durch verschiedene 
+            Frequenzbereiche verbessert werden. CSS ist besonders für große Reichweiten geeignet und somit auch 
+            bestens für Lora. Am besten ist das Signal wenn das Endgerät nahe am Gateway ist. Je weiter es entfernt 
+            desto schlechter wird das Signal. Um die Kommunikation trozdem zu ermöglichen wird der ``Spreading 
+            Factor‘‘ erhöht. Dies hat auch den Vorteil dass der Energieaufwand gering gehalten werden kann. 
+            Analog wie Menschen auf einer Party nicht immer versuchen lauter sonder besonders langsam und deutlich 
+            sprechen.\cite{explain}
 
-            Das LoRaWAN Protokoll ist optimiert für Batteriebetrieben Endgeräte die drahtlos kommunizieren möchten. Um energieeffizent zu sein setzt LoRa hauptsächlich auf zwei Punkte. Die Modulationstechnick und eine Adaptive Dtanenrate (ADR). Auch die 
-            "One-Hop" architektur trät zur energieeffizenz bei. Die Art wie LoRa siganle Moduliert wird in kapittel \nameref{sec:Modulation} besprochen
-            \cite{LoraClasses}(
-                Um energieeffizent zu sein setzt LoRa hauptsächlich auf zwei Punkte. Die Modulationstechnick und eine Adaptive Dtanenrate (ADR)
-            )
-            //---------
-            Um die Enstandenen Pakete in Signale umzusezenun didese effizent und gleichzeitg übertragen zu können nutzt LoRa Chirp Spread Spectrum (CSS). Hierbei werden die Frequenz über eine gewisse Zeit hinweg veränder. Durch erkennen in welche richtig, ansetigen oder Abfalleb, die frequenz verändert wird, können
-            1 und 0 Codiert werden. Man spricht bei einem Bit von einem Chrip-Impuls. Durch aneinanderreihe der verschiedenen impulse ist es möglich mehere Bits nacheinander zu übertragen. Das entstandene Signal wird auch al Sub-Chrip bezeichnet. Durch verwenden von Unterschiedlichen anstiegs und abfalszeiten ist es möglich mehere
-            Signale auf der Selben frequenz zu übertragen ohne das die Signale sich gegenseitig stören. DIes nennt man Spread Factor.
-            Auserdem kann die Paralelität durch verschiedene Frequenzbereiche verbessert werden. \marginpar{nachprüfen} CSS ist besonders für große reichweiten geegnet und somit auch bestens für Lora. Am besten ist das Signal wenn das endgerät nahe am Gateway ist. Je weiter es entfert desto schlechter wird das sgnal. Um die kommunikation 
-            trozdem zu ermöglichen wird der "spredding Factor" erhöht. Dies hat auch den Vorteil dass der Energieaufwand gering gehalten wird. Analog wie Menschen auf einer Party nicht immer versuchen lauter zu sprechen, sonder auch versuchen besonders langsam und deutlich zu scprecehn.
-
-            
-            Mann sichbrcht auch von Channels. CHannels können beliebeig benutzt werde. es gibt alerdings zwei regeln zu beachtn. 
+            Diese Aufteilung durch den Spreading Factor und die Frequenz werden Channels erzeugt. Channels können 
+            beliebig benutzt werde. es gibt allerdings mpssen zwei regeln zu beachtet werden: 
             \begin{enumerate}   
                 \item Channels werden per Pseudozufallszahl geändert
                 \item Sendezeit erfüllt die Regionalen Bestimmungen
             \end{enumerate}
-
-            Das Aloha Protokoll wird verwendet um festzustellen wann gesendet werden soll. Dabei wird einfach gesendet wenn Daten zum senden vorhanden sind. Wenn nun zwei Sender gleichzeitig auf der selbern Frequenz senden möchten kommt es zu einer kollision. 
-            Dadurch kann das Gateway die empfangenen Dtane nicht mehr auswerden. Deswegen warten beide Endgeräte eine zufällige, unterschiedliche Zeit abe bist sie erneut senden.
-
-            \cite{LoRaSpec}(
-                Knoten können zu jeder Zeit, auf beliebigen Kanälen, beliebig schnell, beliebig lange senden, solange folgende regeln befolgt werden.
-                \begin{itemize}
-                    
-                        \item Channels werden per Pseudozufallszahl geändert
-                        \item Sendezeit erfüllt die Regionalen Bestimmungen
-                    
-                \end{itemize}
-            )
-            \cite{LoRaSpec}(
-                Geschwindigkeit ist kompromiss zwischen abstand/geschw. die untersch freuenzen bze. geschwindigkeiten beinflussen sich nicht gegeseitig => keine inteferenz
-                Die Datenrate ist einstellbar, jedoch wird die Reichweite bei höherer Datenrate gemindert. Ein Vorteil von Lora ist, das die einzelnen Datenraten nicht interferieren und so jedes Endgerät seine eigene Datenrate unabhängig von den anderen Verwenden kann.
-                Außerdem wird die Datenrate und die Sendeleistung für jedes Gerät separat gesteuert (ADR, Adaprive Data Rate)
-            )
-
-            \cite{LoraLimit}(
-                Chrip Signal => Zeitliche Änderung in Trägerfrequenz(höhere Frequenz als Datenrate)(positiv chrip/negativ chrip)
-
-                Datensignal wird in Chrip Signal moduliert. Resultierende Signal ist breitbandiger als Datensignal. Maximale Datenrate auch mit Rauschen erreichbar.
-
-                Durch orthogonale "Spread Factor" mehrere Signale auf einem Chanel
-            )
-            \cite{WhatIsLoRa}(normal FSK, schon sehr efficent. Lora "chirp spread spectrum odulation". Ist wie FSk aber größere Rechiweite, robuster. Stammt aus dem Militär/raumfahrt.Lora als erstes für kommerziellen billigen Einsatz.
             
-            Spread spectrum => signale sind Ortohonal für versch. spreizraten, fakto koreliert mit datenrate => verschiedene Datenraten auf einem Kanal
+            Das Aloha Protokoll wird verwendet um festzustellen wann gesendet werden soll. Dabei wird einfach gesendet
+            wenn Daten zum Senden vorhanden sind. Wenn nun zwei Sender gleichzeitig auf dem selben Channel senden 
+            möchten kommt es zu einer Kollision. Dadurch kann das Gateway die empfangenen Daten nicht mehr auswerden 
+            und die Daten müssen erneut übertragen werden. Deswegen warten beide Endgeräte eine zufällige, 
+            unterschiedliche Zeit ab bist sie erneut senden.
             
-            Nähere Geräte sind schneller => höhere Datenrate => kürzee übertrgungsdauer und lassen somit merh zeit für andere, => bessere Batterielaufzeit. Deswegen sidn symetrische up/downlinks nötig.)
-            Frequenzhopping, spread spectrum, code-chanels
-            \marginpar{soll ich verhältniss zwischen datarat sf und energie reinmachen?}
+            \marginpar{frequenzy hopping}
+
             \subsubsection{Adaptive Data Rate}\label{sec:ADR}
-                Adaprive Data Rate oder kurz ADR wird verwedent um immer die optimalste senderate und die optimale sendepower für das Endgerät zu finden und so schnellstmöglich die Daten zu senden. ADR kann nur verwendet werden wenn im FHDR feld des LoraPaketes das ADR Bit gesetzt ist, siehe \nameref{sec:protokoll}.
-                Die Steuerung duch ADR findet durch den Netzwerkserver statt. Sobald der NEtzwerkserver bereit ist, stzt er das bit im downlink. IST das endgerät ebenfalls bereit setzt es ebenfalls das bit und ADR kann verwendet werden. Flass es nicht möglich sein sollte ADR zu verwenen \marginpar{warum?} sollte es durch das Applikaionslayer gesteuret werden.
+            Adaprive Data Rate oder kurz ADR wird verwendet um immer die optimalste Senderate und die optimale 
+            Sendepower für das Endgerät zu finden und so schnellstmöglich die Daten zu senden. ADR kann nur 
+            verwendet werden wenn im FHDR Feld des LoRa-Paketes das ADR Bit gesetzt ist, siehe 
+            \nameref{sec:protokoll}.Die Steuerung durch ADR findet durch den Netzwerkserver statt. Sobald der 
+            Netzwerkserver bereit ist, setzt er das Bit im Downlink-Paket. Ist das Endgerät ebenfalls bereit 
+            setzt es ebenfalls das Bit und ADR kann verwendet werden. Falls es nicht möglich sein sollte ADR zu 
+            verwenden sollte es durch das Applikationsslayer gesteuert werden.
 
-                Die Steuerung dfindet durch spezielle MAC kommandos statt. Standartgemäs wird die höchset übertragunsstäreke verwedent allerdings auch die geringste Übertragunsrate. Flass diese gedrosselt werde soll wird vom Netzwerkserver das \textbf{LinkADRReq} MAC command benutzt. mIt diesem wird das Endgerät informiert, dass es die data rate, transmit power, 
-                repetition rate or channel ändern soll. Was auf welchen wert geändert werden soll wird in die Parameter codiert. Sobald die Werte geändert wurden, muss periodisch überprüft werden ob das Netzwerk die NAchrichten noch bekommt. Deswegen wird jedes mal wenn der uplinkframecounet \marginpar{hab ich das?} erhöht wird, wird der ADR\_ACK\_CNT counter verwedent.
-                Wenn dieser counter ein gewissen schwellenwert (ADR\_ACK\_Limit) überschreited, iwrd das ADRACKReq bit gesezt. DIeses signalisiert den NEtzwersverer das er mit einem Uplink ein Downlonk senden muss um die Verbindung zu bestätigen. Falls dieser Downlink nicht in ADR\_ACK\_Delay frames empfangen wird, wird zuerst die übertragusstärke auf max gesetzt. Flass möglich wird auserdem die Datenrate veringert um die Reichweite zu erhöhen. DIe 
-                Datenrate wird solange weiter jede ADR\_ACK\_Delay frames veringert bis diese minimal ist. Falls siese schon minimal ist müssen alle chanles wiederverswenet werden. DIes wird solange probiert biss eine verwbindung hergestellt werden kann.
+            Die Steuerung findet durch spezielle MAC-Kommandos statt. Standardgemäß wird die höchste 
+            Übertragungsstärke verwendet und die geringste Übertragungsrate. Falls diese gedrosselt werde soll 
+            wird vom Netzwerkserver das LinkADRReq MAC –Kommando benutzt. Mit diesem wird das Endgerät informiert, 
+            dass es die Übertragungsstärke, Übertragungsrate oder den Übertragungskanal ändern soll. Die Werte sind 
+            in den Parameter codiert. Sobald die Werte geändert wurden, muss periodisch überprüft werden ob das 
+            Netzwerk die Nachrichten noch bekommt. Deswegen wird jedes Mal wenn der wenn ein Uplink empfangen wird, 
+            wird der ADR\_ACK\_CNT Zähler erhöht. Wenn dieser Zähler ein gewissen schwellenwert (ADR\_ACK\_Limit) 
+            überschreitet, wird das ADRACKReq Bit im Uplink gesetzt. Dieses signalisiert den Netzwerkserver das er 
+            mit einem ein Nachricht senden muss um die Verbindung zu bestätigen. Falls dieser Downlink nicht in 
+            ADR\_ACK\_Delay Frames empfangen wird, wird zuerst die Übertragungsstärke auf das Maximum gesetzt. 
+            Falls möglich wird außerdem die Datenrate verringert um die Reichweite zu erhöhen. Die Datenrate wird 
+            solange weiter, jede ADR\_ACK\_Delay Frames, verringert bis diese minimal ist. Falls diese schon 
+            minimal ist müssen alle Kanäle benutzt werden. Dies wird solange probiert biss eine Verbindung 
+            hergestellt werden kann. \cite[S.19 f]{LoRaSpec}
                 
-                \cite{LoraLimit}(
-                    Datenrate und Funkfrequenz(RF) werde passend zum Abstand angepasst
 
-                    nahe Knoten => hohe Datenrate => kurze Sendezeit => weniger RF-Power
-                    kann nach Bedarf geändert werden
-
-                    => immer möglichst schnelle senden => weniger Energie
-
-                )
-                \cite{LoraClasses}(crip signal)
+                
     \section{Lora Geräte Klassen} \label{sec:klassen}
         Um maximal energie zu sparen aber trozdem die möglichkeit dass die endgeräte agiel Daten empfangen können wurden die Geräteklassen eingeführt. Das Hauptmerkmal der Klassen sind die unterschiedlichen empfangsmodien.
         Es gibt 3 Klassen, A, B und C. Die Klasse A muss standartgemäß von jedem Endgerät implementiert werden. B und C sind Optional und müssen nicht vorhanden sein \marginpar{Joinen nur in A beschrieben?}. Alle 
@@ -408,6 +406,7 @@
             
             Für alle join / rejoin aktivitäten wird immer die Klasse A verdendet \marginpar{Schon erklärt oder woanders}.
 
+            
             \cite{LoRaSpec}(
                 radio packet explicit mode, vom Gateway(1) zum Knoten(1), ausgelöst vom Netzwerkserver, auch multikasts möglich, (Preamble, PHDR, PHDR\_CRC, PHYPayload)
             Um Nachricht kurz zu halten kein CRC am ende, nach Reciever\_Delay1 / Reciever\_Delay2 kann empfangen werden (rx1, rx2) 
@@ -540,7 +539,7 @@
             \subsubsection{Wechsel von A nach C}
                 Da es kein ClassC Fled in einem LoRapaket gibt, wurde für das umschalten in ClassC mode MAc kommandos eingeführt. Das endgerät sendet das DeviceModeInd commando. ALs parameter kann es 0 für Klasse A und 2 Für klasse C angeben. Der Netzerkserver kann mit DeviceModeConf welches den wert der klasse enthät indas gewächselt wurde.
     \section{Sicherheit} \label{sec:Sicherheit}
-    \marginpar{Weche felder was ist wie verschlüsselt?}
+        \marginpar{Weche felder was ist wie verschlüsselt?}
                 
         SIcherheit in netzwerkfägigen Systemen ist ein sher wichtiges und heiß dikutiertes thema. Da LoRa daten Üver die Lpft überträgt, ist es extrem wichtig sich und die Dtaen zu schützen.
         Da Luft als Medium benutzt wird könnten alle in der Nähe befindlichen geräte die gesendeten Daten mithören. Aber genauso kann ein Endgerät sich als ein andres ausgeben und in seinem Namen Daten an ein
