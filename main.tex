@@ -361,113 +361,69 @@
             Falls möglich wird außerdem die Datenrate verringert um die Reichweite zu erhöhen. Die Datenrate wird 
             solange weiter, jede ADR\_ACK\_Delay Frames, verringert bis diese minimal ist. Falls diese schon 
             minimal ist müssen alle Kanäle benutzt werden. Dies wird solange probiert biss eine Verbindung 
-            hergestellt werden kann. \cite[S.19 f]{LoRaSpec}
-                
-
-                
+            hergestellt werden kann. \cite[S.19 f]{LoRaSpec}         
     \section{Lora Geräte Klassen} \label{sec:klassen}
-        Um maximal energie zu sparen aber trozdem die möglichkeit dass die endgeräte agiel Daten empfangen können wurden die Geräteklassen eingeführt. Das Hauptmerkmal der Klassen sind die unterschiedlichen empfangsmodien.
-        Es gibt 3 Klassen, A, B und C. Die Klasse A muss standartgemäß von jedem Endgerät implementiert werden. B und C sind Optional und müssen nicht vorhanden sein \marginpar{Joinen nur in A beschrieben?}. Alle 
-        Geräte die mehr als A können werden als "high class End-Devices" genannt. \marginpar{wohin mit counter?}
-
-        \cite{LoRaSpec}(Geräte müssen mindestens A können, alle die mehr können werden auch "high class End-Devices" genannt)
-        Vieleicht zu klein => in anderes Kapitel stopfen. Bei mehrfacher übertrageung wird nicht erhöht
-
-        Die Endgeräte sind je nach Kommunikationsart/Protokoll Art in drei Klassen (A, B und C) unterteilt. 
-        
-        Jede Klasse hat 3 counter FCntUP(Pro uplink ++), FCNTDown(pro downlink auser port 0 => mach), AFCntDOwn(port ungleich 0 dann ++)   (nur beschreiben wie diese grob funktionieren) Zähler sollen nich flüchtig sein(Batteriewechseln kein reset)
-        bei neuverbinden müssen alle counter auf uf 0 gesetzt werden. counter müssen auf beiden seiten glich gehalten werden(Synchron geführt)
-        Wenn nachricht empfagen ist muss der darin enthaltenene counter größer sein als der eigene. 
-
-        die Counter Werte sollen so weit wie möglich nur einam verwendet werden.
-        
-        )
-        \cite{WhatIsLoRa}(Asynchrone Knoten wegen Batterie => Event/Scheduler gesteuert verwendet ALOHA
-        
-        Normal Netze müssen sich synchronisieren und Nachrichten abrufen. Lora partiell nicht => laut GSMA 3 bis 5 fach effizienter)
-    
-        zur besseren Anpassung/ Anpassung an Batterie
-        
-        EU: 10 Kanäle (8: 250bps bis 5.5kbps) (1: FSK 50kbps) (high rate Lora 114kbps)
-
-        )
+        Um maximal Energie zu sparen aber trotzdem die Möglichkeit dass die Endgeräte agile Daten empfangen können 
+        wurden die Geräteklassen eingeführt. Das Hauptmerkmal der Klassen sind die unterschiedlichen Empfangsmodien. 
+        Es gibt 3 Klassen, A, B und C. Die Klasse A muss standartgemäß von jedem Endgerät implementiert werden. B 
+        und C sind Optional und müssen nicht vorhanden sein Alle Geräte die mehr als Klasse A unterstützen werden 
+        als ``higher Class end-devices ‘‘ genannt. \cite[S.10]{LoRaSpec}
         \subsection{Klasse A}\label{sec:ClassA}
-            Klasse A wird auch (All end-Devicec) gennnt undzeichnet sich durch sehr geringer Stromverbrauch aus. Die Kommunikation kann bidirektionalen Stadtfinden, allerdings muss die Kommunikation von dem Endgeräte gestartet werden. Das bieted die möglichkeit das das Endgerät, wenn keine Daten gesendet werden müssen, in einen sehr
-            sparsamen Schlafmodus wechselt. Um das Endgeräte nicht zum \"aufwachen\" zwingen zu müssen, wurde auf einen Hardbeat oder ähnliches verzichtet. Dadurch kann das Endgerät so lange "schlafen" wie es möchte. Somit ist die Klasse A auch die potenziell Stromsparende Endgeräteklasse. 
-            Die Klasse A erlaubpt auserdem das das Endgerät andere Protokolle schickt solange es keine LoRa Daten sendet oder empfängt.
-            
-            Das Endgerät startet die Kommunikation in dem es Daten an das Gateway sendet(uplink). Daraufhin hat das Gateway die Möglichkeit 2 mal Daten zum Endgeräte senden(downlink). Die Downlinkfenster werden RX1 und RX2 genannt.
-            Da die Kommunikation asynchron Stadtfinden, muss das endgerät wartet bis die uplinkphase abgeschlossen ist.
+            Klasse A wird auch (All end-Devicec) genannt, zeichnet sich durch den geringsten Stromverbrauch aus. Die 
+            Kommunikation wird von dem Endgeräte gestartet werden. Das bietet die Möglichkeit dass das Endgerät, wenn 
+            keine Daten gesendet werden müssen, in einen sehr sparsamen Schlafmodus wechselt. Um das Endgeräte nicht 
+            zum ``aufwachen‘‘ zwingen zu müssen, wurde auf einen Hardbeat oder ähnliches verzichtet. Dadurch kann das 
+            Endgerät so lange ``schlafen‘‘ wie es möchte. Klasse A erlaubt außerdem das das Endgerät andere Protokolle 
+            verwendet solange es keine LoRa Daten sendet oder empfängt. \cite[S.11 ff.]{LoRaSpec} Das Endgerät startet 
+            die Kommunikation in dem es Daten an das Gateway sendet. Daraufhin hat das Gateway die Möglichkeit 2 mal 
+            Daten zum Endgeräte senden. Die Empfangsfesnter werden RX1 und RX2 genannt. 
 
-            Die empfangsfenserr RX1 und RX2 mussen mindestens solange geöffnet bleiben das sie eine beginnende Übertrgung feststellen können. Flass keine übertragung epfangen wird, wird das fenseter weider geschlossen. Anderenfalls werden die Dtaen empfangen.
-            Das Empfangsfenster RX1 wird nach RECIEV\_DELAY1 zeiteiheiten +/- 20msec nach beendigung des Upliks geöffnet. Es wird die selbe freuqenz und Datenrate verwendet die auch be den uplik verwendet wurde.
-            Wenn festgestellt in RX1 festgestellt wurde das keine Weiteren Daten mehr epfangen werden müssen kann auf das öffnen des RX2 fensters auch verzichted werden.
-            RX2 wird wird nach RECIEV\_DELAY2 zeiteiheiten +/- 20msec nach beendigung des Upliks geöffnet. Allerdings ist die Datenrate und freuenz fest. Nur Mittels spezieller MAC commands kann dies verändert werden.
-            
-            Für alle join / rejoin aktivitäten wird immer die Klasse A verdendet \marginpar{Schon erklärt oder woanders}.
+            Die Empfangsfesnter RX1 und RX2 müssen mindestens solange geöffnet bleiben das sie eine beginnende 
+            Übertragung feststellen können. Falls keine Übertragung empfangen wird, wird das Empfangsfesnter wieder 
+            geschlossen. Empfangsfenster RX1 wird nach RECIEV\_DELAY1 zeiteiheiten +/- 20msec nach Beendigung des 
+            Uplinks geöffnet. Es wird die selbe Frequenz und Datenrate verwendet die auch bei den Downlink verwendet 
+            wurde. Wenn festgestellt in RX1 festgestellt wurde das keine Weiteren Daten mehr empfangen werden müssen 
+            kann auf das öffnen des RX2 Fensters auch verzichtet werden.
 
+            RX2 wird wird nach RECIEV\_DELAY2 Zeiteinheiten +/- 20msec nach Beendigung des Uplinks geöffnet. Allerdings
+            ist die Datenrate und Frequenz fest. Nur mittels spezieller MAC Kommandos kann dies verändert werden.
             
-            \cite{LoRaSpec}(
-                radio packet explicit mode, vom Gateway(1) zum Knoten(1), ausgelöst vom Netzwerkserver, auch multikasts möglich, (Preamble, PHDR, PHDR\_CRC, PHYPayload)
-            Um Nachricht kurz zu halten kein CRC am ende, nach Reciever\_Delay1 / Reciever\_Delay2 kann empfangen werden (rx1, rx2) 
-            
-            Fenster müssen lange genug für Preamble auf bleiben=> wenn erkannt wird empfangen wenn nicht fenster weider zu. Es darf nur gesendet werden wenn beide fenster zu sind.
-            ==>Es ist auch erlabut andere protokole zu sprechen wenn ncht gesendet oder gehört wird.<==
-            )
-            \cite{LoRaSpec}(
-                Frequenz abhänig von Uplinkfrequenz, Datenrate abhängig on Uplinkdatenrate, wird nach Reciever\_Delay 1 +/- 20 msec erwarted, Datenrate auch abhänig von Regionalen regeln, Standart: Datenrate = Uplinkdatenrate
-            )
-            \cite{LoRaSpec}(
-                feste Frequenz/Dtanetnrate, nach Delay2 +/- 20 msec, Frequenz/Datenrate mittels MAC änderbar
-            )
-            \cite{LoRaSpec}(
-                Öffnungslänge muss für Preamble ausreichen, nach RX1 + MIC und autentigitätscheck muss nicht zwingen RX2 geöffnet werden, Sender muss in einem der beiden Fenster stattfinden, Falls Downlink über beide Fenster => feames müsen gleich sein. Knoten dürfen nich während empfangen/ zwischen RX1 und RX2 senden, ender Protokolle dürfen gesprochen werden wenn gesendet werden darr
-            )
+            Für die Join-Prozedur wird immer die Klasse A verwendet.
         \subsection{Klasse B}
-            Die Klasse B (B für BEACON) bietet bidirektionale Kommunikation mit einer deterministischem downlink Latenz. Um diese latenz zu gewährleisten, muss die Kommunikation Synchron ablaufen. Außerdem muss festgestellt werden, ob das Endgerät bzw das Gateway noch in Reichweite ist. Dies wird mittels einens periodischem "beacon" die zu festgelegten.
-            DIeser BAcon wird regelmäßig vom GAteway gesendet und dint der syncronisation der Endgeräte.
-            Zeitpunkten gesendet werde realisiert. Die Latenz ist einstellbar und kann bis zu 128 Sekunden.
-            Die Endgeräte öffnen in regälmasigen ubständen ein empfangsfenster das pingslot genannt wird. Ein Downlink der in einem Pingslor gesendet wird wird ping genannt. Da dimmer Das gateway mit dem besten empfang die Daten an das GAteway sendet, muss das Endgerät selbständig feststellen wenn es einen Bacon mit einer unbekannten ID bekommt und durhch eien uplink dem server mitteilen das es in ierne neuen Umgebung ist. Dadurch lernt der seerver
-            wo sich das Entgerät befindet und kann das Gatewa mit dem besten empfang wählen.
+            Die Klasse B (B für BEACON) bietet bidirektionale Kommunikation mit einer deterministischem Downlink Latenz.
+            Um diese Latenz zu gewährleisten, muss die Kommunikation synchronisiert ablaufen. Außerdem muss 
+            festgestellt werden, ob das Endgerät bzw. das Gateway noch in Reichweite ist. Dies wird mittels eines 
+            periodischem Beacon ermittelt. Dieser Beacon wird regelmäßig vom Gateway gesendet und dient der 
+            Synchronisation der Endgeräte. Zeitpunkten gesendet werde realisiert. Die Latenz ist einstellbar und kann 
+            bis zu 128 Sekunden.\cite[S.66 ff.]{LoRaSpec}
 
-            
+            Die Endgeräte öffnen in regelmäßigen Abständen ein Empfangsfenster das Pingslot genannt wird. Ein Downlink 
+            der in einem Pingslot gesendet wird, wird Ping genannt. Da immer das Gateway mit dem besten empfang die 
+            Daten an das Gateway sendet, muss das Endgerät selbständig feststellen wenn es einen Beacon mit einer 
+            unbekannten ID bekommt und durch eine Uplink dem Server mitteilen das es sich in einer neuen Umgebung ist. 
+            Dadurch lernt der Server wo sich das Endgerät befindet und kann das Gateway mit dem besten Empfang wählen.
+            Obwohl das Endgerät durch die periodischen Beacon nicht ``schalfe‘‘ kann, ist die Klasse B für den 
+            Batteriebetrieb gedacht.
 
-            Obwohl das Endgerät durch die periodischen "beacons" nicht "schalfen" kann, ist die Klasse B für den Batteriebetrieb gedacht.
-            
-            \cite{LoRaSpec}(wird verwendet wenn mehr bedarf für empfangsfenster ist. Hierzu ist ein synchronsignal nötig=> zu bestimmten zeiten kann damit empfangen werden
-                Gateway sended Beacon für synchrinsation. Um daten empfangen zu werden werden empfangsslots => pingslots verwendet, werden periodisch geöffneto und mittels beacon synchronisiert. Normalerweise werde diese schnell geschlossen außer es wird etwas empfagne.
-                Gateway dessen beacon benutzt wird, wird nach empfangsqualität ausgewählt. Wenn neuer/unbekanter Beachon von einem anderen GAteway empfangen wird, wird der netzwerkserver benachrichted und dieser entscheidet welcher verwendet wird()passt rozte an).
-
-                Das Netzwerk muss die standart ping-slot periode Datenrate und kanal kennen.
-
-                Um ein gerät auf klasse B zu kommen muss erst von Klasse A gewächselt werden.
-
-                Entgeräte müssen Netzwerkserver über position nformieren. Dies kann über eine leere nachricht passieren oder eine normale(uplink).
-                
-                Das beacon und die enthaltenen daten werden an die applikation geschiht. Der server kann den beacon auswerten. ziwschen beacon und uplink wird random time verwendet um kolisionen zu verhindern .\marginpar{Nachschuen wie genau das funktioniert}
-                änderungen an pingslotperiode .. muss mitgeteilt werden. Hierzu ist klasse A nötig => wechel zu A, wechel zu B.
-            
-                Beacon wird genutzt um clockdrivt auszugleichen. Wenn kein beacon empfanen wird  => Bacenless mode. Dieser wird bis zu 2 stunden beibehalten. Reines verlassen auf interne Uhr. Wenn beacon empfagne wird, wird zeit zurückgesetzt.
-            )
             \subsubsection{Klassenwechsel A nach B}
-                Um einen Wechel überhaupt zu ermöglichen muss der Netzwerkserber die devault ping-slot periodem die pingslot datenrate und den Pingslot channel kennen.
+                Um einen Wechsel überhaupt zu ermöglichen muss der Netzwerkserver die Standard Pingslot Periode, die 
+                Pingslot Datenrate und den Pingslot Kanal kennen. Ale Endgeräte treten in Klasse A dem Netzwerk bei. 
+                Das wechseln in die Klasse B wird durch folgenden Prozess realisiert.
 
-                Ale endgeräte treten in Klasse A dem Netzwerk bei. Das wecheln in die klasse B wird durch folgenden Prozess realisiet.
+                Als erstes muss das Programm des Endgerätes beim LoRaWAN Layer anfragen ob es möglich ist in Klasse B 
+                zu wechseln. Der Layer sucht nun nach einem Beacon. Wird ein Beacon entdeckt, wird die BEACON\_LOCKED 
+                Serviceprimitive \marginpar{erklären} zurückgeliefert. Wenn kein Beaconempfangen wurde wir die 
+                BEACON\_NOT\_FOUND primitive zurückgegeben. Um diesen Prozess zu beschleunigen kann das DeviceTimeReq 
+                MAC-Kommando verwendet werden. Damit wird das Gateway aufgefordert einen Beacon zu senden. Nun kann 
+                das Endgerät in den Modus B wechseln.
 
-                Als erstes muss das Programm des ENdgerätes beim LoRaWAN layer anfrogen ob es möglich ist in klasse B zu wecheln. Der LAyer sucht nun nach einem baecon. Wird ein backen entdeckt, wird die BEACON\_LOCKED Servisprimitive \marginpar{erklären} zurückgeliefert. Wenn kein BAckoun empfangen wurde wir die BEACON\_NOT\_FOUND
-                primitive zurückgegeben. Um diesen proess zu beschleinigen kann das DeviceTimeReq MAC kommando verwendet werden. Damit wird das GAteway aufgefordert eien bAcon zu senden. Nun kann das endgerät in den modus B wächseln.
-
-                Als Zeites setzt der MAC Layer des engerätes das Class B BIt im FCtrl feld Des Upliks auf 1. Dadurch ist er auch verandwortlich die
-                Ping slots und für die Beacons zu öffen. Dabei muss mit der größt möglichen abweiching der Internen Uhr gerechnet werden und demensprechend die Epfangsfenster angepasst werden. DIese darf pro Beacon nicht mehr als +/- 1.3msec liegen.
-                Der Inhalt der Empfangenenen Beacons wird mit der Signalsterke and das Programm des Endgerätes zur weiteren Verarbeitung gesendet. 
-                Dmait kann z.B. dem LoRaWan layer angewiesen werden die Uhr nachzustellen. 
-
-                \cite{LoRaSpec}(
-                    Endgerät fart LoRaWAN layer an. Layer sucht beacon. Mac command DeviceTImeReq um schneller bacon zu bekommen nutzen. Danach wird das ClassB feld auf 1 gesetzt. Bei den geöfneten fenstern wrd der maximal mögliche clockdrift berücksichtigt.
-                    Downlink läuft wie bei A ab.
-
-
-                )
+                Als Zweites setzt der MAC Layer des Endgerätes das Class B Bit im FCtrl Feld des Upliks auf 1. Der MAC 
+                Layer ist auch verantwortlich die Pingslot und für die Beacons Empfangsfenster zu offen. Dabei muss mit 
+                der größten möglichen Abweichung der internen Uhr gerechnet werden und demensprechend die 
+                Empfangsfenster angepasst werden. Diese darf pro Beacon nicht mehr als +/- 1.3msec liegen. 
+                \cite[S.73]{LoRaSpec}Der Inhalt des Empfangenen Beacon wird mit der Signalsterke dem Programm des 
+                Endgerätes zur weiteren Verarbeitung gesendet. Damit kann z.B. die innere Uhr nachgestellt werden 
+                oder Ortswechsel festgestellt werden.
             \subsubsection{Betrieb}
                 
                 Damit der NEtzwerkserver dem Endgerät mittielen kann dass die pingslots frequen und/oder die Datnerate geändert werden soll gibt es den PingSlotChannelReq Mac kommando. DIe werden sind in den argumenten enthalten.
@@ -523,22 +479,29 @@
                 
                 In Europa werden die Beacons auf einer festen frewuen übetragen die sich nicht endert auser über das MAC kommando PingSlotChannelReq. Auf anderen Kontinenten kann es sein das frequenzyhopping angewendet wird. \marginpar{regionale paramerter erwähnt?}
         \subsection{Klasse C}
-            C steht für CONTINUOUSLY Listening. Wie der Name schon sagt wird hier unaufhörlich ein empfängssender geöffnet. Dadur wird es ermöglist fast Latzenfrei zu übertragen. Dies bedeutet aber auch das der Stromverbrauch am höchsten ist und somit nicht für den Batteriebetrieb geeignet.
-            Das Gateway kann immer Daten senden außer wenn das Endgerät gerade Daten sendet. Hier sind Geschwindigkeit von bis zu 50mb möglich.
-            
-            Geräte die Klasse C implementieren sollen aus nicht die Klasse B implementieren das es sonst zu fejlern kommen kann.
-            
-            Diese Klasse verwendet die Gleichen empfangsfenster mit den gleichen Funktione wie in Klasse A. Der große unterscheid besteht allerdings darin das RX2 immer dan geöffnet ist wenn nicht gerade daten an das Gatway gesendet werden oder RX1 geöggnet ist. Also auch Während \marginpar{suche}.
-            Auserdem stehen die gleichan MAC kommandus und zwei zusätzzliche zu verfügubng \marginpar{normal net?}.
+            C steht für CONTINUOUSLY Listening. Wie der Name schon sagt ist hier dauernd ein Empfangsfenster geöffnet.
+            Dafür wird es ermöglicht fast Latzen frei zu übertragen. Dies bedeutet aber auch das der Stromverbrauch am 
+            höchsten ist und somit die Klasse C nicht für den Batteriebetrieb geeignet. 
 
-            Auch in Klasse C ist es, wie in B, möglich Multicastnachrichten zu senden. hierbe gelten die gleichen Regeln wie bei B.
-            
-            \cite{LoRaSpec}(
-                öffnet RX1 und RX2 fenster wie in Klasse A. Immer wenn  nicht gesendet wird oder RX1 offen ist, ist RX2 offen. Multicast ist auch möglich.
-            )
-            \subsubsection{Wechsel von A nach C}
-                Da es kein ClassC Fled in einem LoRapaket gibt, wurde für das umschalten in ClassC mode MAc kommandos eingeführt. Das endgerät sendet das DeviceModeInd commando. ALs parameter kann es 0 für Klasse A und 2 Für klasse C angeben. Der Netzerkserver kann mit DeviceModeConf welches den wert der klasse enthät indas gewächselt wurde.
-    \section{Sicherheit} \label{sec:Sicherheit}
+            Geräte die Klasse C implementieren sollen aus nicht die Klasse B implementieren das es sonst zu fejlern 
+            kommen kann.
+
+            Diese Klasse verwendet die Gleichen Empfangsfenster mit der gleichen Frequenz wie in Klasse A. Der große 
+            unterscheid besteht allerdings darin das RX2 immer dann geöffnet ist wenn nicht gerade Daten an das 
+            Gateway gesendet werden oder RX1 geöffnet ist. 
+
+            Auch in Klasse C ist es, wie in B, möglich Multicastnachrichten zu senden. Hierbei gelten die gleichen 
+            Regeln wie bei Klasse B.
+
+\section{Sicherheit} \label{sec:Sicherheit}
+    Jede Klasse hat 3 Zähler: FCntUP(wird für jeden Uplink erhöh), NFCntDown (pro downlink für MAC-Kommandos), AFCntDOwn(Downlinks die Daten enthalten) Zähler sollen nich flüchtig sein(Batteriewechseln kein reset) bei neuverbinden müssen alle counter auf uf 0 gesetzt werden. counter müssen auf beiden seiten glich gehalten werden(Synchron geführt) nachricht empfagen ist muss der darin enthaltenene counter größer sein als der eigene. 
+
+    die Counter Werte sollen so weit wie möglich nur einam verwendet werden.
+    
+    )
+    \
+
+
         \marginpar{Weche felder was ist wie verschlüsselt?}
                 
         SIcherheit in netzwerkfägigen Systemen ist ein sher wichtiges und heiß dikutiertes thema. Da LoRa daten Üver die Lpft überträgt, ist es extrem wichtig sich und die Dtaen zu schützen.
