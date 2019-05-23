@@ -95,7 +95,7 @@
             möglichem Zeitpunkten.
 
             Eine weitere sehr Wichtige Ausgabe ist es eine API für den Applikationsserver bereitzustellen um eine 
-            einfache und schnelle Kommunikation zu ermöglichen.\cite{LoRaSpec}
+            einfache und schnelle Kommunikation zu ermöglichen.
         \subsection{Join-Server}
             Der Server kann mit mehreren Netzwerkservern verbunden werden und jeder Netzwerkserver kann mehrere 
             Join-Server haben.
@@ -126,35 +126,35 @@
         Im folgenden Kapitel wird näher auf die Funktionsweise von LoRaWAN eingegangen. Speziell, liegt der Fokus auf
         dem Netzwerkebitritt, das verwendete Protokoll und wie die Daten physikalisch Übertragen werden.
         \subsection{Schichtenmodell}
-            \includegraphics[width=\textwidth]{LoraLayer}
+            \begin{figure}
+                \includegraphics[width=\textwidth]{LoraLayer}
+                \caption{LoRaStack \cite[S.7]{WhatIsLoRa}}
+            \end{figure}
+            Das Schichtenmodell lässt sich in zwei Teile unterteilen. Der LoRa Teil ist der unterste und kümmert sich 
+            um die physikalische Übertragung der Pakte und er LoRaWAN Teil des Modells ist für die Steuerung des 
+            Netzwerkes, Implementierung der LoRaWAN-Klassen und das überprüfen / verschlüsseln der Daten zuständig.
 
-            Das Schichtenmodell lässt sich in zwei Teile unterteilen. Der LoRa Teil ist der unterste und kümmert sich um die Physikalsche übertragung der Pakte und er LoRaWAN teil des Modells ist für die Stuerung des NEtzwerkes, implementierung der LoRaWAN-Klassen und das Überprüfen udn verschlüsseln der Daten zuständig.
+            Die unterste Schicht des LoRa Teils ist für die Anwendung der Richtigen Frequenzen zuständig. In Europa 
+            muss das ISM-Band 868 verwendet werden in den Vereinigten Staaten wird das Band 915 
+            verwendet.\cite[S.7]{WhatIsLoRa}
 
-            Die Unterste Schicht des LoRa Teils moduliert die verwendeten Frequenzen. In Europa muss das ISM-Band 868 verwendet werden in den Verienigten Staaten wird das BAnd 915 verwendet.
+            Die darüber liegende Schicht heißt LoRa Modulation und kümmert sich darum dass die Pakete so in die 
+            Frequenz "moduliert" werden, dass der Empfänger diese korrekt und effizient empfangen und wiederherstellen 
+            kann. Mehre dazu im Kapitel \nameref{sec:Modulation}
 
-            Die darüberliegende Schicht heißt LoRa Modulation und kümmert sich darum das die Pakete so in die frequenz "moduliert" werden, dass der empfänger diese korrekt und effizent empfangen kann. Meher dazu im kapittel \nameref{sec:Modulation}
+            Über der LoRa Modulation Schicht liegt die erste LoRaWan Schicht, LoRa MAC. Diese Schicht ist für die 
+            Implementierung der einzelnen Endgeräteklassen und für das Übertragen der Steuerungskommandos zuständig. 
+            Mehr zu den Klassen kann im Kapitel \nameref{sec:klassen} und im Kapitel \nameref{sec:protokoll} gelesen 
+            werden.
 
-            Über der LoRa Modulations schicht liegt die erste LoRaWan schicht, LoRa MAC. Diese sicht ist für die Implementierung der einenel Endgeräteklassen und für das Übertragen der Steuerkomanndos zuständig. Mehr zu den Klassen kann im kapittel \nameref{sec:klassen} und im kapittel \nameref{sec:protokoll} gelesen werden.
-
-            Die oberste schiecht nennt sich Applikationsschicht und ist dafür zuständig die Nutzdaten einer NAchricht passend zu verpacken zu verschlüsseln und zu authentfizieren.
-
-            \cite{WhatIsLoRa}(Application, Lora MAC, MacOptins(Classes), LoraModialtion(Regionales ISB))
+            Die oberste Schicht nennt sich Applikationsschicht und ist dafür zuständig die Nutzdaten einer Nachricht 
+            passend zu verpacken, zu verschlüsseln und zu authentifizieren.
         \subsection{Netzwerkbeitritt}
             End-Geräte sind immer bestimmten Netzwerken zugeordnet. Es gibt zwei wege um ein neue End-geräte zu einem bestehenden Netzwerk hinzuzufügen.
-
-            \cite{LoRaSpec}(wei arten OTAA(Over the air activation), ABP(Activation by Personalization)
-                    Jedes gerät hat eine vorgegebene DevEUI (wie MAc adresse eines PCs), JoinEUI muss angegeben werden und adressiert den Join server \marginpar{Was macht der? wohin damit?}
-                    
-            )
-            
-            
-                ABP steht für "Activation by Personalization" und bedeutet Wörtlich übersetzt Aktivierung durch Personalisierung. 
-
-            
             \subsubsection{OTAA} \label{sec:OTAA}
             \marginpar{umshreiben !!!!!}
-            Die sicherste aber auch aufwendigste methode um ein End-Gerät mit einem Netzwerk zu verbinden heißt OTAA (Over-the-Air Activation). Hierbei muss jedes mal wenn einem Netzwerk beigetreten werden soll die Join-Prozedur ausgeführt werden.
-            Hierfür müssen folgene 4 Werte Vorgegeben werden. DevEUI, JionEUI , NwkKey, AppKey(Verschlüsselung des join requests).
+            Die sicherste aber auch aufwendigste Methode um ein End-Gerät mit einem Netzwerk zu verbinden heißt OTAA ``Over-the-Air Activation‘‘. Hierbei muss jedes Mal wenn einem Netzwerk beigetreten werden soll die Join-Prozedur ausgeführt werden.
+            Hierfür müssen folgende 4 Konstanten Vorgegeben werden. DevEUI, JionEUI , NwkKey, AppKey\marginright(Verschlüsselung des join requests).
 
             
             Als erstes muss das End-Gerät eine join- oder rejoin-Nachricht senden. Die NAchricht besteht aus der JoinEUI, dem DevEUI und einer DevNonce. MIt der DevNonce sollen replayattacs verhindert werden. Sie ist das beim ersten Join request 0 und sollte sich bei jedem Join-Request erhöhen. Außerdem muss sie auch dann noch gespeichert werden wenn kein Strom zur verfügung speht. Falls von dem gelichen endgerät eine Join-Reguest mit einer zu kleinen DevNonce empfagen wir, wird die NAchricht ignoriert und es ist nocht möglich dem Netzwerk beizutreten.
@@ -172,17 +172,27 @@
             Wenn der Netzwerkserver den Beitritt des Endgerätes erlaubt sendet er eine Join-Accept nachricht zurück. Das Endgerät erwarted die nachrichten nach JOIN\_ACCEPT\_DELAY1 oder JOIN\_ACCEPT\_DELAY2 nach dem Senden des Request. Sollte die Join-Accept nachricht zu einem andern zeitpunkt gesendet werden, wird diese nicht empfnagen weil das Endgerät nict empfangsbereit ist.
             Die Nachricht enthält einstellungen für das Endgerät sowei die Id des Netzwerkes und die neue Adresse Für das Endgerät. Um replayatacken zu verhindern enthält die nachricht zusätzlich eine JoinNonce. Diese weitd für jedes endgerät seperat geführt und muss größer sein als die zuletzt gesendete.
             
+
             \subsubsection{ABP}
-                Die einfachste Art des Beitritts heist ABP was für "Activation by Personalization" zu deutsch "Aktivierung durch Personalisierung" steht. Hierbei muss lediglich vor inbetribnhme des End-Gerätes 3 Konstanden definiert Werden. Manche Hersteller "brennen" diese 
-                drei Werte fest in den chip ein, sodas er nicht geändert werden kann. Flls es nicht möglich ist dem hersteller die gewünschten werte zukommen zu lasse, sind solche End-Geräte nicht für den Beitritt mittels ABP geeignet.
-                
-                Als erstes muss die DeviceAddress angegeben werden. Diese Adresse existiert nur einmal im Netztwerk und wird verwendet um das Endgerät zu indentifizieren. Die Adrsse wird vom Netzwerkserver erzeugt und muss manuel von dort kopiert werden. \marginpar{gehe ich zu weit?} Die verwendete frequenz entspricht der RX1 bzw RX2 aus dem kapitel \nameref{sec:ClassA}.
+                Die einfachste Art des Beitritts heißt ABP was für ``Activation by Personalization'' zu Deutsch 
+                ``Aktivierung durch Personalisierung'' steht. Hierbei muss lediglich vor Inbetriebnahme des 
+                End-Gerätes 3 Konstanten definiert Werden. Manche Hersteller "brennen" diese drei Werte fest in den 
+                Chip ein, sodass er nicht geändert werden kann. Falls es nicht möglich ist dem Hersteller die 
+                gewünschten werte zukommen zu lasse, sind solche End-Geräte nur schlecht bis gar nicht für den Beitritt 
+                mittels ABP geeignet.
 
-                Mit hilfer dieser 3 Werte kann die Join-Request - Join-Accept prozedur übersprungen werden. Daher kann das Gerät direkt einen Loranetz beitreten wenn es angeschalten wird und muss nicht erst alle schlüssel neu ableiten und aushandeln. Allerdings ist diese methode deswegen weniger sicher, da immer die selben schlüssel verwendet werden.
+                Als erstes muss die DevAdr(Geräteadresse) angegeben werden. Diese Adresse existiert nur einmal im 
+                Netzwerk und wird verwendet um das Endgerät zu identifizieren. Die Adresse wird vom Netzwerkserver 
+                erzeugt und muss Manuel von dort kopiert werden. 
 
-                Nach der verwbindung muss das ResetInd Mac command im FOpt feld gesendet werden gesendet werden solange bis ein ResetConf erhalten wird\marginpar{hab noch nci von mac gesprochen}. NUn ist das Gerät im netzwerk und kann unter der eingestellten Adresse und mit den eigestellten schlüssel arbeiten.
-           
-                Sobal dem Netzwerk erfolreich beigetreten wurde werden ein die benötigten schlüssel aud dem vorher gesetzetn Werten abgeleited. genauers dazu in kapitel \nameref{sec:Sicherheit}.
+                Mit Hilfe dieser 3 Werte kann die Join-Prozedur übersprungen werden. Daher kann 
+                das Endgerät direkt einem LoRa-Netz beitreten wenn es angeschaltet wird und muss nicht erst alle 
+                Schlüssel neu ableiten und aushandeln. Allerdings ist diese Methode deswegen weniger sicher, da immer 
+                dieselben Schlüssel verwendet werden.
+
+                Nach Beitritt muss das ResetInd Mac Kommando im FOpt Feld gesendet werden gesendet werden solange bis 
+                ein ResetConf Kommando erhalten wird. Nun ist das Gerät im Netzwerk und kann unter der eingestellten 
+                Adresse und mit dem eigestellten Schlüssel arbeiten.\cite[S. 64]{LoRaSpec}    
         \subsection{Protokoll} \label{sec:protokoll}
             Das LoRaWAN Protokoll ist obtimiert für Batteriebetrieben Endgeräte die draahtlos kommunizieren möchten. Um energieeffizent zu sein setzt LoRa hauptsächlich auf zwei Punkte. Die Modulationstechnick und eine Adaptive Dtanenrate (ADR). Auch die 
             "One-Hop" architektur trät zur energieeffizenz bei. Die Art wie LoRa siganle Moduliert wird in kapittel \nameref{sec:Modulation} besprochen. Um die gannannten Eigenschaften und das Lora Netzwes zu steuern werden sogenannte MAC commands verwendet. 
@@ -530,6 +540,9 @@
         wenn vorhanden.
 
     \section{Ausblick}
+    \marginpar{gehe ich zu weit?} Die verwendete frequenz entspricht der RX1 bzw RX2 aus dem kapitel \nameref{sec:ClassA}. wo kammt das her
+
+    Sobald dem Netzwerk erfolreich beigetreten wurde werden ein die benötigten schlüssel aud dem vorher gesetzetn Werten abgeleited. genauers dazu in kapitel \nameref{sec:Sicherheit}.
     %\section{Sonstige quellen}
     %    \url{https://lora-alliance.org/resource-hub}
     %    QuickStart für ein kleines Projekt: \url{https://www.thethingsnetwork.org/docs/devices/node/quick-start.html#setup-arduino-ide}
