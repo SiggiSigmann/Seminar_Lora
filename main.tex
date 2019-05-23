@@ -47,8 +47,6 @@
             )
         \newline{}\newline{} Es wird folgen: Was ist lora, wo und wofür wird es benutzt, wie weit kann man senden und wie schnell...
     \section{Aufbau eines Lora-Netzwerk}
-        \marginpar{schreib vielleicht noch hinzu das die geräte auch untereinander fergnüpft sein können}
-
         Lora wird auch Deswegen gerne für IoT-Geräte verwendet, weil der Netzwerkaufbau ermöglicht die über Lora 
         verwendeten Daten im Internet abzurufen und so ohne weiteres das Gerät mit dem Internet zu verbinden. Um 
         die von den End-Geräten gesendeten LoRa-Pakete auf IP/TCP Pakete umzusetzen wird ein Gateway benötigt, 
@@ -57,13 +55,16 @@
         Gateways das Netzwerk kontrolliert und steuert. Gleichzeitig stellt er die Verbindung zu einem 
         Applikationsserver her, in dem er die vom Gateway empfangenen Daten Weiterleitet.
 
+        Der Applikationsserver ist zuständig den die gesendete Nachrichten zu verarbeiten und gegebenenfalls selbst 
+        welche an die Endgeräte zu senden.
+
         Diese Architektur wurde gewählt um die Laufzeit der Akku betriebenen Endgeräte, Anzahl der Endgeräte, Qualität 
-        Signals und Sicherheit des Netzwerkes möglichst hoch zu halten. \cite{WhatIsLoRa}
+        Signals und Sicherheit des Netzwerkes möglichst hoch zu halten. \cite[S. 8 ff.]{WhatIsLoRa}
         
         \subsection{Gateway}
             Das Teilnetz das aus dem Gateway und mehreren LoRa-Endgeräten besteht ist Sternförmig aufbau. Jedes 
             Endgeräten kommuniziert direkt mit dem Gateway. Diese Art der Kommunikation wird auch 
-            ``Single-Hop-Connection `` zu Deutsch (Einfacher-Sprung-Verbindung) genannt, da die Gesendeten Daten ohne 
+            ``Single-Hop-Connection'' zu Deutsch (Einfacher-Sprung-Verbindung) genannt, da die gesendeten Daten ohne 
             Umwege an das Gateway gesendet werden. Jedes Gateway ist mit mindestens einem Netzwerkserver verbunden.
         
             Ein Endgerät kann gleichzeitig an mehreren Gateways senden. Der Netzwerkserver ist zuständig die Pakete 
@@ -76,41 +77,54 @@
             Durch die genannt Eigenschaften der Gateways wird eine gute Skalierbarkeit erzieht. Dadurch können neue 
             Gateways die Anzahl der Endgeräte um das 6 bis 8-fach erhöhen.vgl. \cite[S.10]{WhatIsLoRa}
         \subsection{Netzwerkserver}
-            Der Netzwekserver ist das "Herzstück" eines jeden Lora-Netzwerkes. Im fallen viele AUfgaben zu. Er kann mit meheren Gatways und meheren Applicationsserver verbunden sein.
+            Der NetzwerkServer ist das ``Herzstück‘‘ eines jeden Lora-Netzwerkes. Er kann mit mehreren Gateways und 
+            mehreren Applikationsserver verbunden sein. 
 
-            Die wichtigste Aufgabe ist das Steuern des Lora-Teils des Netzwerkes. Der Server verwalted jedes End-Gerät seperat indem es mit ihm den zu verwendendn Kanal aushanelt und die datenrate adaptiv kontrolliert wenn ADR(Adaptiv Data Rate) verwendet wird.
-            Weiterhin überprüft er die empfangen Pakete auf ihre Korrektheit und Integrität und filtert Duplikate ,die druch das Empfnagen des gleichen Signales an verschiendne Gatways, verursacht wurden. Dabei ermittelt er auch das Gateway das den besten empfang zu de ENd-Gerät hat und nutzt dieses um Daten an das endgeröt zu senden.
-            Es ist nicht immer möglich Daten direkt zu senden. Um die Appliaktion-Server zu endlasten Puffert der Netzwerkserver die Daten und sendet sie zum nächt möglichem Zeitpunkten zu senden.
-            Desweiteren muss er die empfnagenen Pakte "bestätegen" und leitet join requests an den joiserver weriter
+            Die wichtigste Aufgabe des Netzwerksserver ist das Steuern des LoRa-Teils des Netzwerkes. Der Server 
+            verwaltet jedes Endgerät separat indem es mit ihm den zu verwendenden Funkkanal Aushanelt und die Datenrate
+             kontrolliert wenn ADR(Adaptiv Data Rate) verwendet wird. Außerdem ist er bei dem Netzwerkbeitritt eines 
+             Endgerätes .beteiligt.
 
-            Eine weitere sehr Wichtige Ausgabe ist es eine APi für den Applikationsserver bereitzustellen um eine einfache und shnelle kommunikation zu ermöglischen.
-            
-            \cite{LoRaSpec}( Sicherheit(zähler, ...), leited pakete weiter, filtert pakete, merher gateway via ip verbunden, kontrolliert datenrate, chanäle, adaptiv data rate api.
-        \subsection{Applicationsserver}
-            Dieser Server ist zuständig den die gesendete NAchrichten zu verarbeiten und gegebenenfals sebst welche an die Endgeräte zu senden.
+            Weiterhin überprüft er die empfangen Pakete auf ihre Korrektheit, Integrität und filtert Duplikate, die 
+            durch das Empfangen der gleichen Übertragung von einem Endgerät an verschieden Gateways, verursacht wurden.
+            Dabei ermittelt er auch die Gateways, die den besten empfang zu den jeweiligen Endgeräten hat und nutzt 
+            dieses um Daten an die Endgeräte zu senden.
+
+            Es ist nicht immer möglich Daten direkt zu senden, da die Endgeräte nur manchmal empfangsbereit sind. Um 
+            die Applikationsserver zu endlasten, puffert der Netzwerkserver die Daten und sendet diese zum nächst 
+            möglichem Zeitpunkten.
+
+            Eine weitere sehr Wichtige Ausgabe ist es eine API für den Applikationsserver bereitzustellen um eine 
+            einfache und schnelle Kommunikation zu ermöglichen.\cite{LoRaSpec}
         \subsection{Join-Server}
-            Ein Join-Server wird benötigt um den Beitritt mittels OTAA zu ermöglichen. Der Server kann an mehrere NEtzwerkserver verbunden seinund jeder Netzwerkserver kann mehrer Join server haben.
-            Wenn ein Endgerät dem Netzwerk beitreten möchte leited der Netzwerkserver die anfragen an den JoinServer weiter. Diser führt dann die nötige schritte des Beitritts aus wie z.B. ableiten von Schlüsseln.
-            Um dies zu tun muss ihm der NwkKey und der AppKey bekannt sein, da diese zum verschlüsseln der NAchichten verwendet werdan aber aus sicherheitsgründen nie über das Netzt gesendet werden.
-        \subsection{End-Gerät}
-            Endgeräte sind Geräte die Informationen mittels Lora empfangen oder senden. Jedes End-Gerät ist mit einem bestimmten Applikationsserver verbunden.
-            
+            Der Server kann mit mehreren Netzwerkservern verbunden werden und jeder Netzwerkserver kann mehrere 
+            Join-Server haben.
 
-            Jedes Endgerät muss zur korrektion funktion mehere wichtige Informationen Speichern.
-            \marginpar{ist das wichtig?}
+            Ein Join-Server wird benötigt um den Beitritt mittels OTAA zu ermöglichen. Mehr zu OTAA kann in dem 
+            Kappitel \nameref{sec:OTAA} gelesen werden. Wenn ein Endgerät dem Netzwerk beitreten möchte, leitend 
+            der Netzwerkserver die Anfragen an den Join-Server weiter. Dieser führt dann die nötige schritte des 
+            Beitritts aus wie z.B. ableiten von Schlüsseln oder Senden der nötigen Einstellungen. Um dies zu tun 
+            muss ihm der NwkKey und der AppKey bekannt sein, da diese zum verschlüsseln der Nachrichten verwendet 
+            werden aber aus Sicherheitsgründen nie über das Netzt übertragen werden dürfen. \cite[S. 9 f.]{LoRaBack}
+        \subsection{End-Gerät}
+            Endgeräte sind Geräte die Informationen mittels LoRa empfangen oder senden. Jedes Endgerät ist mit einem 
+            bestimmten Applikationsserver verbunden.
+
+            Jedes Endgerät muss zur korrekten Funktion mehrere wichtige Informationen speichern.
             \begin{itemize}
-                \item DevEUI: Globale endgerätid die eindeutig für jedes endgerät definiert ist. (wie mac eines compueters)
-                \item JoinEUI: Globale Adresse des JoinServers an den die anfrage gehen soll. wird nur für OTAA geräte benötigt.
-                \item NwkKey und AppKey: Werden verwendet um spätere Schlüssel abzuleiten und die kommunikation während des Joinens abzusichern. Dafür mussen sie sowohl dem Join-Server als acuh dem Endgerät bekannt sein da sie nie übertragen werden.
+                \item DevEUI: Globale Endgeräte\_ID die eindeutig für jedes Endgerät definiert ist. Vergleichbar 
+                mit der MAC-Adresse eines TCP/IP Gerätes.
+                \item JoinEUI: Globale Adresse des Join-Servers an den die Anfrage gehen soll. Wird nur für OTAA Geräte
+                benötigt.
+                \item NwkKey und AppKey: Werden verwendet um spätere Schlüssel abzuleiten und die Kommunikation während
+                der Beitrittprozedur in ein Netzwerk abzusichern. Dafür müssen sie sowohl dem Join-Server als auch dem
+                Endgerät bekannt sein da sie nie übertragen werden.
             \end{itemize}
+            \cite[S.47 ff.]{LoRaSpec}
+
     \section{LoraWan Funktionsweise}
-        Im felgenen Kapittel wird näher auf die funktionsweise von LoRaWAN eingegangen. Spezell, liegt der fokus auf dem Netzwerkebitritt, das verwendete Protokoll und wie die Daten  physikalisch Übertragen werden.
-        \cite{LoRaSpec}(
-            Geschwindigkeit ist kompromiss zwischen abstand/geschw. die untersch freuenzen bze. geschwindigkeiten beinflussen sich nicht gegeseitig => keine inteferenz
-            Die Datenrate ist einstellbar, jedoch wird die Reichweite bei höherer Datenrate gemindert. Ein Vorteil von Lora ist, das die einzelnen Datenraten nicht interferieren und so jedes Endgerät seine eigene Datenrate unabhängig von den anderen Verwenden kann.
-            Außerdem wird die Datenrate und die Sendeleistung für jedes Gerät separat gesteuert (ADR, Adaprive Data Rate)
-        )
-       
+        Im folgenden Kapitel wird näher auf die Funktionsweise von LoRaWAN eingegangen. Speziell, liegt der Fokus auf
+        dem Netzwerkebitritt, das verwendete Protokoll und wie die Daten physikalisch Übertragen werden.
         \subsection{Schichtenmodell}
             \includegraphics[width=\textwidth]{LoraLayer}
 
@@ -137,7 +151,7 @@
                 ABP steht für "Activation by Personalization" und bedeutet Wörtlich übersetzt Aktivierung durch Personalisierung. 
 
             
-            \subsubsection{OTAA}
+            \subsubsection{OTAA} \label{sec:OTAA}
             \marginpar{umshreiben !!!!!}
             Die sicherste aber auch aufwendigste methode um ein End-Gerät mit einem Netzwerk zu verbinden heißt OTAA (Over-the-Air Activation). Hierbei muss jedes mal wenn einem Netzwerk beigetreten werden soll die Join-Prozedur ausgeführt werden.
             Hierfür müssen folgene 4 Werte Vorgegeben werden. DevEUI, JionEUI , NwkKey, AppKey(Verschlüsselung des join requests).
@@ -251,6 +265,11 @@
                         \item Sendezeit erfüllt die Regionalen Bestimmungen
                     
                 \end{itemize}
+            )
+            \cite{LoRaSpec}(
+                Geschwindigkeit ist kompromiss zwischen abstand/geschw. die untersch freuenzen bze. geschwindigkeiten beinflussen sich nicht gegeseitig => keine inteferenz
+                Die Datenrate ist einstellbar, jedoch wird die Reichweite bei höherer Datenrate gemindert. Ein Vorteil von Lora ist, das die einzelnen Datenraten nicht interferieren und so jedes Endgerät seine eigene Datenrate unabhängig von den anderen Verwenden kann.
+                Außerdem wird die Datenrate und die Sendeleistung für jedes Gerät separat gesteuert (ADR, Adaprive Data Rate)
             )
 
             \cite{LoraLimit}(
