@@ -142,36 +142,56 @@
             Frequenz "moduliert" werden, dass der Empfänger diese korrekt und effizient empfangen und wiederherstellen 
             kann. Mehre dazu im Kapitel \nameref{sec:Modulation}
 
-            Über der LoRa Modulation Schicht liegt die erste LoRaWan Schicht, LoRa MAC. Diese Schicht ist für die 
-            Implementierung der einzelnen Endgeräteklassen und für das Übertragen der Steuerungskommandos zuständig. 
-            Mehr zu den Klassen kann im Kapitel \nameref{sec:klassen} und im Kapitel \nameref{sec:protokoll} gelesen 
-            werden.
+            Über der LoRa Modulation Schicht liegt die erste LoRaWan Schicht, LoRa MAC. AC steht für ``Media Access 
+            Protokoll''. Dieses Protokoll wird verwendet um das Loranetz zu steuern und wie der Name schon sagt, 
+            Daten zu übertragen . Diese Schicht ist außerdem für die Implementierung der einzelnen Endgeräteklassen 
+            und für das Übertragen der Steuerungskommandos zuständig. Mehr zu den Klassen kann im Kapitel \
+            nameref{sec:klassen} und im Kapitel \nameref{sec:protokoll} gelesen werden.
 
             Die oberste Schicht nennt sich Applikationsschicht und ist dafür zuständig die Nutzdaten einer Nachricht 
             passend zu verpacken, zu verschlüsseln und zu authentifizieren.
         \subsection{Netzwerkbeitritt}
-            End-Geräte sind immer bestimmten Netzwerken zugeordnet. Es gibt zwei wege um ein neue End-geräte zu einem bestehenden Netzwerk hinzuzufügen.
+            End-Geräte sind immer bestimmten Netzwerken zugeordnet. Es gibt zwei wege um ein neue End-geräte zu einem 
+            bestehenden Netzwerk hinzuzufügen.
             \subsubsection{OTAA} \label{sec:OTAA}
-            \marginpar{umshreiben !!!!!}
-            Die sicherste aber auch aufwendigste Methode um ein End-Gerät mit einem Netzwerk zu verbinden heißt OTAA ``Over-the-Air Activation''. Hierbei muss jedes Mal wenn einem Netzwerk beigetreten werden soll die Join-Prozedur ausgeführt werden.
-            Hierfür müssen folgende 4 Konstanten Vorgegeben werden. DevEUI, JionEUI , NwkKey, AppKey \marginpar{Verschlüsselung des join requests}.
+                Die sicherste aber auch aufwendigste Methode um ein End-Gerät mit einem Netzwerk zu verbinden heißt 
+                OTAA ``Over-the-Air Activation''. Hierbei muss jedes Mal wenn einem Netzwerk beigetreten werden soll 
+                die Join-Prozedur ausgeführt werden. Hierfür müssen folgende 4 Konstanten Vorgegeben werden. DevEUI, 
+                JionEUI , NwkKey, AppKey. \marginpar{erklären der schlüssel?}
 
+                Näheres zu dem DevEUI und JoinEUI kann im Kapitel \nameref{sec:endgerät} gefunden werden.
+
+                Der NWKSKEY ist für die Verschlüsslung der Datenpakete bis zu Gateway zuständig. Auch dieser Key wird 
+                vom Netzwerkserver erzeugt und muss manuell in den Code eingetragen werden.\cite[S.3]{LoRaSecur}
             
-            Als erstes muss das End-Gerät eine join- oder rejoin-Nachricht senden. Die NAchricht besteht aus der JoinEUI, dem DevEUI und einer DevNonce. MIt der DevNonce sollen replayattacs verhindert werden. Sie ist das beim ersten Join request 0 und sollte sich bei jedem Join-Request erhöhen. Außerdem muss sie auch dann noch gespeichert werden wenn kein Strom zur verfügung speht. Falls von dem gelichen endgerät eine Join-Reguest mit einer zu kleinen DevNonce empfagen wir, wird die NAchricht ignoriert und es ist nocht möglich dem Netzwerk beizutreten.
+                Der letzt Wert heißt APPSKEY und sichert die Kommunikation vom End-Gerät zu dem Applikationsserver ab. 
+                Der Schlüssel wird genau wie der NWKSKEY vom Netzwerkserver erzeugt und verwaltet.\cite[S.3]{LoRaSecur}
 
-            Die Accept Nachricht besteht aus eier JoinNonce, einem NetzwerkID Net\_ID, einer Geräteadresse DevAddr, einer einstellungsfeld DLSettings , einer angabe wie lange auf eine antwort nach dem senden gerwarted werden muss RxDelay und eriner optionalen liste an Netzwerkparamerter CFList. Die JoinNonce wir außerdem benutz im schlüssel wie AppSKey, ... herzuleiten\marginpar{welche noch, wo beschriebe ich wie?}.
-            Für jedes Endgerät wird eine eigene JoinAccept nonce geführt, sie sollte sich nicht wiederholen. Jedes Endgerät merkt sich die letzte JoinNonce und tritt auch nur bei wenn diese großer ist als die letzte empfangene.
+                Als erstes muss das End-Gerät eine Join- oder Rejoin-Nachricht senden. Die Nachricht besteht aus der 
+                JoinEUI, dem DevEUI und einer DevNonce. Mit der DevNonce sollen Replayattack verhindert werden. Diese 
+                Nonce ist das beim ersten Join-Request 0 und sollte sich bei jedem Join-Request erhöhen. Unter anderem 
+                deswegen muss sie auch dann noch gespeichert werden wenn kein Strom zur Verfügung steht um die Nonce 
+                nicht nach jedem ausschalten zurückzusetzen. Falls von dem gleichen Endgerät eine Join-Request mit einer 
+                zu kleinen DevNonce gesendet wir, wird die Nachricht ignoriert und es ist nicht möglich dem Netzwerk 
+                beizutreten.
 
-            Der NWKSKEY ist für die verschlüsselung der Datenpakete bis zu Gateway zustendig \marginpar{realy? überprüfe die komplette aussage}. Auch dieser Key wird vom Netzwerkserver erzeugt und muss manuell in den code eingetragen werden.
-        
-            Der letzt Wert heißt APPSKEY und sichert die kommunikation vom End-Gerät zu dem Applikationsserver ab. Der Schlüssel wird genau wie der NWKSKEY vom Netzwerkserver erzeugt und verwalted.
-        
-            Mehr Infomationen zu den vonkioinsweise der Schlüssel finden Sie in dem Kapittel \nameref{sec:Sicherheit}.
+                Die Accept Nachricht besteht aus einer JoinNonce, einem NetzwerkID Net\_ID, einer Geräteadresse DevAddr,
+                einem Einstellungsfeld DLSettings , einer Zeitangabe wie lange zukünftig auf eine Antwort nach dem
+                senden gewartet werden muss, hier RxDelay und einer optionalen Liste an Netzwerkparameter CFList.
 
+                Die JoinNonce wir verwendet um Replayatacken zu verhindern und muss größer sein als die zuletzt 
+                gesendete um von dem Endgerät verarbeitend zu werden. Außerdem wir die Nonce benutz um Schlüssel wie 
+                AppSKey herzuleiten. Für jedes Endgerät wird eine eigene Join Nonce geführt, sie sollte sich nicht 
+                wiederholen. Jedes Endgerät merkt sich die letzte JoinNonce und tritt auch nur bei wenn diese großer 
+                ist als die letzte empfangene.
 
-            Wenn der Netzwerkserver den Beitritt des Endgerätes erlaubt sendet er eine Join-Accept nachricht zurück. Das Endgerät erwarted die nachrichten nach JOIN\_ACCEPT\_DELAY1 oder JOIN\_ACCEPT\_DELAY2 nach dem Senden des Request. Sollte die Join-Accept nachricht zu einem andern zeitpunkt gesendet werden, wird diese nicht empfnagen weil das Endgerät nict empfangsbereit ist.
-            Die Nachricht enthält einstellungen für das Endgerät sowei die Id des Netzwerkes und die neue Adresse Für das Endgerät. Um replayatacken zu verhindern enthält die nachricht zusätzlich eine JoinNonce. Diese weitd für jedes endgerät seperat geführt und muss größer sein als die zuletzt gesendete.
-            
+                Die Join-Accept Nachricht wird vom Endgerät nach JOIN\_ACCEPT\_DELAY1 oder JOIN\_ACCEPT\_DELAY2 nach 
+                dem Senden des Request erwarted. Sollte die Join-Accept Nachricht zu einem andern Zeitpunkt gesendet 
+                werden, wird diese nicht empfangen, da das Endgerät nicht empfangsbereit ist.
+
+                Mehr Informationen zu den Ableitungen der Schlüssel finden Sie in dem Kapitel \nameref{sec:Sicherheit}.
+                \marginpar{erklären}
+
 
             \subsubsection{ABP}
                 Die einfachste Art des Beitritts heißt ABP was für ``Activation by Personalization'' zu Deutsch 
@@ -194,63 +214,95 @@
                 ein ResetConf Kommando erhalten wird. Nun ist das Gerät im Netzwerk und kann unter der eingestellten 
                 Adresse und mit dem eigestellten Schlüssel arbeiten.\cite[S. 64]{LoRaSpec}    
         \subsection{Protokoll} \label{sec:protokoll}
-            Das LoRaWAN Protokoll ist obtimiert für Batteriebetrieben Endgeräte die draahtlos kommunizieren möchten. Um energieeffizent zu sein setzt LoRa hauptsächlich auf zwei Punkte. Die Modulationstechnick und eine Adaptive Dtanenrate (ADR). Auch die 
-            "One-Hop" architektur trät zur energieeffizenz bei. Die Art wie LoRa siganle Moduliert wird in kapittel \nameref{sec:Modulation} besprochen. Um die gannannten Eigenschaften und das Lora Netzwes zu steuern werden sogenannte MAC commands verwendet. 
-            Diese werden von Dem Netzwerkserver oder von einem Endgerät gesendet. MAC steht hierbei für "Media Access Protokoll" und bietet die möglichkeit die kommunikation mit den endgeräten, frequenzen, kanäle und vieles mehr zu stuern\marginpar{doppeltgemoppelt}. 
-            Da die kommandos nur für den Netzwerkserver und die Endgeräte von bedeutung sind, werden diese nicht an den Applikationsserver gesendet sonder om Netzwerkserver herausgefiltert. Im folgenen wird näher auf die MAC komanndos und die Paketstruktur eingegangen.
+        Damit der Netzwerkserver das LoRa-Netzt steuern kann wurden, wurden Mac-Kommandos eingesetzt. Mit diesen Kommandos lassen sich wie schon gesehen, dem Netzwerk beitreten, mit dem Endgerät kommunizieren und Frequenzen, Kanäle und vieles mehr zu steuern.
+        Da die Kommandos nur für den Netzwerkserver und die Endgeräte von Bedeutung sind, werden diese nicht an den Applikationsserver gesendet sonder vom Netzwerkserver herausgefiltert. Im Folgenden wird näher auf die MAC-Kommandos und die Paketstruktur eingegangen.
+        Ein Uplink ist ein Paket dass vom Endgerät, das Bildlich gesprochen ``unter‘‘ dem Gateway sitzt, an das Gateway gesendet wir. Ein Downlink ist dem entsprächet ein Paket das vom Gateway an den Server gesendet wird.
+        \subsubsection{MAC-Kommandos}
+        \subsubsection{LoRa-Paketstruktur}
+            Die Paketstruktur kommt wie beim ISO/OSI Schichtenmodel durch das ``durchlaufen‘‘ des Stacks zustande. 
+            Da im Folgenden die Paketstruktur vom Groben ins Feine Betrachtend wird, werden hier als erstes die Felder
+            der Modulationsschicht betrachtet.
 
-            Jedes Pakete besteht aus grundlegend aus 2 Felder (Preamble,  PHYPalyload). \marginpar{erkläre up und downlink} Falls es ich um einen Uplinkpaket handelt wird noch ein CRC code hinzugefügt \marginpar{erkläre crc}  (Preamble,  PHYPalyload, CRC). 
-            In diesem fall spricht man von einem implizit Paket oder von dem implezitem modus. Implizit modus bedeute das das es kein payload, codirungsrate und der CRC längenangebe gibt und diese somit eine feste zuvor definierte länge haben. Im expliziten modus werden noch 2 Felder hinzugefügt, 
-            PHDR und PHDR\_CRC. SOmit sihet ein explizitest paket folgernermasen aus( Preamble,PHDR, PHDR\_CRC, PHYPalyload). AUch hier gilt, im alle eines Uplinkpaketes wird am ende ein CRC felad angefügt => ( Preamble,PHDR, PHDR\_CRC, PHYPalyload, CRC).
+            Jedes Pakete besteht aus grundlegend aus 2 Felder Präambel und  PHYPalyload Falls es sich um einen 
+            Uplink-Paket handelt wird noch ein CRC Code hinzugefügt: Preamble, PHYPalyload, CRC. 
+            In diesem Fall spricht man von einem implizit Paket oder von dem implizitem Modus. Implizit Modus bedeute 
+            dass es kein Payload Header gibt, der Felderlängen oder CRC längenangebe angibt. Diese sind somit feste 
+            zuvor definierte. Im expliziten Modus werden noch 2 Felder hinzugefügt, PHDR und PHDR\_CRC. Somit sieht 
+            ein expliziteste Paket folgendermaßen aus:  Preamble,PHDR, PHDR\_CRC, PHYPalyload. Auch hier gilt, im Falle
+             eines Uplink-Paketes wird am Ende ein CRC Feld angefügt. Somit ergibt sich folgende Paketstruktur: 
+             Preamble, PHDR, PHDR\_CRC, PHYPalyload, CRC.
+
+            Die Preamble ist dafür gedacht dem Empfänger mitzuteilen dass gleich Datengesendet werden. Deswegen wird 
+            hier nur ein Signal gesendet das ohne Informationen ist, aber von dem Empfänger wahrgenommen werden kann.
+
+            Da Teile des LoRaWAN Protokolls geschützt sind, finden sich über die PHDR und PHDR\_CRC Felder kaum 
+            Informationen. Allerdings geht hervor, dass der PHDR die Länge des PHYPayloads und die Zieladresse 
+            beinhalten sollte.
+            Das PHDR\_CRC Feld wird benutzt um sicherzustellen dass die empfangenen Werte korket sind. Dies wird  
+            mittels des CRC Verfahrens überprüft.
             
-            Die Preamble ist dafür gedacht dem Empfänger mitzuteilen das gleich Datengesendet werden. Deswegen wird hier nur ein Signal gesendet das ohne Informationen ist, aber von dem Empfänder wargenommen wird.
+            Wie schon mehrfach erwähnt wird in Uplink-Nachrichten ein zusätzliches CRC Feld verwendet. CRC steht für 
+            Cyclisch Redundanz Check und wird verwendet um die Korrektheit der Nachricht zu bestätigen. PHDR, PHDR\_CRC 
+            und das CRC Feld werden automatisch vom dem Funktransceiver (Modul aus Empfänger und Sender) hinzugefügt.
 
-            Da Tiele des LoraWAn protokols geschützt sind, finden sich über die PHDR und PHDR\_CRC felder kaum informationan \marginpar{hier das strikt einfügen}. ALlerdings geht herfor das der PHDR die länge des PHYPayloads und die Zieladresse beinhalten sollte. 
-            Das PHDR\_CRC Feld wird benutzt um sicherzustellen dass bie empfangenen Werte korekt sind mittels ddes CRC verfahrens \marginpar{erkläre CRC}.
+            Die LoRa MAC ebene fügt nun das PHYPalyload Feld ein. PHYPalyload steht für Physikalische Payload. Es gibt 
+            3 Mögliche PHYPayloads Entweder wird ein MACPaylod eingefügt, Join-Rejon-Request oder aber es werden die Join-Accept Nachricht darin transportiert. Um die Daten bzw. die MAC Kommandos richtig auswerten zu können und um die Korrektheit überprüfen zu können werden einige Headers und zusätzliche Felder benötigt. Deswegen lässt sich das Feld PHYPalyload weiter unterteilen in MHDR und MACPayload. Für den Fall das der MACPaylod eine Join-rejoin oder MACPayload Nachricht ist, wir noch ein MIC Feld hinzugefügt( MHDR, MACPayload, MIC). MIC steht für Message Integrity Code und wird verwendet um die Korrektheit der des MACPayloads und des MHDR festzustellen.
+
+            Das MHDR Feld beschreibt wie die Daten im MACPayload Feld zu deuten sind. Wieder wird dieses Feld in 
+            Unterfelder Unterteilt. MType, RFU und Major heißen die Unterfelder. Das MType Feld beschreibt die Art der 
+            Nachricht. z.B: kann hier angegeben werden ob es sich um Datennachrichten, Join-Nachrichten, ... handelt. 
+            RFU steht für ``Reserved for Future Usag‘‘ zu Deutsch ``für zukünftige verwendeung reservier‘‘.Daher kann 
+            dieses Feld in der version 1.1 und niedriger ignoriert werden. Das Major Unterfeld wird verwendet um das 
+            LoRa-Version der Nachricht zu definieren. Momentan ist nur der Wert 0 Definiert. 0 Steht für LoRaWan R1. 
+            Die restlichen werde sind für zukünftige Updates reserviert.
+
+            Mit der Unterteilung des MACPayload springen wir in dem LoRaStack noch eine ebene höher, in die 
+            Applikationsschicht. Enthalten im MACPayload Feld sind der Frameheader FHDR, der Frame Port FPort und der 
+            Frame Payload FRMPayload. Daten die gesendet werden sollen befinden sich in dem FRMPayload Feld. Wenn keine
+            Daten gesendet werden, kann das FRMPayload Feld auch MAC-Kommandos enthalten. In dem Feld FPorts wird 
+            angegeben an welchen Port und somit an welche Teilapplikation des Applikationsserver die Daten geleitet 
+            werden sollen. Es gibt einige feste Ports. Port 0 ist reserviert um MAC-Kommandos im FRMPayload Feld 
+            entgegenzunehmen. Die Ports 0x01 bis 0xDF sind Anwendungsspezifische Ports und Port 0xE0 ist für das 
+            LoRaWAN Test Layer Protokoll reserviert. Falls ein anderer Port als die geraden genannten angegeben wird, 
+            wird die Nachricht verworfen. 
+
+            Erneut kann der FHDR "Frame Header" in einzelne Felder unterteilt werden in DevAddr, FCtrl, FCnt, Fopts. 
+            In dem Feld DevAddr wird die Zieladresse der Nachricht vermerkt. Im Feld FCnt (Frame Counter) wird der 
+            jeweilige counterwert für die bisher gezählten Nachrichten übermittelt. Hamit schützt man sich vor 
+            Replayattacks. Mehr zu den Counter kann im Kapitel \nameref{sec:Sicherheit} gelesen werden. Im FOpt Feld 
+            können bis zu 5 MAC Kommandos parallel zu Daten übermittelt werden. Die Anzahl kommt auf die Menge der 
+            mitgelieferten Variablen an. 
+
+            Das Letzte Feld das in Unterfelder unterhielt werden kann ist das FCtrl Feld. Hier wird das Verhalten des 
+            Gerätes gestiert sowie Nachrichten bestätigt. Es gibt leichte unterschiede für ein Uplink und für Downlink 
+            Nachrichten. Beide Nachrichtentypen haben ein ADR, ein ACK und ein FOptsLen Feld. Im ADR wird definiert 
+            ob der Sendende bereit ist im Modus "Adaptive Data Rate" Daten zu senden, siehe Kapitel\nameref{sec:ADR}. 
+            Mit dem ACK Feld können empfangene Nachrichten bestätigt werden. Ob Nachrichter bestätigt werden müssen 
+            steht im MType Feld(Confirmed Data). In dem FOptsLen Feld wird die Länge des FOpts Feldes mitsamt des 
+            Headers eingetragen Wenn Das FOptsLen 0 ist, ist kein FOpts Feld vorhanden.
+
+            Ein Downlinkpaket hat zusätzlich ein RFU Feld das nicht verwendet wird und ein FPending Feld. In diesem 
+            Feld kann das Gateway bzw. der Netzwerkserver dem Endgerät mitteilen, dass noch mehr Daten zu senden sind.
+
+            Dahingegen hat ein Uplinkpaket ein ClassB Feld indem das Endgerät dem Gateway mitteilt, dass es gerne auf 
+            Funktionsklasse B wechseln würde und ein ADRACKReq Feld. Dieses Feld wird verwendet um zu überprüfen ob 
+            das Netzwerk noch antwortet. Die genaue Funktionsweise ist im Kapitel \nameref{sec:ADR} erklärt.
+
+            Eine noch genauere Darlegung der LoRa-Paketstruktur kann in den LoRaWA 1.1 Specification \cite{LoRaSpec} 
+            gefunden werden.
+
+            \marginpar{Tabellen einfügen, belegen}
+            \marginpar{maccomandos einfgen zuerset}   
             
-            Wie schon merhfach erwähnt wird in Uplinknachrichten ein zustätzliches CRC feld verwendet. CRC steht für Cyclic Redundancy Check und wird verwendet um die korrektheit der NAchricht zu bestätigen. PHDR, PHDR\_CRC und das CRC FLed werdenautomatisch vom dem Funktransceiver (modul asu empfänger und sender) hinzugefügt.
             
-            Die bis jetzt ebhandelten Felder des LoRa Paketes wurden alle von der LoRa Modulationsebene erstellt.
+        \subsection{Übertragungsart}\label{sec:Modulation}
 
-            Die Darüberliegende Ebende "LoRa Mac" fügt nun das PHYPalyload Fled ein. PHYPalyload setht für Physikalische Payload. Es gibt 3 Mögliche PHY Payloads \marginpar{was heist PHYPalyoad?}. Entweder wird ein MACPaylod eingefügt oder es werden join-rejon-request oder aber es wird die join accept nachricht darin transportiert. 
-            Um die Daten bzw die MAC kommandos richtig auswerten zu können und um die korrektheit überprüfen zu können werden einige Headders und zusätzliche felder benötigt. Deswegen lässt sich das Feld weiter unterteilen in (MHDR, MACPayload). Für den Fall das der MACPaylod keine join-rejoin oder MAcPayload nachricht ist,
-            wir noch ein MIC feld hinzugefügt (MHDR, MACPayload, MIC). MIC steht für Message Integrity Code und wird verwendet um die korrektheit der Unterfelder MHDR | FHDR | FPort | FRMPayload festzustellen. DIese unbekannen felder werde im laufe des kapittels noch behandelt.
-
-            Das MHDR Feld beschribt wie die Daten im MACPayload Feld zu deuten sind. Wieder wird dieses Feld in Unterfelder Unterteilt. MTYpe, RFU und Major heisen die Unterfelder. Das MType feld beschreibt die Art der Nachricht. z.B: kann hier angegebn werden ob es sich um Datennachrichten, Join-Nachrichten, ... handelt. 
-            RFU steht für "Reserved for Future Usage" zu Deutsch "für zukünftige verwendeung reserviert". 
-            Daher kann dieses Feld in der version 1.1 und niedriger ignoriert werden.\marginpar{was ist wie verschlüsselt?}
-            Im Major Unterfeld wird ferwendet um das Format der Nachricht zu definieren. Momentan ist nur der wert 0 Definiert. 0 Steht für loRaWan R1. Die restlichen werde sind für zukünftige updates reserviert.
-
-            Mit der Unterteilung des \marginpar{wirklich richtig?} MACPayload springen wir din dem LoRaStack noch eine ebene höher in die Applickationsschicht. Enthalten im MAcPayload feld sind der Frameheader (FHDR), der Frame Port (FPort) und der Frame payload (FRMPayload). Daten die gesendet werden sollen befinden sich in dem FRMPayload Feld. Wenn keine Datengesendet werden, kann das FRMPayload Feld auch MAC kommandos enthalten. IN dem Feld FPorts  \marginpar{hier tabelle} wird angegeben an welchen 
-            port und somit an welche teilapplikation die Daten geleidet werden. Es gib einige feste Ports. z.B. Port 0 Zeit an das das FRMPayload Feld MAC commands endthällt, 0x01 bis 0xDF sind Anwendungsspeziefische Ports und Port 244 \marginpar{zahlenbasen anpassen} ist für das LoRaWan Test LAyer protokoll reserviert. Falls ein andere Port als die geraden genannten angegeben wird, wird die nachricht verweorfen.Erneut kann der FHDR "Frame Header" in einzelne Felder unterteilt werden (DevAddr, FCtrl, FCnt, Fopts). 
-            
-            In dem feld DevAddr wird die Zieladresse der NAchricht vermerkt. \marginpar{couter in gerät einführen} Im feld FCnt (Frame counter) wird der jeweilige counterwert für die bisher gezählten Nachrichten übermittelt.Hamit schützt man sich vor replay Attacken. Im FOpt feld können bis zu 5 MAC kommandos parallel zu Dtaen übermittelt werden. DIe Anzahl kommt auf die mege der mitgelieferten variablen an \marginpar{und fileicht erklären wie das mit den counter geht ,länge reinschreiben? udn erklärn das mac varialen haben können}.
-            Das Letzte feld das in Unterfelder unterilt wird ist das FCTRL feld. Hier wird das verhalten des Gerätes gestuert sowie nachrichten acknoleged. Es gibt leichte unterschiede für ein Up-Link und für Down-link Nachrichten. Beide NAchrichtentüpen haben ein ADR, ein ACK und ein FOptsLen feld. Im ADR wird definiert ob der snedende bereit ist im Modus "Adaptive Data Rate" Daten zu senden, siehe \nameref{sec:ADR}. Mit dem Ack Feld können empfangene nachrichten makiert werden. Ob NAchrichte bestätigt werden müssen steht im MType feld.
-            In dem FOptsLen feld wird die länge des FOpts feldes mitsamt des Headers eingetragen \marginpar{da steht noch was von port und so!!}.
-
-            Ein Downlinkpaket hat zusätzlich ein RFU feld das nicht verwednet wird und eun FPending feld. In diesem fled kann das Gateway bzw der Netzwerkserver dem Endgerät mitteilen, dass noch mehr Dtanen zu senden sind und mehr empfangsfenster\marginpar{erklären} geöffnet werden müssen.
-
-            Dahingegen hat ein Uplinkpaket ein ClassB feld indem das endgerät dem Gateway mitteilt, dass es gerne auf Funktionsklasse B wechseln würde und ien ADRACKReq feld. Dieses feld wird verwendet um zu überprüfen ob das NEtzwerk noch antworted. \marginpar{erklären!}.
-
-            \cite{LoRaSpec}(
-                Mac commands werden benutzt um geräte zu steuern => frequenzen zu ändern, ...
-                Application wird diese nie erhalten, läuft zwischen netzwerkserver und lora gerät ab.
-                Verschlüsselt hier oder da.
-                aufbau: 1byte command, x byte extra data.
-                müssen vom empfancher acknolaged werden. Reihenfolge ist zu be<chten. Alle nahrichten in einem farme müssen auch in einem frame ack werden. => Macbuffer ermöglicht dies. Wenn buffer überleuft werden die ältesten ack. \marginpar{(Was passiert mit dem rest?}
-                
-
-                CRC usw wurden fon sender erstellt und eingefügt.
-            )
-
-
-            
-                
-            
+            Das LoRaWAN Protokoll ist optimiert für Batteriebetrieben Endgeräte die drahtlos kommunizieren möchten. Um energieeffizent zu sein setzt LoRa hauptsächlich auf zwei Punkte. Die Modulationstechnick und eine Adaptive Dtanenrate (ADR). Auch die 
+            "One-Hop" architektur trät zur energieeffizenz bei. Die Art wie LoRa siganle Moduliert wird in kapittel \nameref{sec:Modulation} besprochen
             \cite{LoraClasses}(
                 Um energieeffizent zu sein setzt LoRa hauptsächlich auf zwei Punkte. Die Modulationstechnick und eine Adaptive Dtanenrate (ADR)
             )
-        \subsection{Übertragungsart}\label{sec:Modulation}
+            //---------
             Um die Enstandenen Pakete in Signale umzusezenun didese effizent und gleichzeitg übertragen zu können nutzt LoRa Chirp Spread Spectrum (CSS). Hierbei werden die Frequenz über eine gewisse Zeit hinweg veränder. Durch erkennen in welche richtig, ansetigen oder Abfalleb, die frequenz verändert wird, können
             1 und 0 Codiert werden. Man spricht bei einem Bit von einem Chrip-Impuls. Durch aneinanderreihe der verschiedenen impulse ist es möglich mehere Bits nacheinander zu übertragen. Das entstandene Signal wird auch al Sub-Chrip bezeichnet. Durch verwenden von Unterschiedlichen anstiegs und abfalszeiten ist es möglich mehere
             Signale auf der Selben frequenz zu übertragen ohne das die Signale sich gegenseitig stören. DIes nennt man Spread Factor.
@@ -488,6 +540,8 @@
             \subsubsection{Wechsel von A nach C}
                 Da es kein ClassC Fled in einem LoRapaket gibt, wurde für das umschalten in ClassC mode MAc kommandos eingeführt. Das endgerät sendet das DeviceModeInd commando. ALs parameter kann es 0 für Klasse A und 2 Für klasse C angeben. Der Netzerkserver kann mit DeviceModeConf welches den wert der klasse enthät indas gewächselt wurde.
     \section{Sicherheit} \label{sec:Sicherheit}
+    \marginpar{Weche felder was ist wie verschlüsselt?}
+                
         SIcherheit in netzwerkfägigen Systemen ist ein sher wichtiges und heiß dikutiertes thema. Da LoRa daten Üver die Lpft überträgt, ist es extrem wichtig sich und die Dtaen zu schützen.
         Da Luft als Medium benutzt wird könnten alle in der Nähe befindlichen geräte die gesendeten Daten mithören. Aber genauso kann ein Endgerät sich als ein andres ausgeben und in seinem Namen Daten an ein
         Fremden Server send. Um zu verhindern das Gesnedene Daten mitgelsen werden müssen diese verschlüsselt werde. Um zu verhindern das jemand anderst so tut als wäre er das engerät mussen die Dtane Autentifiziert werden.
