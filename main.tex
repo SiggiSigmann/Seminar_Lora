@@ -6,7 +6,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[ngerman]{babel}
 \usepackage{hyperref}
-\usepackage[a4paper, left=2cm, right=5cm, top=2cm]{geometry}
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm]{geometry}
 \renewcommand{\baselinestretch}{1.5}
 \usepackage{cite}
 \usepackage{bibgerm}
@@ -157,7 +157,7 @@
                 Die sicherste aber auch aufwendigste Methode um ein End-Gerät mit einem Netzwerk zu verbinden heißt 
                 OTAA ``Over-the-Air Activation''. Hierbei muss jedes Mal wenn einem Netzwerk beigetreten werden soll 
                 die Join-Prozedur ausgeführt werden. Hierfür müssen folgende 4 Konstanten Vorgegeben werden. DevEUI, 
-                JionEUI , NwkKey, AppKey. \marginpar{erklären der schlüssel?}
+                JionEUI , NwkKey, AppKey.
 
                 Näheres zu dem DevEUI und JoinEUI kann im Kapitel \nameref{sec:endgerät} gefunden werden.
 
@@ -190,8 +190,6 @@
                 werden, wird diese nicht empfangen, da das Endgerät nicht empfangsbereit ist.
 
                 Mehr Informationen zu den Ableitungen der Schlüssel finden Sie in dem Kapitel \nameref{sec:Sicherheit}.
-                \marginpar{erklären}
-
 
             \subsubsection{ABP}
                 Die einfachste Art des Beitritts heißt ABP was für ``Activation by Personalization'' zu Deutsch 
@@ -304,8 +302,8 @@
             Eine noch genauere Darlegung der LoRa-Paketstruktur kann in den LoRaWA 1.1 Specification \cite{LoRaSpec} 
             gefunden werden.
 
-            \marginpar{Tabellen einfügen, belegen}
-            \marginpar{maccomandos einfgen zuerset}   
+            %\marginpar{Tabellen einfügen, belegen}
+            %\marginpar{maccomandos einfgen zuerset}   
             
             
         \subsection{Übertragungsart}\label{sec:Modulation}
@@ -337,7 +335,7 @@
             und die Daten müssen erneut übertragen werden. Deswegen warten beide Endgeräte eine zufällige, 
             unterschiedliche Zeit ab bist sie erneut senden.
             
-            \marginpar{frequenzy hopping}
+            %\marginpar{frequenzy hopping}
 
             \subsubsection{Adaptive Data Rate}\label{sec:ADR}
             Adaprive Data Rate oder kurz ADR wird verwendet um immer die optimalste Senderate und die optimale 
@@ -413,7 +411,9 @@
 
                 Als erstes muss das Programm des Endgerätes beim LoRaWAN Layer anfragen ob es möglich ist in Klasse B 
                 zu wechseln. Der Layer sucht nun nach einem Beacon. Wird ein Beacon entdeckt, wird die BEACON\_LOCKED 
-                Serviceprimitive \marginpar{erklären} zurückgeliefert. Wenn kein Beaconempfangen wurde wir die 
+                Serviceprimitive 
+                %\marginpar{erklären} 
+                zurückgeliefert. Wenn kein Beaconempfangen wurde wir die 
                 BEACON\_NOT\_FOUND primitive zurückgegeben. Um diesen Prozess zu beschleunigen kann das DeviceTimeReq 
                 MAC-Kommando verwendet werden. Damit wird das Gateway aufgefordert einen Beacon zu senden. Nun kann 
                 das Endgerät in den Modus B wechseln.
@@ -528,46 +528,46 @@
         betrachtend wie LoRa diese Sicherheitsfeatures implementiert hat.
 
         \subsubsection{Schlüssel}
-        Schon der Beitritt eines Endgerätes muss verschlüsselt sein. Dafür werden zwei verschiedene Schlüssel 
-        verwendet. Die Join-Nachricht wird mit dem JSIntKey(Joining Session Encryption Key) verschlüsselt. Der 
-        Schlüssel wird mittels dem der aes128 Verschlüsslung generiert. Speziell wird der NWkKey mit der deinem 
-        16Byte langem Wort verschlüsselt. Das Wort besteht am anfang aus der Konstant 0x06, danach folgt die DevEUI 
-        und zum Schluss wird mit =en aufgefüllt. Die Accept-Naxhricht wird ebenfalls verschlüsselt. Allerdings wird 
-        her der JSEncKey(Joining Session Encryption Key) verwendet. Dieser wird auf die Gleiche weise erzeugt, 
-        allerdings wird bei dem Verschlüsselungswort 0x06 durch 0x05 ersetzt. JSIntKey wird außerdem verwendet um den 
-        MIC-Code in der Join-Nachricht zu berechnen.
+            Schon der Beitritt eines Endgerätes muss verschlüsselt sein. Dafür werden zwei verschiedene Schlüssel 
+            verwendet. Die Join-Nachricht wird mit dem JSIntKey(Joining Session Encryption Key) verschlüsselt. Der 
+            Schlüssel wird mittels dem der aes128 Verschlüsslung generiert. Speziell wird der NWkKey mit der deinem 
+            16Byte langem Wort verschlüsselt. Das Wort besteht am anfang aus der Konstant 0x06, danach folgt die DevEUI 
+            und zum Schluss wird mit =en aufgefüllt. Die Accept-Naxhricht wird ebenfalls verschlüsselt. Allerdings wird 
+            her der JSEncKey(Joining Session Encryption Key) verwendet. Dieser wird auf die Gleiche weise erzeugt, 
+            allerdings wird bei dem Verschlüsselungswort 0x06 durch 0x05 ersetzt. JSIntKey wird außerdem verwendet um den 
+            MIC-Code in der Join-Nachricht zu berechnen.
 
-        Alle MAC-Kommandos die an Port 0 gesendet werden, werden separat verschlüsselt. Dies bietet eine Höhere 
-        Sicherheit, selbst wenn Daten entschlüsselt werden können, so bleibt es unmöglich falsche MAC-Kommandos zu 
-        verschlüsseln und zu einem Endgerät zu senden. Hierzu wird der Network session encryption key (NwkSEncKey) 
-        verwedent. Dieser wird auf die selbe weise erzeugt wie JSIntKey. Allerdings besteht hier das Schlüsselwort 
-        aus 0x04,der JoinNonce, der JoinEUI und dem DevNonce. Diese Werte werden bei dem Beitritt mittels OTAA 
-        erzeugt. Siehe: \nameref{sec:otaa}.
+            Alle MAC-Kommandos die an Port 0 gesendet werden, werden separat verschlüsselt. Dies bietet eine Höhere 
+            Sicherheit, selbst wenn Daten entschlüsselt werden können, so bleibt es unmöglich falsche MAC-Kommandos zu 
+            verschlüsseln und zu einem Endgerät zu senden. Hierzu wird der Network session encryption key (NwkSEncKey) 
+            verwedent. Dieser wird auf die selbe weise erzeugt wie JSIntKey. Allerdings besteht hier das Schlüsselwort 
+            aus 0x04,der JoinNonce, der JoinEUI und dem DevNonce. Diese Werte werden bei dem Beitritt mittels OTAA 
+            erzeugt. Siehe: \nameref{sec:otaa}.
 
-        Um die Integrität der Daten zu bestimmen werden zwei schlüssel verwedent. Der FNwkSIntKey oder lang Forwarding 
-        Network session integrity key wird benutzt um den MIC-Code für die Integritätbestimmung abzuleiten. Auch 
-        dieser Schlüssel wir wie JSIntKey abgeleitet aber das Schüsselwort besteht aus 0x01, der JoinNonce , der 
-        JoinEUI und DevNonce. Der SNwkSIntKey(Serving Network session integrity key ) stellt das gegenstück da und 
-        wird verwendet den MIC-Code zu testen ab nichts verändert wurde. Hier besteht das Schlüsselwort aus 0x03, der 
-        JoinNonce, der JoinEUI und der DevNonce.
+            Um die Integrität der Daten zu bestimmen werden zwei schlüssel verwedent. Der FNwkSIntKey oder lang Forwarding 
+            Network session integrity key wird benutzt um den MIC-Code für die Integritätbestimmung abzuleiten. Auch 
+            dieser Schlüssel wir wie JSIntKey abgeleitet aber das Schüsselwort besteht aus 0x01, der JoinNonce , der 
+            JoinEUI und DevNonce. Der SNwkSIntKey(Serving Network session integrity key ) stellt das gegenstück da und 
+            wird verwendet den MIC-Code zu testen ab nichts verändert wurde. Hier besteht das Schlüsselwort aus 0x03, der 
+            JoinNonce, der JoinEUI und der DevNonce.
 
-        JSEncKey, JSIntKey, FNwkSIntKey, SNwkSIntKey, NwkSEncKey sind für jedes Entgerät unterschiedlich.
+            JSEncKey, JSIntKey, FNwkSIntKey, SNwkSIntKey, NwkSEncKey sind für jedes Entgerät unterschiedlich.
 
-        Momentan sind nur die MAC-Kommentare vor dem Mitlesen geschützt. Natürlich müssen auch die mitgelieferten 
-        Daten geschützt werden. Dies geschieht unter Verwunderung des AppSKeys. Der Applikaction Session Key wird von 
-        dem Applikationsserver und dem Endgerät verwendet. Dieser Schlüssel wir vom Programmierer vorgegeben, da er 
-        mit dem Schlüssel des Applikationsserver übereinstimmen muss.\cite[S.50 ff]{LoRaSpec}
+            Momentan sind nur die MAC-Kommentare vor dem Mitlesen geschützt. Natürlich müssen auch die mitgelieferten 
+            Daten geschützt werden. Dies geschieht unter Verwunderung des AppSKeys. Der Applikaction Session Key wird von 
+            dem Applikationsserver und dem Endgerät verwendet. Dieser Schlüssel wir vom Programmierer vorgegeben, da er 
+            mit dem Schlüssel des Applikationsserver übereinstimmen muss.\cite[S.50 ff]{LoRaSpec}
 
         \subsubsection{Zähler}
-        Jedes Endgerät hat drei verscheidene Counter. Ein Framecounter für Uplinkframes FCntUp und zwei für 
-        Downlinkframes NFCntDown und AFCntDown. 
+            Jedes Endgerät hat drei verscheidene Counter. Ein Framecounter für Uplinkframes FCntUp und zwei für 
+            Downlinkframes NFCntDown und AFCntDown. 
 
-        Der FCntUp counter wird für jeden Uplink der gesendet wird erhöht. Der stand wird in das FCnt feld der 
-        Nachricht mit eingefügt. Da das Gatway den selben zähler hat, kann es erkennen ob die Nachricht schon einmal 
-        gesendet wurde in dem es nur Nachrichten mit einem gößeren FCnt Wert als der eigene FCntUp Zähler enthält.
+            Der FCntUp counter wird für jeden Uplink der gesendet wird erhöht. Der stand wird in das FCnt feld der 
+            Nachricht mit eingefügt. Da das Gatway den selben zähler hat, kann es erkennen ob die Nachricht schon einmal 
+            gesendet wurde in dem es nur Nachrichten mit einem gößeren FCnt Wert als der eigene FCntUp Zähler enthält.
 
-        Genau so wird mit den Downlink counter verfahren, bloß auf dem Endgerät. Im NFCntDown Zähler werden die 
-        MAC-Kommando Nachrichten gezählt. AFCntDown wird für alle anderen Nachrichten verwendet.\cite[S.22 ff]{LoRaSec}
+            Genau so wird mit den Downlink counter verfahren, bloß auf dem Endgerät. Im NFCntDown Zähler werden die 
+            MAC-Kommando Nachrichten gezählt. AFCntDown wird für alle anderen Nachrichten verwendet.\cite[S.22 ff]{LoRaSec}
 
     \section{Live-Beispiel}
         wenn vorhanden.
@@ -575,7 +575,7 @@
     \section{Ausblick}
 
     Sobald dem Netzwerk erfolreich beigetreten wurde werden ein die benötigten schlüssel aud dem vorher gesetzetn Werten abgeleited. genauers dazu in kapitel \nameref{sec:Sicherheit}.
-    \marginpar{unconfirmed / confirmed, regionale Parameter}.
+    %\marginpar{unconfirmed / confirmed, regionale Parameter}.
     %\section{Sonstige quellen}
     %    \url{https://lora-alliance.org/resource-hub}
     %    QuickStart für ein kleines Projekt: \url{https://www.thethingsnetwork.org/docs/devices/node/quick-start.html#setup-arduino-ide}
