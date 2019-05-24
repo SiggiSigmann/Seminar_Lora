@@ -388,7 +388,8 @@
             RX2 wird wird nach RECIEV\_DELAY2 Zeiteinheiten +/- 20msec nach Beendigung des Uplinks geöffnet. Allerdings
             ist die Datenrate und Frequenz fest. Nur mittels spezieller MAC Kommandos kann dies verändert werden.
             
-            Für die Join-Prozedur wird immer die Klasse A verwendet.
+            Für die Join-Prozedur wird immer die Klasse A verwendet. Die verwendete Frequenz entspricht der 
+            Empfangsfenster RX1 oder RX2.
         \subsection{Klasse B}
             Die Klasse B (B für BEACON) bietet bidirektionale Kommunikation mit einer deterministischem Downlink Latenz.
             Um diese Latenz zu gewährleisten, muss die Kommunikation synchronisiert ablaufen. Außerdem muss 
@@ -425,59 +426,81 @@
                 Endgerätes zur weiteren Verarbeitung gesendet. Damit kann z.B. die innere Uhr nachgestellt werden 
                 oder Ortswechsel festgestellt werden.
             \subsubsection{Betrieb}
-                
-                Damit der NEtzwerkserver dem Endgerät mittielen kann dass die pingslots frequen und/oder die Datnerate geändert werden soll gibt es den PingSlotChannelReq Mac kommando. DIe werden sind in den argumenten enthalten.
-                    
-                Das Endgerät kann die Periode der Pingslots zu einer beliebigen Ziet ändern. Ist dies der Fall, so muss das ENdgerät in Köasse A wechseln mit mittels dem MAc kommando
-                PingSlotChannelReq die geämderte periode MItteilen \marginpar{wird andere gespeicher 1/s => hz}. Danach kann zuück in Kalsse B gewechselt werden.
+                Damit der Netzwerkserver dem Endgerät mitteilen kann dass die Pingslot Frequenz und die Datenrate 
+                geändert werden soll gibt es den PingSlotChannelReq Mac-Kommando. Die neuen Werte sind in den 
+                Argumenten enthalten.
+                        
+                Das Endgerät kann die Periode der Pingslot szu einer beliebigen Zeit ändern. Ist dies der Fall, so 
+                muss das Endgerät in Klasse A wechseln und mittels dem MAC-Kommando PingSlotChannelReq die geänderte 
+                Periode Mitteilen. Danach kann zurück in die Klasse B gewechselt werden.
 
-                Falls einige länger als 2 Stunden kein Beacon empfangen wird, kann die syncronistion mit de Netzwerk verloren gehen. Dadruch funktoiniert die Kommunikation in Klasse B noicht merh und es wird in Klasse A gewechselt. Da sich nun die 
-                Kommunikationsstrategie verändet muss mit einem Uplink in dem das CLassB Fled 0 ist, der Netzwerkserver informiert werden. Nun kann versucht werden eine verbindung mit der Klasse A aufzubauen. Das Programm des Endgeätes kann versuchen
-                wieder in Klasse B zu wecheln. DIeser prozess kann sich immer weider wiederholen.
+                Falls einige länger als 2 Stunden kein Beacon empfangen wird, kann die Synchronisation mit dem Netzwerk 
+                verloren gehen. Dadurch funktioniert die Kommunikation in Klasse B nicht mehr und es wird in Klasse A 
+                gewechselt. Nun kann versucht werden eine Verbindung mit der Klasse A aufzubauen. Das Programm des 
+                Endgerätes kann versuchen wieder in Klasse B zu wechseln. Dieser Prozess kann sich immer wieder 
+                wiederholen.
 
-                Um auch innerhalb der maimal 2 Stnden in den kein Beacon empfangen wurde einen kommunikatio zu ermöglichen wird jedes mal wen ein Beacon verloren geht in den beacon-less modus gewechselt. Dieser Modus orierntiert sich ausschlieslich an der internetn Uhr.
-                Um den Drift auszugleichen werden die EMpfangsfenter immer früher begonnen und immer später beendet. Das bedeutet einen höheren Energieverbracuh aber auch eine höhere Warschelinlichkeit noich Daten zu empfangen obwohl die Uhren des GAtways und des des ENdgerätes auseinanderlaufen.
+                Um auch innerhalb der minimal 2 Standen in den kein Beacon empfangen wurde einen Kommunikation zu 
+                ermöglichen wird jedes Mal wenn ein Beacon verloren geht in den Beacon-Less Modus gewechselt. Dieser 
+                Modus orientiert sich ausschließlich an der internen Uhr.
+                Um die Abweichung auszugleichen werden die Empfangsfenster immer früher begonnen und immer später 
+                beendet. Das bedeutet einen höheren Energieverbrauch aber auch eine höhere Wahrscheinlichkeit noch 
+                Daten zu empfangen obwohl die Uhren des Gateways und des Endgerätes auseinanderlaufen.
 
-                \marginpar{drift?}
             \subsubsection{Singel / Multicast}
-                Die Downlink der Klasse B unterschidene sich nicht von denen der Klasse B. allerding kann sich derFreqenzplan untersdchedien.
-                
-                In Klasse B können die NAchrichten als Singelcast oder als Multicast nachrichten verwendet werden. Eine Singelcast nachricht wird an des geröt das im DevAffr fled der NAhcricht codiert ist gesendet. Im Multicastmodus wird das paket an alle ENdgeräte gesendet.
-                Damit die möglich ist müssen sich die geräte die selbe multicas Adresse und die dazugehörigen schlüssel teilen. Durch verschiedene Multicstadressen ist es möglich soganannte
-                multicas gruppen zu erzeugen die nciht alle sonder nur ein Teil aller entgeräte beinhalten. LoRaWan git allerding keine Methode vor wie die adressen und Schlüssel verteilt werden. Diese Aufgabe muss laso in der Applikationsebene sprich im Programm der ENtgeräte oder Direkt bei der Personlaisierung (Programerung) erledigt werden.
-                
+                In Klasse B können die Nachrichten als Singelcast oder als Multicast Nachrichten verwendet werden. 
+                Eine Singelcast Nachricht wird an des Endgerät das im DevAfdr Feld der Nachricht codiert ist gesendet.
+                Im Multicastmodus wird das Paket an mehrere Endgeräte gesendet. Damit dise möglich ist müssen sich 
+                die Endgeräte dieselbe Multicast Adresse und die dazugehörigen Schlüssel teilen. Durch verschiedene 
+                Multicastadresse ist es möglich sogenannte Multicastgruppen zu erzeugen die nicht alle sonder nur ein 
+                Teil aller Endgeräte beinhalten. LoRaWAN gibt allerding keine Methode vor wie die Adressen und 
+                Schlüssel verteilt werden. Diese Aufgabe muss in der Applikationsebene sprich im Programm der 
+                Endgeräte bzw. des Applikationsserver oder die Schlüssel und Adresse werden fest in den Programmcode 
+                programmiert.
 
-                In Mlticastadressen sind keine MAc kommandows erlaubt. Nur Daten dürfen als Multicastbnachricht übertragen weden. DIes wurde eingeführt da Multicastnachrichten nicht die selbe robutheit wie SIngelcastnachrichten haben.
-                Die NAchrichten dürfen nicht acknloged werden \marginpar{unconfirmed / confirmed}. Das Fpending zeigt an das mehr Multicasnachrichten zu senden sind.
-                \cite{LoRaSpec}(
-                    sepearate Adresse für Multicast
-                    Festgelegt durch layer oder manuell für gruppenmulticast
-                    Nicht führ MAC geeignet, 
-                )
+                In Multicastnachrichten sind keine MAC-Kommandos erlaubt. Nur Daten dürfen als Multicastnachrichten 
+                übertragen werden. Dies wurde eingeführt da Multicastnachrichten nicht dieselbe Robustheit wie 
+                Singelcastnachrichten haben. Die Nachrichten dürfen nicht bestätigt werden da sonst eine große Last 
+                für das Netzt entstehen würde.\cite[S.84]{LoRaSpec}
+
             \subsubsection{Beacon}
-                Wie schon erwähnt wird der Beackon verwendet um das ENdgerät mit dem Netzwerek zu synchronsisiern. Deswegen wird dieser Periodisch gesendet. Die Zeit zwischen zwei Beackons wir BEACKON\_Period genannt.
-                Die Endgeräte öffnen Enmpfangsfenster um diese Beacons zu empfangen. Ein BAcok zu übertragen dauert BEACON\_RESERVED lange. Das beaon wird Beakon\_GUARD früher geöfnnet um sicher zu stellen das BEac auch wirklich zu empfangen. Während versucht wird ein Beacon zu empfangen kann kein pingslot geöffnet werden.
-                Auserdem wird die Beakon\_GUARD benutzt um sicherzustellen das kein Ping slott mehr geöffnet ist. Deswegen muss diese Beakon\_GUARD mindestens so lang sein wie ein maximaler pingslot. \marginpar{vorlesungsbezug?}  Ein weiterer vorteil ist, dass nicht daraf geachth werden muss wann ein pingslot geöffnet wird, da er soweiso im zweifelsfall fertig ist befor ein beakon empfangen wird.
+                Wie schon erwähnt werden der Beacons verwendet um das Endgerät mit dem Netzwerk zu synchronisieren. 
+                Deswegen werden die Beacon Periodisch gesendet. Die Zeit zwischen zwei Beacon wir BEACKON\_Period 
+                genannt. Die Endgeräte öffnen Empfangsfenster um diese Beacons zu empfangen. Ein Beacon zu übertragen 
+                dauert BEACON\_RESERVED lange. Das Beacon-Empfangsfenster wird BEACKON \_GUARD früher geöffnet um 
+                sicher zu stellen das Beacon auch wirklich erkannt werden kann. Außerdem wird die Beakon\_GUARD 
+                benutzt um sicherzustellen dass kein Pingslot mehr geöffnet ist. Deswegen muss diese Beakon\_GUARD 
+                mindestens so lang sein wie ein maximaler Pingslot. Das hat den Vorteil, dass nicht darauf gedacht 
+                werden muss wann ein Pingslot geöffnet wurde, da er im Zweifelsfall fertig ist bevor ein Beacon 
+                empfangen wird. Vergleichbar ist dies mit der Distributed Coordination die bei WLAN Anwendung findet.
 
-                Um snychronsisierungen druch die beacons zu vermeiden, wie alle entgeräde wollen sofort nach den beakon senden wollen, wird mittels zufälliger warte, pingslot zeiten und zufälliger pingslotanzahlen verhindert.
+                Während versucht wird ein Beacon zu empfangen kann kein Pingslot geöffnet werden
+                
+                Um Synchronisierungen durch die Beacon zu vermeiden, wie ``alle Endgeräte wollen sofort nach den 
+                Beacon senden wollen‘‘, wird mittels zufälliger Wartezeiten und zufälliger Pingslotperiode verhindert. 
+                Durch den Zufall wird die Wahrscheinlichkeit deiner Kollision geringer.
 
-                Beacons haben ihr eigenes Paketformat. DIese PAkete sind immer gleich lang. Dadurch kann auf header verzichted werden was auch der Geschiwndigkeit der verarbetug zu gute kommt. Wie auch ein Normales LoRaPaket, so besteht auch das erste Feld des Beakonpaketes aus der Preable nur das die des Beakonpaketes länger dauert was ein bemerken der übertragung warscheinlicher macht. Danach folgt nur noch der BCNPayload.
-                Der BCNPayload lässt sich untertielen in RFU, Time, CRC, GWSpecific, RFU, CRC. DIe zwei CRC Felder weisen schon auf die logische unterteilung in zwei hälten hin. Der erste Teil enthält beacon speziische informationen (time und CRC). In dem Timefeld ist die zeit seit 00:00:00, Sunday 6th of January 1980 (start of the GPS epoch) modulo 2\^32 enthalten. das CRC feld wird verwendet um die korrektheut des Zeit und des RFU Fledes zu versichern.
-                DIe andere hälfte ist GAtewayspezifisch. Sie enthält das GwSpecific fled und ein RFU fled das auch dirch ein zweites CRC feld abgesichert ist. Das GwSpezific feld lässt sich unterteilen in InfoDesc und Info felder. Das InfoDesc gibt an auf was sich das Infofeld bezieht.0
-                GPS coordinate of the gateway first antenna
-                1
-                GPS coordinate of the gateway second antenna
-                2
-                GPS coordinate of the gateway third antenna
-                3:127
-                RFU
-                128:255
-                Reserved for custom network specific broadcasts.
-                Sonlage sich im infofled coordinaten enthalten kann dieses unterteilt werden in Längen unt breitengrad.
+                Beacons haben ihr eigenes Paketformat. Diese Pakete sind immer gleich lang. Dadurch kann auf Header 
+                verzichtet werden was auch der Verarbeitungsgeschwindigkeit zugutekommt. Wie auch ein normales 
+                LoRa-Paket, so besteht auch das erste Feld des Beacon-Paketes aus der Preable. Danach folgt der 
+                BCNPayload. Der BCNPayload(Beacon Payload) lässt sich unterteilen in RFU, Time, CRC, GWSpecific, 
+                RFU, CRC. Die zwei CRC Felder weisen schon auf die logische Unterteilung in zwei hältern hin. Der 
+                erste Teil enthält Beacon spezifische Informationen (time und CRC). In dem Time Feld ist die Zeit 
+                seit 00:00:00, 01.01.1980 Modulo 2\^32 enthalten. das CRC Feld wird verwendet um die Korrektheit des 
+                Zeit und des RFU Feldes zu versichern. RFU steht wieder für ``Reserved for Future Usage‘‘ und wird 
+                nicht verwendet. Die andere Hälfte ist Gatewayspezifisch. Sie enthält das GwSpecific Feld und ein 
+                RFU Feld . Beide Fleder sind  durch ein zweites CRC Feld abgesichert ist. Das GwSpezific Feld lässt 
+                sich unterteilen in InfoDesc und Info Felder. Das InfoDesc gibt an auf was sich das Infofeld bezieht. 
+                0 gibt an das die GPS-Koordinaten der ersten Antenne folgen. 1 steht für die GPS-Koordinaten der 
+                zweiten Antenne und 2 steht für die GPS-Koordinaten der dritten Antenne. Die werte 3 bis127 sind noch 
+                Solange sich im Info Feld Koordinaten enthalten kann dieses unterteilt werden in Längen- und 
+                Breitengrad.
                 
-                Auch Klasse A kann den beacon somit nutzen um herauszufinden von welchem gateway es gerde Datenempfängt und um somit eventuelle standortwechel festzustellen.
+                Auch Klasse A kann den Beacon nutzen, um herauszufinden von welchem Gateway es gerade Datenempfängt 
+                und um eventuelle Standortwechsel festzustellen.
                 
-                In Europa werden die Beacons auf einer festen frewuen übetragen die sich nicht endert auser über das MAC kommando PingSlotChannelReq. Auf anderen Kontinenten kann es sein das frequenzyhopping angewendet wird. \marginpar{regionale paramerter erwähnt?}
+                In Europa werden die Beacons auf einer festen Frequenz übertragen die sich nicht ändert. Nur über das 
+                MAC-Kommando PingSlotChannelReq. 
         \subsection{Klasse C}
             C steht für CONTINUOUSLY Listening. Wie der Name schon sagt ist hier dauernd ein Empfangsfenster geöffnet.
             Dafür wird es ermöglicht fast Latzen frei zu übertragen. Dies bedeutet aber auch das der Stromverbrauch am 
@@ -493,7 +516,7 @@
             Auch in Klasse C ist es, wie in B, möglich Multicastnachrichten zu senden. Hierbei gelten die gleichen 
             Regeln wie bei Klasse B.
 
-\section{Sicherheit} \label{sec:Sicherheit}
+    \section{Sicherheit} \label{sec:Sicherheit}
     Jede Klasse hat 3 Zähler: FCntUP(wird für jeden Uplink erhöh), NFCntDown (pro downlink für MAC-Kommandos), AFCntDOwn(Downlinks die Daten enthalten) Zähler sollen nich flüchtig sein(Batteriewechseln kein reset) bei neuverbinden müssen alle counter auf uf 0 gesetzt werden. counter müssen auf beiden seiten glich gehalten werden(Synchron geführt) nachricht empfagen ist muss der darin enthaltenene counter größer sein als der eigene. 
 
     die Counter Werte sollen so weit wie möglich nur einam verwendet werden.
@@ -556,9 +579,9 @@
         wenn vorhanden.
 
     \section{Ausblick}
-    \marginpar{gehe ich zu weit?} Die verwendete frequenz entspricht der RX1 bzw RX2 aus dem kapitel \nameref{sec:ClassA}. wo kammt das her
 
     Sobald dem Netzwerk erfolreich beigetreten wurde werden ein die benötigten schlüssel aud dem vorher gesetzetn Werten abgeleited. genauers dazu in kapitel \nameref{sec:Sicherheit}.
+    \marginpar{unconfirmed / confirmed, regionale Parameter}.
     %\section{Sonstige quellen}
     %    \url{https://lora-alliance.org/resource-hub}
     %    QuickStart für ein kleines Projekt: \url{https://www.thethingsnetwork.org/docs/devices/node/quick-start.html#setup-arduino-ide}
