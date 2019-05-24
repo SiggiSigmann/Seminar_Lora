@@ -517,46 +517,9 @@
             Regeln wie bei Klasse B.
 
     \section{Sicherheit} \label{sec:Sicherheit}
-    Jede Klasse hat 3 Zähler: FCntUP(wird für jeden Uplink erhöh), NFCntDown (pro downlink für MAC-Kommandos), AFCntDOwn(Downlinks die Daten enthalten) Zähler sollen nich flüchtig sein(Batteriewechseln kein reset) bei neuverbinden müssen alle counter auf uf 0 gesetzt werden. counter müssen auf beiden seiten glich gehalten werden(Synchron geführt) nachricht empfagen ist muss der darin enthaltenene counter größer sein als der eigene. 
-
-    die Counter Werte sollen so weit wie möglich nur einam verwendet werden.
-    
-    )
-    \
-
-
-        \marginpar{Weche felder was ist wie verschlüsselt?}
+   
                 
-        SIcherheit in netzwerkfägigen Systemen ist ein sher wichtiges und heiß dikutiertes thema. Da LoRa daten Üver die Lpft überträgt, ist es extrem wichtig sich und die Dtaen zu schützen.
-        Da Luft als Medium benutzt wird könnten alle in der Nähe befindlichen geräte die gesendeten Daten mithören. Aber genauso kann ein Endgerät sich als ein andres ausgeben und in seinem Namen Daten an ein
-        Fremden Server send. Um zu verhindern das Gesnedene Daten mitgelsen werden müssen diese verschlüsselt werde. Um zu verhindern das jemand anderst so tut als wäre er das engerät mussen die Dtane Autentifiziert werden.
-        Slest jetz könnten z.B. Join-request mitgeschnitten werden und von dem (bößen) endgerät wiederholt werden um das (gut) endgerät daran zu hindern aktiv dem Netzwerk beizutreten. Deswegen wurden zähler eingebaut. Im folgenden wird sich nächer damit beschäftigt welche mechanismen es gibt die gennten probleme zu umgehen.
-        
-        Oberflächlich gesehen bietet Lora eine end-to-end Sicherheit an, indem es die Signale zweimal verschlüsselt.
-        Die erste Verschlüsselung dient dazu die gesendeten Daten vor eventuellen Mithörern zu verschlüsseln, also pm Endgerät bis zu Gateway zu verschlüsslen. Die Verschlüsselung geschieht mit einem 128-bit Network-Session-Key.
-        Die zweite Verschlüsselung wird bis zur endgültigen Weiterverarbeitung der Daten auf z.B. einen Server verwendet und ist ein 128 bit Application-Session-Key.
-
-        Nächer betrachtd benutzt Lore eine ganze Reihe an Schlüssel und Zähler verwendet um die Kommunikation abzusichern. Da die verwendeten Schlüssel bei OTAA-Aktivation variieren wird hier eine viel höhere Sicherit geboten als bei ABP-Activation wo alle Schlüssel von anfangan vorgegeben werden.
-        Infolgedessen wird im folgenden Text auf die SIcherheit unter verwendung von OTAA bezogen.
-
-        Jesed enggerät hat seine eigenen NwkKey (Netzwerkschlüssel) und AppKey (applikation schlüssel). Sobald einem Netzwerk begetreten wurde wird aus dem NwkKeay der FNwkSIntKey , SNwkSIntKey und NwkSEncKey
-        abgeleited. AUs dem AppKey iwrd zusätzlich der AppSKey abgeleited. Die schlüssel müssen so gespeichert werden, dass es nicht mölgich ist diese auf irgendeiener weise aus dem Speicher zu holen außer für das endgerät selber.
-        Zusätzlich werden Join-Keys abgeleited. JSInitKEy und JSEncKey.
-
-        Der FNwkSIntKey ist einzigartig für ein Endgerät und heist Forwarding Network session integrity key. Der Schlüssel wird verwendet um ganze oder Teile der MIC felder in den LoRapaketen zu berechen \marginpar{mic}. 
-        
-        Serving Network session integrity key heißt abgekützt SNwkSIntKey. Dieser Schlüssel wird
-        verwedent um die Integrität des MIC codes zu überprüfen. Zusätzlich wird er auch verwendet um Teile des MIC codes zu berechen. Dieser Schlüssel ist spezifisch für ein entgerät.
-        
-        NwkSEncKey oder lang Network session encryption key, ist für jede Netzwerksitzung einzigartig und wurd verwendet um empfnagen order gesendete
-        Mac kommandos zu ent- oder verschlüsseln.
-        
-        Der AppSKey wird auch Application session key und wird einem Endgerät zugeordent. Er wird vom Gateway und vom Endgerät verwendet um  Daten die zum Applikationsserver geschickt werden sollen zu verschlüsseln.
        
-        pad fügt do viele 0en das die länge an vielfaches von 16 ist
-        AppSKey = aes128\_encrypt(NwkKey, 0x02 | JoinNonce | NetID | DevNonce | pad16) 
-        FNwkSIntKey = aes128\_encrypt(NwkKey, 0x01 | JoinNonce | NetID | DevNonce | pad16)
-        SNwkSIntKey = NwkSEncKey = FNwkSIntKey.
 
         \bigbreak
 
@@ -575,6 +538,15 @@
         \cite{WhatIsLoRa}(Applikationsverschlüsselung(schutz der Daten for mitlesen) Netzwerk(Autentiizierung der Knoten) AFS, Key Exnage IEEE EU164)
         \cite{LoRaSpec}(symetrischer Schlüssel => nur einer benötigt, Sessionkey ist abgeleited von Knoten-rootkey. JoinServer setllt verbindung der Keys her.
         )
+        Jede Klasse hat 3 Zähler: FCntUP(wird für jeden Uplink erhöh), NFCntDown (pro downlink für MAC-Kommandos), AFCntDOwn(Downlinks die Daten enthalten) Zähler sollen nich flüchtig sein(Batteriewechseln kein reset) bei neuverbinden müssen alle counter auf uf 0 gesetzt werden. counter müssen auf beiden seiten glich gehalten werden(Synchron geführt) nachricht empfagen ist muss der darin enthaltenene counter größer sein als der eigene. 
+
+        die Counter Werte sollen so weit wie möglich nur einam verwendet werden.
+        
+        )
+        \
+    
+    
+            \marginpar{Weche felder was ist wie verschlüsselt?}
     \section{Live-Beispiel}
         wenn vorhanden.
 
