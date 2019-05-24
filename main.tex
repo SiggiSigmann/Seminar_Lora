@@ -516,67 +516,59 @@
             Auch in Klasse C ist es, wie in B, möglich Multicastnachrichten zu senden. Hierbei gelten die gleichen 
             Regeln wie bei Klasse B.
 
-    \section{Sicherheit} \label{sec:Sicherheit}
-   
-                
-    SIcherheit in netzwerkfägigen Systemen ist ein sher wichtiges und heiß dikutiertes thema. Da LoRa daten Üver die Lpft überträgt, ist es extrem wichtig sich und die Dtaen zu schützen.
-    Da Luft als Medium benutzt wird könnten alle in der Nähe befindlichen geräte die gesendeten Daten mithören. Aber genauso kann ein Endgerät sich als ein andres ausgeben und in seinem Namen Daten an ein
-    Fremden Server send. Um zu verhindern das Gesnedene Daten mitgelsen werden müssen diese verschlüsselt werde. Um zu verhindern das jemand anderst so tut als wäre er das engerät mussen die Dtane Autentifiziert werden.
-    Slest jetz könnten z.B. Join-request mitgeschnitten werden und von dem (bößen) endgerät wiederholt werden um das (gut) endgerät daran zu hindern aktiv dem Netzwerk beizutreten. Deswegen wurden zähler eingebaut. Im folgenden wird sich nächer damit beschäftigt welche mechanismen es gibt die gennten probleme zu umgehen.
-    
-    Oberflächlich gesehen bietet Lora eine end-to-end Sicherheit an, indem es die Signale zweimal verschlüsselt.
-    Die erste Verschlüsselung dient dazu die gesendeten Daten vor eventuellen Mithörern zu verschlüsseln, also pm Endgerät bis zu Gateway zu verschlüsslen. Die Verschlüsselung geschieht mit einem 128-bit Network-Session-Key.
-    Die zweite Verschlüsselung wird bis zur endgültigen Weiterverarbeitung der Daten auf z.B. einen Server verwendet und ist ein 128 bit Application-Session-Key.
+    \section{Sicherheit} \label{sec:Sicherheit}  
+        Sicherheit in Netzwerkfähigen Systemen ist ein scher wichtiges und heiß diktiertes Thema. Da alle LoRa-Geräte 
+        über das Medium ``Luft‘‘ die Daten übertragen, sind diese auch für alle empfangbar. Deswegen ist es wichtig 
+        die Daten zu verschlüssel um zu verhindern das Dritte die Daten mitlesen. genauso wichtig die Daten zu 
+        Authentifizierung und somit zu überprüfen wer die Daten gesendet hat. Auch verschlüsselte Daten können von 
+        Dritten mitgelesen werden. Allerdings können diese nichts mit den verschlüsselten Daten anfangen. Das einzige 
+        was Dritte mit den Daten tu können ist eine sogenannte Replayattack durchzuführen in dem sie das Empfangene 
+        Datenpaket nochmal senden und so versuchen die Kommunikation zu stören oder Fehlinformationen zu streuen. Um 
+        Replayattack entgegenzuwirken, werden Zähler oder Nonce mit den Daten mitgeschikt. Im folgenden Text wird 
+        betrachtend wie LoRa diese Sicherheitsfeatures implementiert hat.
 
-    Nächer betrachtd benutzt Lore eine ganze Reihe an Schlüssel und Zähler verwendet um die Kommunikation abzusichern. Da die verwendeten Schlüssel bei OTAA-Aktivation variieren wird hier eine viel höhere Sicherit geboten als bei ABP-Activation wo alle Schlüssel von anfangan vorgegeben werden.
-    Infolgedessen wird im folgenden Text auf die SIcherheit unter verwendung von OTAA bezogen.
+        \subsubsection{Schlüssel}
+        Schon der Beitritt eines Endgerätes muss verschlüsselt sein. Dafür werden zwei verschiedene Schlüssel 
+        verwendet. Die Join-Nachricht wird mit dem JSIntKey(Joining Session Encryption Key) verschlüsselt. Der 
+        Schlüssel wird mittels dem der aes128 Verschlüsslung generiert. Speziell wird der NWkKey mit der deinem 
+        16Byte langem Wort verschlüsselt. Das Wort besteht am anfang aus der Konstant 0x06, danach folgt die DevEUI 
+        und zum Schluss wird mit =en aufgefüllt. Die Accept-Naxhricht wird ebenfalls verschlüsselt. Allerdings wird 
+        her der JSEncKey(Joining Session Encryption Key) verwendet. Dieser wird auf die Gleiche weise erzeugt, 
+        allerdings wird bei dem Verschlüsselungswort 0x06 durch 0x05 ersetzt. JSIntKey wird außerdem verwendet um den 
+        MIC-Code in der Join-Nachricht zu berechnen.
 
-    Jesed enggerät hat seine eigenen NwkKey (Netzwerkschlüssel) und AppKey (applikation schlüssel). Sobald einem Netzwerk begetreten wurde wird aus dem NwkKeay der FNwkSIntKey , SNwkSIntKey und NwkSEncKey
-    abgeleited. AUs dem AppKey iwrd zusätzlich der AppSKey abgeleited. Die schlüssel müssen so gespeichert werden, dass es nicht mölgich ist diese auf irgendeiener weise aus dem Speicher zu holen außer für das endgerät selber.
-    Zusätzlich werden Join-Keys abgeleited. JSInitKEy und JSEncKey.
+        Alle MAC-Kommandos die an Port 0 gesendet werden, werden separat verschlüsselt. Dies bietet eine Höhere 
+        Sicherheit, selbst wenn Daten entschlüsselt werden können, so bleibt es unmöglich falsche MAC-Kommandos zu 
+        verschlüsseln und zu einem Endgerät zu senden. Hierzu wird der Network session encryption key (NwkSEncKey) 
+        verwedent. Dieser wird auf die selbe weise erzeugt wie JSIntKey. Allerdings besteht hier das Schlüsselwort 
+        aus 0x04,der JoinNonce, der JoinEUI und dem DevNonce. Diese Werte werden bei dem Beitritt mittels OTAA 
+        erzeugt. Siehe: \nameref{sec:otaa}.
 
-    Der FNwkSIntKey ist einzigartig für ein Endgerät und heist Forwarding Network session integrity key. Der Schlüssel wird verwendet um ganze oder Teile der MIC felder in den LoRapaketen zu berechen \marginpar{mic}. 
-    
-    Serving Network session integrity key heißt abgekützt SNwkSIntKey. Dieser Schlüssel wird
-    verwedent um die Integrität des MIC codes zu überprüfen. Zusätzlich wird er auch verwendet um Teile des MIC codes zu berechen. Dieser Schlüssel ist spezifisch für ein entgerät.
-    
-    NwkSEncKey oder lang Network session encryption key, ist für jede Netzwerksitzung einzigartig und wurd verwendet um empfnagen order gesendete
-    Mac kommandos zu ent- oder verschlüsseln.
-    
-    Der AppSKey wird auch Application session key und wird einem Endgerät zugeordent. Er wird vom Gateway und vom Endgerät verwendet um  Daten die zum Applikationsserver geschickt werden sollen zu verschlüsseln.
-   
-    pad fügt do viele 0en das die länge an vielfaches von 16 ist
-    AppSKey = aes128\_encrypt(NwkKey, 0x02 | JoinNonce | NetID | DevNonce | pad16) 
-    FNwkSIntKey = aes128\_encrypt(NwkKey, 0x01 | JoinNonce | NetID | DevNonce | pad16)
-    SNwkSIntKey = NwkSEncKey = FNwkSIntKey.
+        Um die Integrität der Daten zu bestimmen werden zwei schlüssel verwedent. Der FNwkSIntKey oder lang Forwarding 
+        Network session integrity key wird benutzt um den MIC-Code für die Integritätbestimmung abzuleiten. Auch 
+        dieser Schlüssel wir wie JSIntKey abgeleitet aber das Schüsselwort besteht aus 0x01, der JoinNonce , der 
+        JoinEUI und DevNonce. Der SNwkSIntKey(Serving Network session integrity key ) stellt das gegenstück da und 
+        wird verwendet den MIC-Code zu testen ab nichts verändert wurde. Hier besteht das Schlüsselwort aus 0x03, der 
+        JoinNonce, der JoinEUI und der DevNonce.
 
+        JSEncKey, JSIntKey, FNwkSIntKey, SNwkSIntKey, NwkSEncKey sind für jedes Entgerät unterschiedlich.
 
-        \bigbreak
+        Momentan sind nur die MAC-Kommentare vor dem Mitlesen geschützt. Natürlich müssen auch die mitgelieferten 
+        Daten geschützt werden. Dies geschieht unter Verwunderung des AppSKeys. Der Applikaction Session Key wird von 
+        dem Applikationsserver und dem Endgerät verwendet. Dieser Schlüssel wir vom Programmierer vorgegeben, da er 
+        mit dem Schlüssel des Applikationsserver übereinstimmen muss.\cite[S.50 ff]{LoRaSpec}
 
-        Jedes Gerät hat 3 verscheidene Frame counter um die Anzahl der gesendeten und empfangenen Frams mitzuzählen der FCntUP counter zählt die
-        uplikframes, der NFCNTDown zählt die MAC-downlinkframes und der AFCntDown welcher alle downlinkframes zählt die Nutzdaen enthalten.
+        \subsubsection{Zähler}
+        Jedes Endgerät hat drei verscheidene Counter. Ein Framecounter für Uplinkframes FCntUp und zwei für 
+        Downlinkframes NFCntDown und AFCntDown. 
 
-        Wenn ein gerät dem Netzwerk beitritt, werden zuerst die Counter auf 0 gesetzt. Beide seiten einer Kommunikation halten die zähler gleich. 
-        Beim senden wird der Aktulle counterwert in das FCnt feld eingetragen. Werden übertragungen wiederholt so wird der counter nicht erhöht \marginpar{weiderholung schon drin?}
+        Der FCntUp counter wird für jeden Uplink der gesendet wird erhöht. Der stand wird in das FCnt feld der 
+        Nachricht mit eingefügt. Da das Gatway den selben zähler hat, kann es erkennen ob die Nachricht schon einmal 
+        gesendet wurde in dem es nur Nachrichten mit einem gößeren FCnt Wert als der eigene FCntUp Zähler enthält.
 
-        Durch das verwerfen von NAchrichten mit zu kleinem Counterwert, wird verhindert das Pakete von einem Angreifer aufgenommen und zu einem späteren Zeitpunkt wiederabgespielt werden.
-        
-        Jauch bei den Join oder Accept NAchrichten besteht die gefahr eine Replayattac. Da hier dem Netzwerk noch nicht begetreten wurde, können die zähler niht verwendet werden. Hier wird eine Nonce in die 
-        Join-Pakete coderit \marginpar{wie sieht paket aus.}. DIese Nonce zählt auf die gleiche weise hoch wie die counter. Die gegnerische Seiter der Kommunkikation muss die Nonce tracken und darf nur pakete mint einer Nonce akzeptieren die höher ist als die letzt Nonce.\marginpar{frequncyhopping}
-       
-        \cite{LoRaSecur}(Netzwerkserver hat AppKey daraus werden AppSKeay und NwkSkey erzeugt)
-        \cite{WhatIsLoRa}(Applikationsverschlüsselung(schutz der Daten for mitlesen) Netzwerk(Autentiizierung der Knoten) AFS, Key Exnage IEEE EU164)
-        \cite{LoRaSpec}(symetrischer Schlüssel => nur einer benötigt, Sessionkey ist abgeleited von Knoten-rootkey. JoinServer setllt verbindung der Keys her.
-        )
-        Jede Klasse hat 3 Zähler: FCntUP(wird für jeden Uplink erhöh), NFCntDown (pro downlink für MAC-Kommandos), AFCntDOwn(Downlinks die Daten enthalten) Zähler sollen nich flüchtig sein(Batteriewechseln kein reset) bei neuverbinden müssen alle counter auf uf 0 gesetzt werden. counter müssen auf beiden seiten glich gehalten werden(Synchron geführt) nachricht empfagen ist muss der darin enthaltenene counter größer sein als der eigene. 
+        Genau so wird mit den Downlink counter verfahren, bloß auf dem Endgerät. Im NFCntDown Zähler werden die 
+        MAC-Kommando Nachrichten gezählt. AFCntDown wird für alle anderen Nachrichten verwendet.\cite[S.22 ff]{LoRaSec}
 
-        die Counter Werte sollen so weit wie möglich nur einam verwendet werden.
-        
-        )
-        \
-    
-    
-            \marginpar{Weche felder was ist wie verschlüsselt?}
     \section{Live-Beispiel}
         wenn vorhanden.
 
