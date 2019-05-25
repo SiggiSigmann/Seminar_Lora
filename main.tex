@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt]{article}
+\documentclass[a4paper, 12pt]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
@@ -22,29 +22,21 @@
     \tableofcontents
     \newpage
 
-    \section{Einführung in Lora}
-    %    Lora ist ein Low Power, Wide Area (LPWA) Netzwerkprotokoll und somit sehr gut für batteriebetriebene kabellose Geräte geeignet. Deswegen wir Lora auch of im Internet of Things (IoT) Bereich verwendet.
-    %    Mittels der bidirektionalen Kommunikation ist es möglich Daten und Befehle über weite Strecken zu übertragen. Leider leidet darunter die Geschwindigkeit, sodas sich Lora nicht als WLAN Ersatz eignet.
-    %   Trotzdem können zwischen 0.3 und 50 kbps erreicht werden. In Europa werden 863 MHz bis 870 MHz verwendet. Allerdings variiert der Frequenzbereich für andere Kontinente. Je nach Bedingungen können so bis zu 20km entfernte Endgeräte erkannt und mit diesen kommuniziert werden.
-    %    Es ist sogar möglich den Standort des Gerätes zu bestimmen.
-        
-    %    Eine Alternative zu Lora ist Sigfox, hierrauf werde ich nicht weiter eingehen.
-    %    LoRaWAN 1.1
-    %    \newline    
-    %    \cite{WhatIsLoRa}(Optimiert für Batterie Kapazität(Teilnehmer) Reichweite, Kosten
-    %    mehrjährige Batterielaufzeit, kleine Datenmengen, große Reichweite, LPWAN (Low Power WAN)
-        
-    %   Kriterien für Lora: Netzwerk Architektur, Reichweite, Batterielaufzeit, Interreferenzrobustheit, Anzahl Konten, Sicherheit, bidirektionale Kommunikation, verschiedene Anwendungsunterstützung
-        
-    %    Orientiert für Mobile Adressierbare Endgeräte)
-    %    \newline{}
-    %        \cite{LoraLimit}(
-    %           alternativen: Sigfox, Ingneu, Dash7
-    %            Klassen Kompromiss zwischen Reichweite, Performance(Latzen/ Durchsatz) und Energiebedarf
+    \section{Einführung}
+        Warum braucht es noch eine weites Funknetz? Eine große Reichweite
+        kann netweder durch einen hohen Energieaufwand oder durch eine niedrige Datenrate erreicht werden.
 
-    %            Energiesparend durch ADR (Adaptive Daten Rate)
-    %        )
-    %   \newline{}\newline{} Es wird folgen: Was ist lora, wo und wofür wird es benutzt, wie weit kann man senden und wie schnell...
+        Wlan hat eine hohe Übertragungsrate allerding auch eine begrenzte Reichweite. GSM hat eine Höherer Reichweite aber einen
+        hohen Energieaufwand. Bluethooth hat einen geringen energieaufwan, eine hohe Übertragungsrate aber eine sehr geringe Recihweite.
+        Keiner der genannten Protokolle ist ein LPWA Netzwerk. Um diese Lücke zu füllen wurde LoRa eingeführt.
+        Lora steht für ``Low Power Wide Range'' und ist für batteriebetriebene kabellose Geräte geeignet.   
+        Es zwischen 0.3 und 50 kbps erreicht werden und je nach Umgebung bis zu 20km weit gesendet werden. 
+        Deswegen wir Lora auch of im Internet of Things (IoT) Bereich verwendet. Obwohl einige dieser Geräte Batteriebetrieb
+        sind konnen Betriebszeiten von meheren Jahren erziehlt werden.
+
+        Eine Alternative zu Lora ist Sigfox, hierrauf werde ich nicht weiter eingehen.\cite{WhatIsLoRa}
+
+        In dieser Seminararbeit geht es um die Funktionsweise von LoRaWAN 1.1
     \section{Aufbau eines Lora-Netzwerk}
         LoRa ist ideal für IoT-Geräte, da per einfachem Netzwerkaufbau Datenaustausch mit dem Internet möglicht ist.
         Um die von den End-Geräten gesendeten LoRa-Pakete auf IP/TCP Pakete umzusetzen wird ein Gateway als Schnittstelle
@@ -97,7 +89,7 @@
             einfache und schnelle Kommunikation zu ermöglichen.
         \subsection{Join-Server}
             Ein Join-Server wird benötigt um den Beitritt mittels OTAA zu ermöglichen. Mehr zu OTAA kann in dem 
-            Kappitel \nameref{sec:OTAA} gelesen werden. Wenn ein Endgerät dem Netzwerk beitreten möchte, leitent 
+            Kappitel \ref{sec:OTAA} \nameref{sec:OTAA} gelesen werden. Wenn ein Endgerät dem Netzwerk beitreten möchte, leitent 
             der Netzwerkserver die Anfragen an den Join-Server weiter. Dieser führt dann die nötige Beitrittschritte 
             aus, wie z.B. ableiten von Schlüsseln oder Senden der nötigen Einstellungen. Dafür ist der NwkKey und 
             der AppKey notwendig, da diese zum verschlüsseln der Nachrichten benötigt werden. 
@@ -140,13 +132,13 @@
 
             Die darüber liegende Schicht nennt man LoRa Modulation. Sie wandelt die binären Pakete in 
             LoRa-Signale um, so dass der Empfänger diese korrekt und effizient empfangen und wiederherstellen 
-            kann. Mehre dazu im Kapitel \nameref{sec:Modulation}.
+            kann. Mehre dazu im Kapitel  \ref{sec:Modulation} \nameref{sec:Modulation}
 
             Über LoRa Modulation liegt die erste LoRaWAN Schicht die LoRa MAC genannt wird. MAC steht für ``Media Access 
             Protokoll''. Dieses Protokoll wird zur Steuerung des LoRa-Netz verwendet. Diese Schicht ist außerdem für 
             die Implementierung der einzelnen Endgeräteklassen 
             und für das Übertragen der Steuerungskommandos zuständig. Mehr zu den Endgeräteklassen kann im Kapitel 
-            \nameref{sec:klassen} und im Kapitel \nameref{sec:protokoll} gelesen werden.
+            \ref{sec:klassen} \nameref{sec:klassen} und im Kapitel \ref{sec:protokoll} \nameref{sec:protokoll} gelesen werden.
 
             Die oberste Schicht nennt sich Applikationsschicht und verpackt, verschlüsselt und authentifiziert 
             die Nutzdaten einer Nachricht.
@@ -159,7 +151,7 @@
                 werden. Dafür müssen folgende 4 Konstanten im Programm vorhanden sein: DevEUI, 
                 JionEUI, NwkKey und AppKey.
 
-                Näheres zu den Konstanten kann im Kapitel \nameref{sec:endgerät} nachgelesen werden.
+                Näheres zu den Konstanten kann im Kapitel \ref{sec:endgerät} \nameref{sec:endgerät} nachgelesen werden.
 
                 Der NWKSKEY ist für die Verschlüsslung der Datenpakete bis zu Gateway zuständig. Dieser Key wird 
                 vom Netzwerkserver erzeugt und muss manuell in den Code eingetragen werden.\cite[S.3]{LoRaSecur}
@@ -191,7 +183,7 @@
                 dem Senden des Request erwartet. Wird die Join-Accept Nachricht zu einem andern Zeitpunkt gesendet 
                 , wird diese nicht empfangen, da das Endgerät nicht empfangsbereit ist.
 
-                Mehr Informationen zu den Ableitungen der Schlüssel finden Sie in dem Kapitel \nameref{sec:Sicherheit}.
+                Mehr Informationen zu den Ableitungen der Schlüssel finden Sie in dem Kapitel \ref{sec:Sicherheit} \nameref{sec:Sicherheit}.
 
             \subsubsection{ABP}
                 Die einfachste Art des Beitritts heißt ABP was für ``Activation by Personalization''steht. 
@@ -218,7 +210,7 @@
             Um energieeffizent zu sein setzt LoRa hauptsächlich auf zwei Punkte: die Modulationstechnick und  
             Adaptive Datenrate (ADR). Auch die 
             "One-Hop" Architektur trägt zur Energieeffizenz bei. Die Modulationsart wird in Kapittel 
-            \nameref{sec:Modulation} besschrieben. \cite[S,1 f]{LoraClasses}
+            \ref{sec:Modulation} \nameref{sec:Modulation} besschrieben. \cite[S,1 f]{LoraClasses}
 
 
             Damit der Netzwerkserver das LoRa-Netz steuern kann, werden Mac-Kommandos eingesetzt. Mit diesen 
@@ -358,14 +350,14 @@
                 In dem Feld DevAddr (Device Address) wird die Zieladresse der Nachricht vermerkt. Im Feld FCnt 
                 (Frame Counter) wird der 
                 jeweilige Zählerwert (Counter) für die bisher gezählten Nachrichten übermittelt. Hiermit schützt man sich vor 
-                Replayattacks. Mehr zu den Counter kann im Kapitel \nameref{sec:Zähler} gelesen werden. Im FOpt Feld 
+                Replayattacks. Mehr zu den Counter kann im Kapitel \ref{sec:Zaehler} \nameref{sec:Zaehler} gelesen werden. Im FOpt Feld 
                 können bis zu fünf MAC Kommandos parallel zur Datenübertragung übermittelt werden. Die Anzahl kommt auf die Menge der 
                 mitgelieferten Variablen an. 
 
                 Das letzte Feld das in Unterfelder unterteilt werden kann ist das FCtrl Feld. Hiermit wird das Endgeräte 
                 gesteuert und Nachrichten bestätigt. Es gibt leichte Unterschiede für Uplink und Downlink 
                 Nachrichten. Beide Nachrichtentypen haben ein ADR, ein ACK und ein FOptsLen Feld. Das ADR Feld definiert, 
-                ob im Modus "Adaptive Data Rate" Daten gesendet werden oder im Standardmodus. Siehe Kapitel\nameref{sec:ADR}. 
+                ob im Modus "Adaptive Data Rate" Daten gesendet werden oder im Standardmodus. Siehe Kapitel \ref{sec:ADR} \nameref{sec:ADR}. 
                 Mit dem ACK Feld können empfangene Pakete bestätigt werden. Ob Nachrichten bestätigt werden müssen,
                 ist im MType Feld (Confirmed Data) definiert. In dem FOptsLen Feld wird die Länge des FOpts Feldes mitsamt des 
                 Headers eingetragen. Ist das FOptsLen 0, so ist kein FOpts Feld vorhanden.
@@ -376,7 +368,7 @@
                 Dahingegen hat ein Uplink-Paket ein ClassB. Hier teilt das Endgerät dem Gateway mit, dass es auf 
                 Funktionsklasse B wechseln will. Zusätzlich hat das Uplink-Paket ein ADRACKReq Feld. Dieses Feld 
                 wird verwendet um zu überprüfen, dass das Netzwerk noch antwortet. 
-                Die genaue Funktionsweise ist im Kapitel \nameref{sec:ADR} erklärt.
+                Die genaue Funktionsweise ist im Kapitel \ref{sec:ADR} \nameref{sec:ADR} erklärt.
 
                 Eine detailierte Beschreibung der LoRa-Paketstruktur findet man in der LoRaWA 1.1 Specification \cite{LoRaSpec}.   
                 
@@ -411,7 +403,7 @@
                 Adaprive Data Rate oder kurz ADR wird verwendet um die optimalste Senderate und die optimale 
                 Sendepower für das Endgerät zu finden und so die optimalste Datenübertragung zu erhalten. ADR kann nur 
                 verwendet werden wenn, im FHDR Feld des LoRa-Pakets das ADR Bit gesetzt ist, siehe 
-                \nameref{sec:protokoll}. Die Steuerung mit ADR findet durch den Netzwerkserver statt. Sobald der 
+                \ref{sec:protokoll} \nameref{sec:protokoll}. Die Steuerung mit ADR findet durch den Netzwerkserver statt. Sobald der 
                 Netzwerkserver bereit ist, setzt er das Bit im Downlink-Paket. Ist das Endgerät auch bereit, so 
                 setzt es ebenfalls das ADR Bit und ADR kann verwendet werden. Ist ADR nicht möglich wird Standardübertragung 
                 verwendet.
@@ -589,7 +581,7 @@
         Fehlinformationen zu senden. Deswegen werden Zähler oder Nonce mit den Daten mitgeschickt. 
         Im folgenden Text wird betrachtend wie LoRa diese Sicherheitsfeatures implementiert hat.
 
-        \subsubsection{Schlüssel}
+        \subsection{Schlüssel}
             Schon der Beitritt eines Endgerätes erfolgt verschlüsselt. Dafür werden zwei verschiedene Schlüssel 
             verwendet. Die Join-Nachricht wird mit dem JSIntKey ``Joining Session Encryption Key'' verschlüsselt. Der 
             Schlüssel wird mittels aes128 Verschlüsslung generiert. 
@@ -605,7 +597,7 @@
             Durch die Verwendung mehrerer, verschiedener Schlüssel steigt die Sicherheit. 
             Der NwkSEncKey wird auf die selbe Weise erzeugt wie JSIntKey. Allerdings besteht hier das Schlüsselwort 
             aus 0x04, der JoinNonce, der JoinEUI und dem DevNonce. Diese Werte werden bei dem Beitritt mittels OTAA 
-            erzeugt. Siehe: \nameref{sec:otaa}.
+            erzeugt. Siehe: \ref{sec:OTAA} \nameref{sec:OTAA}.
 
             Um die Integrität der Daten zu bestimmen werden zwei Schlüssel verwendet. Der FNwkSIntKey ``der lang Forwarding 
             Network Session Integrity key'' wird benutzt um den MIC-Code für die Integritätbestimmung abzuleiten. Auch 
@@ -621,7 +613,7 @@
             Dieser Schlüssel wir vom Programmierer vorgegeben, da er 
             mit dem Schlüssel des Applikationsserver übereinstimmen muss.\cite[S.50 ff]{LoRaSpec}
 
-        \subsection{Zähler}
+        \subsection{Zähler}\label{sec:Zaehler}
             Jedes Endgerät hat drei verscheidene Counter. Ein Framecounter für Uplinkframes FCntUp und zwei für 
             Downlinkframes NFCntDown und AFCntDown. 
 
@@ -630,7 +622,8 @@
             gesendet wurde.
 
             Genau so wird mit den Downlink Counter verfahren. Im NFCntDown Zähler werden die 
-            MAC-Kommando Nachrichten gezählt. AFCntDown wird für alle anderen Nachrichten verwendet.\cite[S.22 ff]{LoRaSec}
+            MAC-Kommando Nachrichten gezählt. AFCntDown wird für alle anderen Nachrichten verwendet.
+            \cite[S.22 ff]{LoRaSecur}
 
     %\section{Live-Beispiel}
     %\section{Ausblick}
