@@ -134,13 +134,9 @@
         Im folgenden Kapitel wird näher auf die Funktionsweise von LoRaWAN eingegangen. Speziell liegt der Fokus auf
         dem Netzwerkbeitritt, das verwendete Protokoll und wie die Daten physikalisch übertragen werden.
         \subsection{Schichtenmodell}
-            \begin{figure}
-                \includegraphics[width=\textwidth]{LoRaLayer}
-                \caption{LoRaStack \cite[S.7]{WhatIsLoRa}}
-            \end{figure}
             Das Schichtenmodell lässt sich in zwei Teile unterteilen. Der LoRa-Part ist der unterste und kümmert sich 
             um die physikalische Übertragung der Pakte. Der LoRaWAN-Part ist für die Steuerung des 
-            Netzwerkes, Definition der LoRaWAN-Klassen und das Überprüfen / Verschlüsseln der Daten zuständig.
+            Netzwerkes, Definition der LoRaWAN-Klassen und das Überprüfen/Verschlüsseln der Daten zuständig.
 
             Die unterste Schicht des LoRa-Parts ist für die Anwendung der richtigen Frequenzen zuständig. In Europa 
             muss das freiverfügbare ISM-Band 868 verwendet werden, in den Vereinigten Staaten das Band 915 und 
@@ -158,6 +154,12 @@
 
             Die oberste Schicht nennt sich Applikationsschicht und verpackt, verschlüsselt und authentifiziert 
             die Nutzdaten einer Nachricht.
+
+            \begin{figure}[h]
+                \includegraphics[width=\textwidth]{LoRaLayer}
+                \caption{LoRaStack \cite[S.7]{WhatIsLoRa}}
+            \end{figure}
+
         \subsection{Netzwerkbeitritt}
             Endgeräte sind immer einem bestimmten Netzwerk zugeordnet. Es gibt zwei Wege um ein neues Endgeräte zu einem 
             bestehenden Netzwerk hinzuzufügen.
@@ -269,38 +271,38 @@
                     0x03 & LinkADRReq & Wird zu Steuerung der Endgeräte im ADR-Modus verwendet \\
                     0x04 & DutyCycleReq & Das Gateway teilt dem Endgerät mit wie oft die Verbindung getestet werden soll \\
                     0x04 & DutyCycleAns & Das Endgerät bestätigt den neuen Testzyklus \\
-                    0x05 & RXParamSetupReq & ... \\
-                    0x05 & RXParamSetupAns & ... \\
-                    0x06 & DevStatusReq & ... \\
-                    0x06 & DevStatusAns & ... \\
-                    0x07 & NewChannelReq & ... \\
-                    0x07 & NewChannelAns & ... \\
-                    0x08 & RXTimingSetupReq & ... \\
-                    0x08 & RXTimingSetupAns & ... \\
-                    0x09 & TxParamSetupReq & ... \\
-                    0x09 & TxParamSetupAns & ... \\
-                    0x0A & DlChannelReq & ... \\
-                    0x0A & DlChannelAns & ... \\
-                    0x0B & RekeyInd & ... \\
-                    0x0B & RekeyConf & ... \\
-                    0x0C & ADRParamSetupReq & ... \\
-                    0x0C & ADRParamSetupAns & ... \\
-                    0x0D & DeviceTimeReq & ... \\
-                    0x0D & DeviceTimeAns & ... \\
-                    0x0E & ForceRejoinReq & ... \\
-                    0x0F & RejoinParamSetupReq & ... \\
-                    0x0F & RejoinParamSetupAns & ... \\
-                    0x10 & PingSlotInfoReq & ... \\
-                    0x10 & PingSlotInfoAns & ... \\
-                    0x11 & PingSlotChannelReq & ... \\
-                    0x11 & PingSlotChannelAns & ... \\
-                    0x12 & BeaconTimingReq & ... \\
-                    0x12 & BeaconTimingAns & ... \\
-                    0x13 & BeaconFreqReq & ... \\
-                    0x13 & BeaconFreqAns & ... \\
-                    0x20 & DeviceModeInd & ... \\
-                    0x20 & DeviceModeConf & ... \\
-                    0x80-0xFF & Proprietary & ... \\
+                    0x05 & RXParamSetupReq & Das Gateway teilt dem Endgerät die neuen Pingslotparameter fest \\
+                    0x05 & RXParamSetupAns & Das Endgerät bestätig die neuen Parameter \\
+                    0x06 & DevStatusReq & Gateway fragt den Status des Endgeräts ab \\
+                    0x06 & DevStatusAns & Endgerät sendent seinen Status \\
+                    0x07 & NewChannelReq & Gatway weist das Endgerät an den Channel zu wechseln \\
+                    0x07 & NewChannelAns & Endgerät bestätigt Channelwechsel \\
+                    0x08 & RXTimingSetupReq & Gatway weist das Endgerät an an die Empfangsfensterverzögerung zu änder \\
+                    0x08 & RXTimingSetupAns & Endgerät bestätigt RXTimingSetupReq \\
+                    0x09 & TxParamSetupReq & Gatway sendet neue Sendeeinstellungen an das Endgerät \\
+                    0x09 & TxParamSetupAns & Endgerät bestätigt TxParamSetupReq \\
+                    0x0A & DlChannelReq & Wid vom Gateway gesendet und ändert die Empfangsfenstereinstellungen des RX1-Fensters \\
+                    0x0A & DlChannelAns & Endgerät bestätigt DlChannelReq \\
+                    0x0B & RekeyInd & Endgerät meldt seinen Beitritt \\
+                    0x0B & RekeyConf & Gateway bestätigt Beitritt \\
+                    0x0C & ADRParamSetupReq & Gatway ändert ADR\_ACK\_LIMT and ADR\_ACK\_DELAY \\
+                    0x0C & ADRParamSetupAns & Endgerät bestätigt ADRParamSetupReq \\
+                    0x0D & DeviceTimeReq & Endgerät fragt das aktuelle Datum und die aktuelle Zeit vom Gateway an \\
+                    0x0D & DeviceTimeAns & Gateway beantwortet DeviceTimeReq \\
+                    0x0E & ForceRejoinReq & Gateway weist das Endgerät an nach verbindungsabbruch sofort eine Rejoin-Anfrage zu senden \\
+                    0x0F & RejoinParamSetupReq & Wird vom Gateway gesendet und stellt die Rejoin-Periode ein \\
+                    0x0F & RejoinParamSetupAns & Endgerät bestätigt RejoinParamSetupReq \\
+                    0x10 & PingSlotInfoReq & Endgerät teilt dem Gateway die neue Pingslot-Periode mit \\
+                    0x10 & PingSlotInfoAns & Gateway bestätigt PingslotInfoReq \\
+                    0x11 & PingSlotChannelReq & Gatway definiert neuen Pingslot-Channel \\
+                    0x11 & PingSlotChannelAns & Endgerät bestätigt PingSlotChannelReq \\
+                    0x12 & BeaconTimingReq & Veraltet \\
+                    0x12 & BeaconTimingAns & Veraltet \\
+                    0x13 & BeaconFreqReq & Gatway ändert die Beaconfreuenz \\
+                    0x13 & BeaconFreqAns & Endgerät bestätigt BeaconFreqReq\\
+                    0x20 & DeviceModeInd & Endgerät teil Gateway mit ob es in Klasse A oder C arbeitet \\
+                    0x20 & DeviceModeConf & Gateway bestätigt DeviceModeInd \\
+                    0x80-0xFF & Proprietary & Reserviert für Netzwerkerweiterungen \\
                     
                     
                 \end{longtable}
