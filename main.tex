@@ -255,10 +255,10 @@
                     \hline
                     0x01 & ResetInd & Wird bei dem Beitritt mittels ABP vom Endgerät gesendet. Informiert das Netzwerk über den Beitritt. \\
                     0x01 & ResetConf & Wird vom Gateway gesendet und bestätigt das ResetInd-Kommando. \\
-                    0x02 & LinkCheckReq & Wird vom Endgerät verwendet die verbindung zum Netzwerk zu überprüfen. \\
+                    0x02 & LinkCheckReq & Wird vom Endgerät verwendet um die Verbindung zum Netzwerk zu überprüfen. \\
                     0x02 & LinkCheckAns & Bestätigt das vom Endgerät gesendete LinkCheckReq-Kommando \\
                     0x03 & LinkADRReq & Wird zu Steuerung der Endgeräte im ADR-Modus verwendet \\
-                    0x04 & DutyCycleReq & Das Gateway Teilt dem Endgerät mit wie oft die Verbindung getestet weredn soll \\
+                    0x04 & DutyCycleReq & Das Gateway teilt dem Endgerät mit wie oft die Verbindung getestet werden soll \\
                     0x04 & DutyCycleAns & Das Endgerät bestätigt den neuen Testzyklus \\
                     0x05 & RXParamSetupReq & ... \\
                     0x05 & RXParamSetupAns & ... \\
@@ -268,134 +268,134 @@
 
             \subsubsection{LoRa-Paketstruktur}
                 Die Paketstruktur kommt wie beim ISO/OSI Schichtenmodel durch das ``durchlaufen‘‘ des Stacks zustande. 
-                Da im Folgenden die Paketstruktur vom Groben ins Feine Betrachtend wird, werden hier als erstes die Felder
+                Die Paketstruktur wird hier Top-Down betrachtet. Als erstes werden die Felder
                 der Modulationsschicht betrachtet.
 
-                Jedes Pakete besteht aus grundlegend aus 2 Felder Präambel und  PHYPalyload Falls es sich um einen 
-                Uplink-Paket handelt wird noch ein CRC Code hinzugefügt: Preamble, PHYPalyload, CRC. 
-                In diesem Fall spricht man von einem implizit Paket oder von dem implizitem Modus. Implizit Modus bedeute 
-                dass es kein Payload Header gibt, der Felderlängen oder CRC längenangebe angibt. Diese sind somit feste 
-                zuvor definierte. Im expliziten Modus werden noch 2 Felder hinzugefügt, PHDR und PHDR\_CRC. Somit sieht 
-                ein expliziteste Paket folgendermaßen aus:  Preamble,PHDR, PHDR\_CRC, PHYPalyload. Auch hier gilt, im Falle
-                eines Uplink-Paketes wird am Ende ein CRC Feld angefügt. Somit ergibt sich folgende Paketstruktur: 
+                Jedes Pakete besteht grundlegend aus zwei Felder: Präambel und PHYPalyload. Falls es sich um einen 
+                Uplink-Paket handelt wird noch ein CRC Code hinzugefügt, also Preamble, PHYPalyload, CRC. 
+                In diesem Fall spricht man von einem impliziten Paket oder vom implizitem Modus. Impliziter Modus bedeute, 
+                dass es kein Payload Header gibt. Payload Header gibt die Felderlänge und die CRC Längenangabe an. 
+                Diese sind somit zuvor fest zu definieren. Im expliziten Modus werden noch zwei Felder hinzugefügt, 
+                PHDR und PHDR\_CRC. Somit sieht ein explizites Paket folgendermaßen aus: Preamble, PHDR, PHDR\_CRC, 
+                PHYPalyload. Auch hier gilt, im Falle
+                eines Uplink-Paketes wird am Ende ein CRC Feld angefügt. Somit ergibt sich dann folgende Paketstruktur: 
                 Preamble, PHDR, PHDR\_CRC, PHYPalyload, CRC.
 
-                Die Preamble ist dafür gedacht dem Empfänger mitzuteilen dass gleich Datengesendet werden. Deswegen wird 
-                hier nur ein Signal gesendet das ohne Informationen ist, aber von dem Empfänger wahrgenommen werden kann.
+                Die Preamble ist eine Startsequenz und teilt dem Empfänger mit, dass gleich Daten gesendet werden. 
+                Sie ist nur ein Signal ohne Informationen.
 
-                Da Teile des LoRaWAN Protokolls geschützt sind, finden sich über die PHDR und PHDR\_CRC Felder kaum 
+                Da Teile des LoRaWAN Protokolls geschützt sind, findet man über die PHDR und PHDR\_CRC Felder nur sehr wenig 
                 Informationen. Allerdings geht hervor, dass der PHDR die Länge des PHYPayloads und die Zieladresse 
-                beinhalten sollte.
-                Das PHDR\_CRC Feld wird benutzt um sicherzustellen dass die empfangenen Werte korket sind. Dies wird  
+                beinhaltet.
+                Mit dem PHDR\_CRC Feld wird die Korrektheit der empfangenen Werte sichergestellt. Dies wird  
                 mittels des CRC Verfahrens überprüft.
                 
                 Wie schon mehrfach erwähnt wird in Uplink-Nachrichten ein zusätzliches CRC Feld verwendet. CRC steht für 
-                Cyclisch Redundanz Check und wird verwendet um die Korrektheit der Nachricht zu bestätigen. PHDR, PHDR\_CRC 
+                ``Cyclisch Redundanz Check'' und wird zur Bestätigung der Nachrichtenkorrektheit verwendet. 
+                PHDR, PHDR\_CRC 
                 und das CRC Feld werden automatisch vom dem Funktransceiver (Modul aus Empfänger und Sender) hinzugefügt.
 
-                Die LoRa MAC ebene fügt nun das PHYPalyload Feld ein. PHYPalyload steht für Physikalische Payload. Es gibt 
-                3 Mögliche PHYPayloads Entweder wird ein MACPaylod eingefügt, Join-Rejon-Request oder aber es werden die Join-Accept Nachricht darin transportiert. Um die Daten bzw. die MAC Kommandos richtig auswerten zu können und um die Korrektheit überprüfen zu können werden einige Headers und zusätzliche Felder benötigt. Deswegen lässt sich das Feld PHYPalyload weiter unterteilen in MHDR und MACPayload. Für den Fall das der MACPaylod eine Join-rejoin oder MACPayload Nachricht ist, wir noch ein MIC Feld hinzugefügt( MHDR, MACPayload, MIC). MIC steht für Message Integrity Code und wird verwendet um die Korrektheit der des MACPayloads und des MHDR festzustellen.
+                Die LoRa MAC Ebene fügt nun das PHYPalyload Feld ein. PHYPalyload steht für Physikalische Payload. 
+                Es gibt drei mögliche PHYPayloads. Entweder wird ein MACPaylod eingefügt, Join-Rejon-Request oder aber 
+                es werden die Join-Accept Nachricht darin transportiert. Um die Daten bzw. die MAC Kommandos richtig auszuwerten 
+                und um die Korrektheit zu überprüfen, werden einige Headers und zusätzliche Felder benötigt. 
+                Deshalb lässt sich das Feld PHYPalyload in MHDR und MACPayload unterteilen. Falls der 
+                MACPaylod eine Join-Rejoin oder MACPayload Nachricht ist, wir noch ein MIC 
+                Feld hinzugefügt: MHDR, MACPayload und MIC. MIC steht für ``Message Integrity Code'' und mit ihr wird 
+                die Korrektheit der des MACPayloads und des MHDR ermittelt.
 
-                Das MHDR Feld beschreibt wie die Daten im MACPayload Feld zu deuten sind. Wieder wird dieses Feld in 
-                Unterfelder Unterteilt. MType, RFU und Major heißen die Unterfelder. Das MType Feld beschreibt die Art der 
-                Nachricht. z.B: kann hier angegeben werden ob es sich um Datennachrichten, Join-Nachrichten, ... handelt. 
-                RFU steht für ``Reserved for Future Usag‘‘ zu Deutsch ``für zukünftige verwendeung reservier‘‘.Daher kann 
-                dieses Feld in der version 1.1 und niedriger ignoriert werden. Das Major Unterfeld wird verwendet um das 
-                LoRa-Version der Nachricht zu definieren. Momentan ist nur der Wert 0 Definiert. 0 Steht für LoRaWan R1. 
-                Die restlichen werde sind für zukünftige Updates reserviert.
+                Das MHDR Feld definiert die Daten im MACPayload Feld. Auch dieses wird Feld in 
+                Unterfelder unterteilt: MType, RFU und Major. MType steht für ``Message Type''. Das MType Feld beschreibt die Art der 
+                Nachricht, z.B. Datennachrichten oder Join-Nachrichten, \dots. 
+                RFU steht für ``Reserved for Future Usag‘‘. Daher kann 
+                dieses Feld in der Version 1.1 und niedriger ignoriert werden. Das Major Unterfeld wird verwendet um das 
+                LoRa-Version der Nachricht zu definieren. Momentan ist nur der Wert 0 definiert. 0 Steht für LoRaWan R1. 
+                Die restlichen Werte sind für zukünftige Updates reserviert.
 
-                Mit der Unterteilung des MACPayload springen wir in dem LoRaStack noch eine ebene höher, in die 
-                Applikationsschicht. Enthalten im MACPayload Feld sind der Frameheader FHDR, der Frame Port FPort und der 
-                Frame Payload FRMPayload. Daten die gesendet werden sollen befinden sich in dem FRMPayload Feld. Wenn keine
-                Daten gesendet werden, kann das FRMPayload Feld auch MAC-Kommandos enthalten. In dem Feld FPorts wird 
+                Mit der Unterteilung des MACPayload springen wir in dem LoRaStack noch eine Ebene höher, in die 
+                Applikationsschicht. Im MACPayload Feld sind Frameheader FHDR, Frame-Port FPort und 
+                Frame-Payload FRMPayload enthalten. Nutzdaten befinden sich im FRMPayload Feld. Werden keine
+                Daten gesendet, entällt das FRMPayload Feld MAC-Kommandos. In dem Feld FPorts wird 
                 angegeben an welchen Port und somit an welche Teilapplikation des Applikationsserver die Daten geleitet 
-                werden sollen. Es gibt einige feste Ports. Port 0 ist reserviert um MAC-Kommandos im FRMPayload Feld 
-                entgegenzunehmen. Die Ports 0x01 bis 0xDF sind Anwendungsspezifische Ports und Port 0xE0 ist für das 
-                LoRaWAN Test Layer Protokoll reserviert. Falls ein anderer Port als die geraden genannten angegeben wird, 
-                wird die Nachricht verworfen. 
+                werden sollen. Es gibt einige fest definierte Ports. Port 0x00 ist reserviert um MAC-Kommandos im FRMPayload Feld 
+                entgegenzunehmen. Die Ports 0x01 bis 0xDF sind anwendungsspezifische Ports und Port 0xE0 ist für das 
+                LoRaWAN-Test-Layer-Protokoll reserviert. Nachrichten mit anderen Port-Adressen werden verworfen. 
 
-                Erneut kann der FHDR "Frame Header" in einzelne Felder unterteilt werden in DevAddr, FCtrl, FCnt, Fopts. 
-                In dem Feld DevAddr wird die Zieladresse der Nachricht vermerkt. Im Feld FCnt (Frame Counter) wird der 
-                jeweilige counterwert für die bisher gezählten Nachrichten übermittelt. Hamit schützt man sich vor 
-                Replayattacks. Mehr zu den Counter kann im Kapitel \nameref{sec:Sicherheit} gelesen werden. Im FOpt Feld 
-                können bis zu 5 MAC Kommandos parallel zu Daten übermittelt werden. Die Anzahl kommt auf die Menge der 
+                Auch der FHDR "Frame Header" wird in einzelne Felder unterteilt: DevAddr, FCtrl, FCnt und Fopts. 
+                In dem Feld DevAddr (Device Address) wird die Zieladresse der Nachricht vermerkt. Im Feld FCnt 
+                (Frame Counter) wird der 
+                jeweilige Zählerwert (Counter) für die bisher gezählten Nachrichten übermittelt. Hiermit schützt man sich vor 
+                Replayattacks. Mehr zu den Counter kann im Kapitel \nameref{sec:Zähler} gelesen werden. Im FOpt Feld 
+                können bis zu fünf MAC Kommandos parallel zur Datenübertragung übermittelt werden. Die Anzahl kommt auf die Menge der 
                 mitgelieferten Variablen an. 
 
-                Das Letzte Feld das in Unterfelder unterhielt werden kann ist das FCtrl Feld. Hier wird das Verhalten des 
-                Gerätes gestiert sowie Nachrichten bestätigt. Es gibt leichte unterschiede für ein Uplink und für Downlink 
-                Nachrichten. Beide Nachrichtentypen haben ein ADR, ein ACK und ein FOptsLen Feld. Im ADR wird definiert 
-                ob der Sendende bereit ist im Modus "Adaptive Data Rate" Daten zu senden, siehe Kapitel\nameref{sec:ADR}. 
-                Mit dem ACK Feld können empfangene Nachrichten bestätigt werden. Ob Nachrichter bestätigt werden müssen 
-                steht im MType Feld(Confirmed Data). In dem FOptsLen Feld wird die Länge des FOpts Feldes mitsamt des 
-                Headers eingetragen Wenn Das FOptsLen 0 ist, ist kein FOpts Feld vorhanden.
+                Das letzte Feld das in Unterfelder unterteilt werden kann ist das FCtrl Feld. Hiermit wird das Endgeräte 
+                gesteuert und Nachrichten bestätigt. Es gibt leichte Unterschiede für Uplink und Downlink 
+                Nachrichten. Beide Nachrichtentypen haben ein ADR, ein ACK und ein FOptsLen Feld. Das ADR Feld definiert, 
+                ob im Modus "Adaptive Data Rate" Daten gesendet werden oder im Standardmodus. Siehe Kapitel\nameref{sec:ADR}. 
+                Mit dem ACK Feld können empfangene Pakete bestätigt werden. Ob Nachrichten bestätigt werden müssen,
+                ist im MType Feld (Confirmed Data) definiert. In dem FOptsLen Feld wird die Länge des FOpts Feldes mitsamt des 
+                Headers eingetragen. Ist das FOptsLen 0, so ist kein FOpts Feld vorhanden.
 
                 Ein Downlinkpaket hat zusätzlich ein RFU Feld das nicht verwendet wird und ein FPending Feld. In diesem 
-                Feld kann das Gateway bzw. der Netzwerkserver dem Endgerät mitteilen, dass noch mehr Daten zu senden sind.
+                Feld kann das Gateway bzw. der Netzwerkserver dem Endgerät mitteilen, dass noch mehr Daten folgen.
 
-                Dahingegen hat ein Uplinkpaket ein ClassB Feld indem das Endgerät dem Gateway mitteilt, dass es gerne auf 
-                Funktionsklasse B wechseln würde und ein ADRACKReq Feld. Dieses Feld wird verwendet um zu überprüfen ob 
-                das Netzwerk noch antwortet. Die genaue Funktionsweise ist im Kapitel \nameref{sec:ADR} erklärt.
+                Dahingegen hat ein Uplink-Paket ein ClassB. Hier teilt das Endgerät dem Gateway mit, dass es auf 
+                Funktionsklasse B wechseln will. Zusätzlich hat das Uplink-Paket ein ADRACKReq Feld. Dieses Feld 
+                wird verwendet um zu überprüfen, dass das Netzwerk noch antwortet. 
+                Die genaue Funktionsweise ist im Kapitel \nameref{sec:ADR} erklärt.
 
-                Eine noch genauere Darlegung der LoRa-Paketstruktur kann in den LoRaWA 1.1 Specification \cite{LoRaSpec} 
-                gefunden werden.
-
-                %\marginpar{Tabellen einfügen, belegen}
-                %\marginpar{maccomandos einfgen zuerset}   
+                Eine detailierte Beschreibung der LoRa-Paketstruktur findet man in der LoRaWA 1.1 Specification \cite{LoRaSpec}.   
                 
                 
         \subsection{Übertragungsart}\label{sec:Modulation}
-            Um die Entstandenen Pakete in Signale umzusetzen und diese effizient und gleichzeitig übertragen zu können
-            nutzt LoRa Chirp-Spread-Spectrum (CSS). Hierbei werden die Frequenz über eine gewisse Zeit hinweg 
-            veränder. Durch messen in welche richtig, ansteigen oder abfalle, die Frequenz verändert wird, können 1 
-            und 0 Codiert werden. Man spricht bei einem Bit von einem Chrip-Impuls. Durch aneinanderreihe der 
-            verschiedenen Impulsen ist es möglich mehrere Bits nacheinander zu übertragen. Das entstandene Signal 
-            wird auch al Sub-Chrip bezeichnet. Durch verwenden von Unterschiedlichen ansteigezeiten und abfallzeiten 
-            ist es möglich mehre Signale auf der selben Frequenz zu übertragen ohne das die Signale sich gegenseitig 
-            stören. Dies nennt man auch Spreading Factor. Außerdem kann die Parallelität durch verschiedene 
-            Frequenzbereiche verbessert werden. CSS ist besonders für große Reichweiten geeignet und somit auch 
-            bestens für Lora. Am besten ist das Signal wenn das Endgerät nahe am Gateway ist. Je weiter es entfernt 
-            desto schlechter wird das Signal. Um die Kommunikation trozdem zu ermöglichen wird der ``Spreading 
-            Factor‘‘ erhöht. Dies hat auch den Vorteil dass der Energieaufwand gering gehalten werden kann. 
-            Analog wie Menschen auf einer Party nicht immer versuchen lauter sonder besonders langsam und deutlich 
-            sprechen.\cite{explain}
+            Um die entstandenen Pakete in Signale umzusetzen und diese effizient und gleichzeitig übertragen zu können
+            nutzt LoRa Chrip-Spread-Spectrum (CSS). Bei dieser Frequenzmodulation wird Frequenzanstieg als Binär 1 und 
+            Frequenzabfall als Binär 0 codiert. Man spricht bei einem Bit von einem Chrip-Impuls. Durch 
+            aneinanderreihe der verschiedenen Impulse können mehrere Bits übertragen werden. Das entstandene Signal 
+            wird auch als Sub-Chrip bezeichnet. Da verschiedene Anstiegszeiten und Abfallzeiten verwendet werden, können  
+            mehre Signale auf derselben Frequenz parallel übertragen werden. Dies nennt man auch Spreading Factor. 
+            Die Parallelität wird durch Verwendung von verschiedenen Frequenzbereiche verbessert. 
+            CSS ist besonders für große Reichweiten geeignet und ideal für LoRa. 
+            Mit dem ``Spreading Factor'' wird die Signaldauer entsprechend dem Endgeräteabstand zum Gateway geregelt.
+            Damit wird auch der Energieaufwand gering gehalten. Ähnlich einer Unterhaltung auf einer lauten Party. 
+            Man spricht nicht nur lauter sonder auch besonders langsam und deutlich.\cite{explain}
 
-            Diese Aufteilung durch den Spreading Factor und die Frequenz werden Channels erzeugt. Channels können 
-            beliebig benutzt werde. es gibt allerdings mpssen zwei regeln zu beachtet werden: 
+            Mit Spreading Factoren und Frequenzen werden Channels erzeugt. Channels können 
+            beliebig benutzt werde. Es gibt allerdings zwei Regeln zu beachtet: 
             \begin{enumerate}   
                 \item Channels werden per Pseudozufallszahl geändert
-                \item Sendezeit erfüllt die Regionalen Bestimmungen
+                \item Sendezeit erfüllt die regionalen Bestimmungen
             \end{enumerate}
             
-            Das Aloha Protokoll wird verwendet um festzustellen wann gesendet werden soll. Dabei wird einfach gesendet
-            wenn Daten zum Senden vorhanden sind. Wenn nun zwei Sender gleichzeitig auf dem selben Channel senden 
-            möchten kommt es zu einer Kollision. Dadurch kann das Gateway die empfangenen Daten nicht mehr auswerden 
+            Mit dem Aloha Protokoll wird festgestellt wann gesendet werden soll. Vorhandene Daten werden dann einfach 
+            gesendet. Wenn nun zwei Sender gleichzeitig auf dem selben Channel senden 
+            möchten kommt es zu einer Kollision. Dadurch kann das Gateway die empfangenen Daten nicht mehr auswerten 
             und die Daten müssen erneut übertragen werden. Deswegen warten beide Endgeräte eine zufällige, 
-            unterschiedliche Zeit ab bist sie erneut senden.
-            
-            %\marginpar{frequenzy hopping}
+            unterschiedliche Zeit ab bis sie erneut senden.
 
             \subsubsection{Adaptive Data Rate}\label{sec:ADR}
-            Adaprive Data Rate oder kurz ADR wird verwendet um immer die optimalste Senderate und die optimale 
-            Sendepower für das Endgerät zu finden und so schnellstmöglich die Daten zu senden. ADR kann nur 
-            verwendet werden wenn im FHDR Feld des LoRa-Paketes das ADR Bit gesetzt ist, siehe 
-            \nameref{sec:protokoll}.Die Steuerung durch ADR findet durch den Netzwerkserver statt. Sobald der 
-            Netzwerkserver bereit ist, setzt er das Bit im Downlink-Paket. Ist das Endgerät ebenfalls bereit 
-            setzt es ebenfalls das Bit und ADR kann verwendet werden. Falls es nicht möglich sein sollte ADR zu 
-            verwenden sollte es durch das Applikationsslayer gesteuert werden.
+            Adaprive Data Rate oder kurz ADR wird verwendet um die optimalste Senderate und die optimale 
+            Sendepower für das Endgerät zu finden und so die optimalste Datenübertragung zu erhalten. ADR kann nur 
+            verwendet werden wenn, im FHDR Feld des LoRa-Pakets das ADR Bit gesetzt ist, siehe 
+            \nameref{sec:protokoll}. Die Steuerung mit ADR findet durch den Netzwerkserver statt. Sobald der 
+            Netzwerkserver bereit ist, setzt er das Bit im Downlink-Paket. Ist das Endgerät auch bereit, so 
+            setzt es ebenfalls das ADR Bit und ADR kann verwendet werden. Ist ADR nicht möglich wird Standardübertragung 
+            verwendet.
 
             Die Steuerung findet durch spezielle MAC-Kommandos statt. Standardgemäß wird die höchste 
-            Übertragungsstärke verwendet und die geringste Übertragungsrate. Falls diese gedrosselt werde soll 
-            wird vom Netzwerkserver das LinkADRReq MAC –Kommando benutzt. Mit diesem wird das Endgerät informiert, 
-            dass es die Übertragungsstärke, Übertragungsrate oder den Übertragungskanal ändern soll. Die Werte sind 
-            in den Parameter codiert. Sobald die Werte geändert wurden, muss periodisch überprüft werden ob das 
-            Netzwerk die Nachrichten noch bekommt. Deswegen wird jedes Mal wenn der wenn ein Uplink empfangen wird, 
-            wird der ADR\_ACK\_CNT Zähler erhöht. Wenn dieser Zähler ein gewissen schwellenwert (ADR\_ACK\_Limit) 
-            überschreitet, wird das ADRACKReq Bit im Uplink gesetzt. Dieses signalisiert den Netzwerkserver das er 
-            mit einem ein Nachricht senden muss um die Verbindung zu bestätigen. Falls dieser Downlink nicht in 
-            ADR\_ACK\_Delay Frames empfangen wird, wird zuerst die Übertragungsstärke auf das Maximum gesetzt. 
-            Falls möglich wird außerdem die Datenrate verringert um die Reichweite zu erhöhen. Die Datenrate wird 
-            solange weiter, jede ADR\_ACK\_Delay Frames, verringert bis diese minimal ist. Falls diese schon 
-            minimal ist müssen alle Kanäle benutzt werden. Dies wird solange probiert biss eine Verbindung 
+            Übertragungsstärke verwendet, die geringste Übertragungsrate und zufälliger Kannal. Diese Parameter werden bei Bedarf 
+            vom Netzwerkserver durch das LinkADRReq MAC–Kommando angepasst. Die 
+            neuen Werte der Parameter sind in den Variablen des MAC-Kommandos codiert. Sobald die Werte geändert 
+            wurden, muss periodisch überprüft werden ob das 
+            Netzwerk die Nachrichten noch empfängt. Deshalb wird bei jedem Uplink der ADR\_ACK\_CNT Zähler erhöht. 
+            Wenn dieser Zähler den Schwellenwert ADR\_ACK\_LIMIT
+            überschreitet, wird das ADRACKReq Bit im Uplink gesetzt. Dieses signalisiert dem Netzwerkserver eine
+            Nachricht zu senden um die Verbindung zu bestätigen. Falls dieser Downlink nicht in 
+            ADR\_ACK\_DELAY Frames empfangen wird, wird zuerst die Übertragungsstärke auf das Maximum gesetzt. 
+            Gegebenenfalls wird außerdem die Datenrate verringert um die Reichweite zu erhöhen. Die Datenrate wird 
+            pro ADR\_ACK\_DELAY Frames schrittweise weiter bis zum minimaler Datetrate verringert. Falls diese schon 
+            minimal ist, werden alle Kanäle benutzt. Dies wird solange probiert bis eine Verbindung 
             hergestellt werden kann. \cite[S.19 f]{LoRaSpec}         
     \section{Lora Geräte Klassen} \label{sec:klassen}
         Um maximal Energie zu sparen aber trotzdem die Möglichkeit dass die Endgeräte agile Daten empfangen können 
