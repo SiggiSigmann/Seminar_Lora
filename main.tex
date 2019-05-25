@@ -23,20 +23,36 @@
     \newpage
 
     \section{Einführung}
-        Warum braucht es noch eine weites Funknetz? Eine große Reichweite
-        kann netweder durch einen hohen Energieaufwand oder durch eine niedrige Datenrate erreicht werden.
+        Warum noch eine weites Funknetz? 
+        Reichen die bestehenden Funknetzt nicht aus?
 
-        Wlan hat eine hohe Übertragungsrate allerding auch eine begrenzte Reichweite. GSM hat eine Höherer Reichweite aber einen
-        hohen Energieaufwand. Bluethooth hat einen geringen energieaufwan, eine hohe Übertragungsrate aber eine sehr geringe Recihweite.
-        Keiner der genannten Protokolle ist ein LPWA Netzwerk. Um diese Lücke zu füllen wurde LoRa eingeführt.
-        Lora steht für ``Low Power Wide Range'' und ist für batteriebetriebene kabellose Geräte geeignet.   
-        Es zwischen 0.3 und 50 kbps erreicht werden und je nach Umgebung bis zu 20km weit gesendet werden. 
-        Deswegen wir Lora auch of im Internet of Things (IoT) Bereich verwendet. Obwohl einige dieser Geräte Batteriebetrieb
-        sind konnen Betriebszeiten von meheren Jahren erziehlt werden.
+        Heutige freie Funknetze sind GSM, Wi-Fi, Bluetooth, usw.
+        
+        In jedem Funknetzt sind drei Parameter wichtig: Bandbreite/Übertragungsrate, Energiebedarf und Reichweite.
+        Wi-Fi hat eine hohe Bandbreite, hoher Energiebedarf und eine begrenzte Reichweite. 
+        GSM hat eine höhere Bandbreite, einen hohen Energiebedarf und mittlere Reichweite.
+        Bluetooth hat geringe Bandbreite, eine niedringen Energiebedarf une eine niedrige Reichweite.
+        
+        Für sehr hohe Reichweiten und sehr niedringen Energiebedarf gab es bisher noch keine Lösung.
+        Hier setzen nun Low-­Power-Wide-Area-Netzwerk-Technologien
+        (LPWAN) wie LoRa, Sigfox und NarrowBand-IoT (NB-IoT) an. Diese Netzwerke sind für IoT,
+        Smart-City-Applikationen und andere LPWAN-Anwendungen geeignet.
+        Beispiele sind smarte Mülleimer, Straßenlaternen, Parkplätze aber auch private für SmartHomes geeignet.
+        Der Vorteil einer sehr hohe Reichweiten (bis zu 20km) und sehr niedringen Energiebedarf (Batterielaufzeit
+        bis zu mehreren Jahren) hat den Nachteil einer sehr gerigen Bandbreite (zwischen 0.3 und 50 kbps). 
 
-        Eine Alternative zu Lora ist Sigfox, hierrauf werde ich nicht weiter eingehen.\cite{WhatIsLoRa}
 
-        In dieser Seminararbeit geht es um die Funktionsweise von LoRaWAN 1.1
+        \begin{figure}[h]
+            \centering
+            \includegraphics[width=13cm, height=7cm]{Einfuehrung}
+            \caption{Funknetzvergleich}
+        \end{figure}
+
+        Im folgenen wird der Aufbau und die Funktion von LoRaWAN 1.1 beschreiben.\newline
+        LoRaWAN steht für ``Long Range Wide Area Network''. \cite{WhatIsLoRa}
+
+        
+        
     \section{Aufbau eines Lora-Netzwerk}
         LoRa ist ideal für IoT-Geräte, da per einfachem Netzwerkaufbau Datenaustausch mit dem Internet möglicht ist.
         Um die von den End-Geräten gesendeten LoRa-Pakete auf IP/TCP Pakete umzusetzen wird ein Gateway als Schnittstelle
@@ -296,15 +312,15 @@
                 Die Paketstruktur wird hier Top-Down betrachtet. Als erstes werden die Felder
                 der Modulationsschicht betrachtet.
 
-                Jedes Pakete besteht grundlegend aus zwei Felder: Präambel und PHYPalyload. Falls es sich um einen 
-                Uplink-Paket handelt wird noch ein CRC Code hinzugefügt, also Preamble, PHYPalyload, CRC. 
+                Jedes Pakete besteht grundlegend aus zwei Felder: Präambel und PHYPayload. Falls es sich um einen 
+                Uplink-Paket handelt wird noch ein CRC Code hinzugefügt, also Preamble, PHYPayload, CRC. 
                 In diesem Fall spricht man von einem impliziten Paket oder vom implizitem Modus. Impliziter Modus bedeute, 
                 dass es kein Payload Header gibt. Payload Header gibt die Felderlänge und die CRC Längenangabe an. 
                 Diese sind somit zuvor fest zu definieren. Im expliziten Modus werden noch zwei Felder hinzugefügt, 
                 PHDR und PHDR\_CRC. Somit sieht ein explizites Paket folgendermaßen aus: Preamble, PHDR, PHDR\_CRC, 
-                PHYPalyload. Auch hier gilt, im Falle
+                PHYPayload. Auch hier gilt, im Falle
                 eines Uplink-Paketes wird am Ende ein CRC Feld angefügt. Somit ergibt sich dann folgende Paketstruktur: 
-                Preamble, PHDR, PHDR\_CRC, PHYPalyload, CRC.
+                Preamble, PHDR, PHDR\_CRC, PHYPayload, CRC.
 
                 Die Preamble ist eine Startsequenz und teilt dem Empfänger mit, dass gleich Daten gesendet werden. 
                 Sie ist nur ein Signal ohne Informationen.
@@ -320,11 +336,11 @@
                 PHDR, PHDR\_CRC 
                 und das CRC Feld werden automatisch vom dem Funktransceiver (Modul aus Empfänger und Sender) hinzugefügt.
 
-                Die LoRa MAC Ebene fügt nun das PHYPalyload Feld ein. PHYPalyload steht für Physikalische Payload. 
+                Die LoRa MAC Ebene fügt nun das PHYPayload Feld ein. PHYPayload steht für Physikalische Payload. 
                 Es gibt drei mögliche PHYPayloads. Entweder wird ein MACPaylod eingefügt, Join-Rejon-Request oder aber 
                 es werden die Join-Accept Nachricht darin transportiert. Um die Daten bzw. die MAC Kommandos richtig auszuwerten 
                 und um die Korrektheit zu überprüfen, werden einige Headers und zusätzliche Felder benötigt. 
-                Deshalb lässt sich das Feld PHYPalyload in MHDR und MACPayload unterteilen. Falls der 
+                Deshalb lässt sich das Feld PHYPayload in MHDR und MACPayload unterteilen. Falls der 
                 MACPaylod eine Join-Rejoin oder MACPayload Nachricht ist, wir noch ein MIC 
                 Feld hinzugefügt: MHDR, MACPayload und MIC. MIC steht für ``Message Integrity Code'' und mit ihr wird 
                 die Korrektheit der des MACPayloads und des MHDR ermittelt.
@@ -626,7 +642,23 @@
             \cite[S.22 ff]{LoRaSecur}
 
     %\section{Live-Beispiel}
-    %\section{Ausblick}
+    \section{Ausblick}
+        Ich sehe ein große Zukunft für IoT-Anwendungen.
+        
+        Der Bedarf an vernetzten batteriebetrieben Geräten zum Datenaustausch wird steigt stetig. Im Gegensatz zum hohen
+        Investitionsaufwand beim 5G Netz sind die Kosten bei LPWAN gering. Besonders für Übertragung von Sensordaten 
+        sehe ich viele Möglichkeiten. Nicht nur solche, die unseren Komfort steigern, sondern auch 
+        Anwendungen z.B. im Umweltschutz und in der Landwirtschaft.
+
+        Ich könnte mir ein Netz von Sensoren zur frühzeitigen Hochwasserwarnung vorstellen. Aber auch Sensoren 
+        die in Gewächshäusern und auf Feldern die Bodenfeuchtigkeit, Sonneneinstarhlung und Temperatur (Frostwarner) messen
+        und übermitteln und so schnelles Handeln ermöglichen.
+
+        Ich habe durch meine Seminararbeit großes Interresse an diesem Themengebiet gefunden und bin schon 
+        sehr gespannt wie sich dies weiter entwickelt.
+
+
+      
     %\section{Sonstige quellen}
         %    \url{https://lora-alliance.org/resource-hub}
         %    QuickStart für ein kleines Projekt: \url{https://www.thethingsnetwork.org/docs/devices/node/quick-start.html#setup-arduino-ide}
