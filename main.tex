@@ -105,7 +105,7 @@
 
             Der Join-Server kann mit mehreren Netzwerkservern verbunden werden und jeder Netzwerkserver kann mehrere 
             Join-Server haben.
-        \subsection{End-Gerät}
+        \subsection{End-Gerät}\label{sec:endgerät}
             Endgeräte sind Geräte die Informationen mittels LoRa empfangen oder senden. Jedes Endgerät ist mit einem 
             bestimmten Applikationsserver verbunden.
 
@@ -121,7 +121,7 @@
             \end{itemize}
             \cite[S.47 ff.]{LoRaSpec}
 
-    \section{LoraWan Funktionsweise}
+    \section{LoRaWAN Funktionsweise}
         Im folgenden Kapitel wird näher auf die Funktionsweise von LoRaWAN eingegangen. Speziell, liegt der Fokus auf
         dem Netzwerkebitritt, das verwendete Protokoll und wie die Daten physikalisch Übertragen werden.
         \subsection{Schichtenmodell}
@@ -129,133 +129,143 @@
                 \includegraphics[width=\textwidth]{LoraLayer}
                 \caption{LoRaStack \cite[S.7]{WhatIsLoRa}}
             \end{figure}
-            Das Schichtenmodell lässt sich in zwei Teile unterteilen. Der LoRa Teil ist der unterste und kümmert sich 
-            um die physikalische Übertragung der Pakte und er LoRaWAN Teil des Modells ist für die Steuerung des 
-            Netzwerkes, Implementierung der LoRaWAN-Klassen und das überprüfen / verschlüsseln der Daten zuständig.
+            Das Schichtenmodell lässt sich in zwei Teile unterteilen. Der LoRa Part ist der unterste und kümmert sich 
+            um die physikalische Übertragung der Pakte. Der LoRaWAN Part ist für die Steuerung des 
+            Netzwerkes, Definition der LoRaWAN-Klassen und das Überprüfen / Verschlüsseln der Daten zuständig.
 
-            Die unterste Schicht des LoRa Teils ist für die Anwendung der Richtigen Frequenzen zuständig. In Europa 
-            muss das ISM-Band 868 verwendet werden in den Vereinigten Staaten wird das Band 915 
-            verwendet.\cite[S.7]{WhatIsLoRa}
+            Die unterste Schicht des LoRa Parts ist für die Anwendung der richtigen Frequenzen zuständig. In Europa 
+            muss das freiverfügbare ISM-Band 868 verwendet werden, in den Vereinigten Staaten das Band 915 und 
+            in Asien das Band 430 .\cite[S.7]{WhatIsLoRa}
 
-            Die darüber liegende Schicht heißt LoRa Modulation und kümmert sich darum dass die Pakete so in die 
-            Frequenz "moduliert" werden, dass der Empfänger diese korrekt und effizient empfangen und wiederherstellen 
-            kann. Mehre dazu im Kapitel \nameref{sec:Modulation}
+            Die darüber liegende Schicht nennt man LoRa Modulation. Sie wandelt die binären Pakete in 
+            LoRa-Signale um, so dass der Empfänger diese korrekt und effizient empfangen und wiederherstellen 
+            kann. Mehre dazu im Kapitel \nameref{sec:Modulation}.
 
-            Über der LoRa Modulation Schicht liegt die erste LoRaWan Schicht, LoRa MAC. AC steht für ``Media Access 
-            Protokoll''. Dieses Protokoll wird verwendet um das Loranetz zu steuern und wie der Name schon sagt, 
-            Daten zu übertragen . Diese Schicht ist außerdem für die Implementierung der einzelnen Endgeräteklassen 
-            und für das Übertragen der Steuerungskommandos zuständig. Mehr zu den Klassen kann im Kapitel \
-            nameref{sec:klassen} und im Kapitel \nameref{sec:protokoll} gelesen werden.
+            Über LoRa Modulation liegt die erste LoRaWAN Schicht die LoRa MAC genannt wird. MAC steht für ``Media Access 
+            Protokoll''. Dieses Protokoll wird zur Steuerung des LoRa-Netz verwendet. Diese Schicht ist außerdem für 
+            die Implementierung der einzelnen Endgeräteklassen 
+            und für das Übertragen der Steuerungskommandos zuständig. Mehr zu den Endgeräteklassen kann im Kapitel 
+            \nameref{sec:klassen} und im Kapitel \nameref{sec:protokoll} gelesen werden.
 
-            Die oberste Schicht nennt sich Applikationsschicht und ist dafür zuständig die Nutzdaten einer Nachricht 
-            passend zu verpacken, zu verschlüsseln und zu authentifizieren.
+            Die oberste Schicht nennt sich Applikationsschicht und verpackt, verschlüsselt und authentifiziert 
+            die Nutzdaten einer Nachricht.
         \subsection{Netzwerkbeitritt}
-            End-Geräte sind immer bestimmten Netzwerken zugeordnet. Es gibt zwei wege um ein neue End-geräte zu einem 
+            Endgeräte sind immer einem bestimmten Netzwerk zugeordnet. Es gibt zwei Wege um ein neues Endgeräte zu einem 
             bestehenden Netzwerk hinzuzufügen.
             \subsubsection{OTAA} \label{sec:OTAA}
-                Die sicherste aber auch aufwendigste Methode um ein End-Gerät mit einem Netzwerk zu verbinden heißt 
-                OTAA ``Over-the-Air Activation''. Hierbei muss jedes Mal wenn einem Netzwerk beigetreten werden soll 
-                die Join-Prozedur ausgeführt werden. Hierfür müssen folgende 4 Konstanten Vorgegeben werden. DevEUI, 
-                JionEUI , NwkKey, AppKey.
+                Die sicherste aber auch aufwendigste Methode heißt 
+                OTAA ``Over-the-Air Activation''. Hierbei muss bei jedem Netzwerkbeitritt die Join-Prozedur ausgeführt
+                werden. Dafür müssen folgende 4 Konstanten im Programm vorhanden sein: DevEUI, 
+                JionEUI, NwkKey und AppKey.
 
-                Näheres zu dem DevEUI und JoinEUI kann im Kapitel \nameref{sec:endgerät} gefunden werden.
+                Näheres zu den Konstanten kann im Kapitel \nameref{sec:endgerät} nachgelesen werden.
 
-                Der NWKSKEY ist für die Verschlüsslung der Datenpakete bis zu Gateway zuständig. Auch dieser Key wird 
+                Der NWKSKEY ist für die Verschlüsslung der Datenpakete bis zu Gateway zuständig. Dieser Key wird 
                 vom Netzwerkserver erzeugt und muss manuell in den Code eingetragen werden.\cite[S.3]{LoRaSecur}
             
-                Der letzt Wert heißt APPSKEY und sichert die Kommunikation vom End-Gerät zu dem Applikationsserver ab. 
+                Der letzt Wert heißt APPSKEY und sichert die Kommunikation vom Endgerät zu dem Applikationsserver ab. 
                 Der Schlüssel wird genau wie der NWKSKEY vom Netzwerkserver erzeugt und verwaltet.\cite[S.3]{LoRaSecur}
 
-                Als erstes muss das End-Gerät eine Join- oder Rejoin-Nachricht senden. Die Nachricht besteht aus der 
-                JoinEUI, dem DevEUI und einer DevNonce. Mit der DevNonce sollen Replayattack verhindert werden. Diese 
-                Nonce ist das beim ersten Join-Request 0 und sollte sich bei jedem Join-Request erhöhen. Unter anderem 
-                deswegen muss sie auch dann noch gespeichert werden wenn kein Strom zur Verfügung steht um die Nonce 
-                nicht nach jedem ausschalten zurückzusetzen. Falls von dem gleichen Endgerät eine Join-Request mit einer 
-                zu kleinen DevNonce gesendet wir, wird die Nachricht ignoriert und es ist nicht möglich dem Netzwerk 
+                Als erstes muss das End-Gerät eine Join- oder Rejoin-Nachricht an das Gateway senden. Die Nachricht besteht aus der 
+                JoinEUI, dem DevEUI und einer DevNonce. Mit der DevNonce sollen Replayattack verhindert werden. Die
+                Nonce stratet beim ersten Join-Request mit 0 und wird bei jedem Join-Request um eins erhöht. 
+                Die Nonce muss im einem nichtflüchtigern Speicher gespeichert werde, um den Werte unter allen Bedingungen 
+                zu Sichern. Ansonsten wäre ein manueller Reset des Zählers im Netzwerkserver erforderlich.
+                Sendet ein Endgerät einen Join-Request mit zu kleinem DevNonce, wird die Nachricht ignoriert und es 
+                ist nicht möglich dem Netzwerk 
                 beizutreten.
 
-                Die Accept Nachricht besteht aus einer JoinNonce, einem NetzwerkID Net\_ID, einer Geräteadresse DevAddr,
+                Das Gateway antworted mit einer Accept-Nachricht, besteht aus einer JoinNonce, einem NetzwerkID Net\_ID, einer Geräteadresse DevAddr,
                 einem Einstellungsfeld DLSettings , einer Zeitangabe wie lange zukünftig auf eine Antwort nach dem
-                senden gewartet werden muss, hier RxDelay und einer optionalen Liste an Netzwerkparameter CFList.
+                Senden gewartet werden muss (hier RxDelay) und einer optionalen Netzwerkparameterliste CFList.
 
-                Die JoinNonce wir verwendet um Replayatacken zu verhindern und muss größer sein als die zuletzt 
-                gesendete um von dem Endgerät verarbeitend zu werden. Außerdem wir die Nonce benutz um Schlüssel wie 
-                AppSKey herzuleiten. Für jedes Endgerät wird eine eigene Join Nonce geführt, sie sollte sich nicht 
-                wiederholen. Jedes Endgerät merkt sich die letzte JoinNonce und tritt auch nur bei wenn diese großer 
-                ist als die letzte empfangene.
+                Die JoinNonce wir verwendet um Replayatacken zu verhindern und muss größer als die zuletzt 
+                gesendete sein. Ansonsten wir die Nachricht vom Endgerät ignoriert. Außerdem wir die Nonce benutz 
+                um Schlüssel wie 
+                AppSKey herzuleiten. Für jedes Endgerät wird eine eigene JoinNonce geführt, sie darf sich nicht 
+                wiederholen. Jedes Endgerät merkt sich die letzte JoinNonce und tritt auch nur bei, wenn diese größer 
+                ist als die letzte.
 
                 Die Join-Accept Nachricht wird vom Endgerät nach JOIN\_ACCEPT\_DELAY1 oder JOIN\_ACCEPT\_DELAY2 nach 
-                dem Senden des Request erwarted. Sollte die Join-Accept Nachricht zu einem andern Zeitpunkt gesendet 
-                werden, wird diese nicht empfangen, da das Endgerät nicht empfangsbereit ist.
+                dem Senden des Request erwartet. Wird die Join-Accept Nachricht zu einem andern Zeitpunkt gesendet 
+                , wird diese nicht empfangen, da das Endgerät nicht empfangsbereit ist.
 
                 Mehr Informationen zu den Ableitungen der Schlüssel finden Sie in dem Kapitel \nameref{sec:Sicherheit}.
 
             \subsubsection{ABP}
-                Die einfachste Art des Beitritts heißt ABP was für ``Activation by Personalization'' zu Deutsch 
-                ``Aktivierung durch Personalisierung'' steht. Hierbei muss lediglich vor Inbetriebnahme des 
-                End-Gerätes 5 Konstanten definiert Werden. 
+                Die einfachste Art des Beitritts heißt ABP was für ``Activation by Personalization''steht. 
+                Hierbei muss lediglich vor Inbetriebnahme des 
+                Endgerätes fünf Konstanten definiert werden. 
 
-                Als erstes muss die DevAdr(Geräteadresse) angegeben werden. Diese Adresse existiert nur einmal im 
-                Netzwerk und wird verwendet um das Endgerät zu identifizieren. Die Adresse wird vom Netzwerkserver 
-                erzeugt und muss Manuel von dort in den Programmcode eingetragen werden,
+                Als erstes wird die DevAdr(Geräteadresse) angegeben. Diese Adresse existiert nur einmal im 
+                Netzwerk und wird für die Indentifizierung des Endgeräts verwendet. Die Adresse wird vom Netzwerkserver 
+                erzeugt und muss im Programmcode eingetragen sein.
 
-                Die anderen 4 Werte sind die Schlüssel die verwendet werden um die Kommunikation zu verschlüsseln. 
-                FNwkSIntKey, SNwkSIntKey, NwkSEncKey und AppSKey. Dies hat den Vorteil das die Join-Prozdeur 
-                übersprungen werden kann. Allerdings werden immer dieselben schlüssel verwendet was zu einem 
+                Die anderen vier Werte sind die verwendeten Schlüssel zur Kommunikationsverschlüsselung:  
+                FNwkSIntKey, SNwkSIntKey, NwkSEncKey und AppSKey. Damit kann die Join-Prozdeur 
+                übersprungen werden. Allerdings werden immer dieselben Schlüssel verwendet was zu einem 
                 Sicherheitsproblem werden kann.
 
-                Nach Beitritt muss das ResetInd Mac Kommando im FOpt Feld gesendet werden gesendet. Dieses Kommando 
-                teilt dem Netzwerkserver mit, dass das Endgerät online ist und das die Standard Übertragungsart, 
-                Frequenz und Chanel benutzt werden.
+                Nach Beitritt muss das ResetInd MAC-Kommando im FOpt Feld gesendet werden. Dieses Kommando 
+                teilt dem Netzwerkserver mit, dass das Endgerät online ist und die Standardübertragungsart, 
+                -frequenz und -kanal verwendet werden. Weiter Erläuterungen folgen im nächsten Unterkapitel.
 
-                Das Netzwerk muss  mit einem ResetConf-Kommando antworten. In diesem Teilt es dem Endgerät die
+                Das Netzwerk muss  mit einem ResetConf-Kommando antworten. In diesem teilt es dem Endgerät die
                 unterstützten LoRa-Versionen mit. Danach kann die Kommunikation beginnen.
         \subsection{Protokoll} \label{sec:protokoll}
-            Das LoRaWAN Protokoll ist optimiert für Batteriebetrieben Endgeräte die drahtlos kommunizieren möchten. 
-            Um energieeffizent zu sein setzt LoRa hauptsächlich auf zwei Punkte. Die Modulationstechnick und eine 
-            Adaptive Dtanenrate (ADR). Auch die 
-            "One-Hop" architektur trät zur energieeffizenz bei. Die Art wie LoRa siganle Moduliert wird in Kapittel 
-            \nameref{sec:Modulation} besprochen. \cite[S,1 f]{LoraClasses}
+            Das LoRaWAN Protokoll ist optimiert für batteriebetrieben Endgeräte für drahtlos Kommunikation. 
+            Um energieeffizent zu sein setzt LoRa hauptsächlich auf zwei Punkte: die Modulationstechnick und  
+            Adaptive Datenrate (ADR). Auch die 
+            "One-Hop" Architektur trägt zur Energieeffizenz bei. Die Modulationsart wird in Kapittel 
+            \nameref{sec:Modulation} besschrieben. \cite[S,1 f]{LoraClasses}
 
 
-            Damit der Netzwerkserver das LoRa-Netzt steuern kann wurden, wurden Mac-Kommandos eingesetzt. Mit diesen 
-            Kommandos lassen sich wie schon gesehen, dem Netzwerk beitreten, mit dem Endgerät kommunizieren und 
-            Frequenzen, Kanäle und vieles mehr zu steuern.
+            Damit der Netzwerkserver das LoRa-Netz steuern kann, werden Mac-Kommandos eingesetzt. Mit diesen 
+            Kommandos tritt man dem Netzwerk bei, kommuniziert mit den Endgeräten und steuert
+            Frequenzen, Kanäle und vieles mehr.
             Da die Kommandos nur für den Netzwerkserver und die Endgeräte von Bedeutung sind, werden diese nicht an 
-            den Applikationsserver gesendet sonder vom Netzwerkserver herausgefiltert. Im Folgenden wird näher auf 
+            den Applikationsserver gesendet, sondern vom Netzwerkserver herausgefiltert. Im Folgenden wird näher auf 
             die MAC-Kommandos und die Paketstruktur eingegangen.
-            Ein Uplink ist ein Paket dass vom Endgerät, das Bildlich gesprochen ``unter‘‘ dem Gateway sitzt, an das 
-            Gateway gesendet wir. Ein Downlink ist dem entsprächet ein Paket das vom Gateway an den Server gesendet 
+            Ein Uplink ist ein Paket dass vom Endgerät, das bildlich gesprochen ``unter‘‘ dem Gateway sitzt, an das 
+            Gateway gesendet wird. Ein Downlink ist dem entsprechend ein Paket das vom Gateway an das Endgerät gesendet 
             wird.
             \subsubsection{MAC-Kommandos}
                 MAC-Kommandos werden ausschließlich für die Steuerung und Pflege des Netzwerkes verwendet. steht 
-                für `` Medium Access Control‘‘. Da der Netzwerkserver das Netzwerk steuert werden diese Kommandos nur 
-                zwischen dem Netzwerkserver und dem Endgerät verwedet. Der Applikationsserver bekommt von den Kommando 
-                nichts mit.
+                für ``Medium Access Control‘‘. Da der Netzwerkserver das Netzwerk steuert, werden diese Kommandos nur 
+                zwischen dem Netzwerkserver und dem Endgerät verwedet.
 
-                MAC-Kommandos werden mittels eines ``command indentifier‘‘ (CID) gesendet. Das ist eine 8 Bit Zahl die 
-                das MAC-Kommando repräsentiert. Nach dem CID folgen mögliche variablen die dem Kommando mitgegeben 
+                MAC-Kommandos werden mittels eines ``Command Indentifier‘‘ (CID) gesendet. Das ist eine 8 Bit Zahl die 
+                das MAC-Kommando repräsentiert. Nach dem CID folgen mögliche Variablen die dem Kommando mitgegeben 
                 werden. Die Anzahl und Länge der Variablen ist nicht beschränkt.
                 
-                Die MAC-Kommandos müssen zwingend ausgeführt werden. Damit der Netzwerkserver weis welche Kommandos 
-                ausgeführt wurden müssen die Nachrichten in derselbe Reihenfolge wie sie angekommen sind bestätigt 
-                oder beantwortet werden. Alle Kommandos die in einem Frame gesendet wurden, müssen in einem 
-                bestätigt / beantwortet werden. Um die Reihenfolge zu speichern existiert ein Puffer in den die 
-                MAC-Kommando-Antworten eingetragen werden. Dieser Puffer wird beim nächsten Uplink mit gesendet. 
-                Falls es vorkommt, dass der Puffer zu klein ist werden keine weiteren Antworten in den Puffer 
-                eingetragen. Deswegen muss der Netzwerkserver vorher die Maximale größer der Antwort berechne und die 
+                Die MAC-Kommandos müssen zwingend ausgeführt werden. Die Nachrichten werden in derselben Reihenfolge 
+                wie sie angekommen bestätigt oder beantwortet. Somit weiß der Netzwerkserver welche Kommandos 
+                bereits ausgeführt wurden. Alle Kommandos die in einem Frame gesendet wurden, müssen auch in einem Frame  
+                bestätigt / beantwortet werden. Zur Speicherung der Reihenfolge wird ein Puffer für die 
+                MAC-Kommando-Antworten verwendet. Dieser Puffer wird beim nächsten Uplink mit gesendet. 
+                Sollte der Puffer zu klein sein, werden keine weiteren Antworten eingetragen. 
+                Deshalb muss der Netzwerkserver vorher die maximale Antwortgröße errechnen und die 
                 MAC-Kommandos dementsprechend in Frames aufteilen.\cite[S.29 ff.]{LoRaSpec}
 
-                Im Folgenden ist eine Liste aller MAC-Kommandos angegeben.
-                \begin{table}
-                    \centering
-                    \begin{tabular}{c |c | c}
-                        CID & Kommandoname & Funktion \\
-                        \hline
-                        21 & 22 & 23 \\
-                        31 & 32 & 33
-                    \end{tabular}
-                \end{table}
+                Im Folgenden ist eine Liste aller MAC-Kommandos angegeben:
+           
+                    
+                \begin{tabular}{c |c | p{10.5cm} c}
+                    CID & Kommandoname & Funktion \\
+                    \hline
+                    0x01 & ResetInd & Wird bei dem Beitritt mittels ABP vom Endgerät gesendet. Informiert das Netzwerk über den Beitritt. \\
+                    0x01 & ResetConf & Wird vom Gateway gesendet und bestätigt das ResetInd-Kommando. \\
+                    0x02 & LinkCheckReq & Wird vom Endgerät verwendet die verbindung zum Netzwerk zu überprüfen. \\
+                    0x02 & LinkCheckAns & Bestätigt das vom Endgerät gesendete LinkCheckReq-Kommando \\
+                    0x03 & LinkADRReq & Wird zu Steuerung der Endgeräte im ADR-Modus verwendet \\
+                    0x04 & DutyCycleReq & Das Gateway Teilt dem Endgerät mit wie oft die Verbindung getestet weredn soll \\
+                    0x04 & DutyCycleAns & Das Endgerät bestätigt den neuen Testzyklus \\
+                    0x05 & RXParamSetupReq & ... \\
+                    0x05 & RXParamSetupAns & ... \\
+                \end{tabular}
+                
+
+
             \subsubsection{LoRa-Paketstruktur}
                 Die Paketstruktur kommt wie beim ISO/OSI Schichtenmodel durch das ``durchlaufen‘‘ des Stacks zustande. 
                 Da im Folgenden die Paketstruktur vom Groben ins Feine Betrachtend wird, werden hier als erstes die Felder
