@@ -431,159 +431,154 @@
                 minimal ist, werden alle Kanäle benutzt. Dies wird solange probiert bis eine Verbindung 
                 hergestellt werden kann. \cite[S.19 f]{LoRaSpec}         
     \section{Lora Geräte Klassen} \label{sec:klassen}
-        Um maximal Energie zu sparen aber trotzdem die Möglichkeit dass die Endgeräte agile Daten empfangen können 
-        wurden die Geräteklassen eingeführt. Das Hauptmerkmal der Klassen sind die unterschiedlichen Empfangsmodien. 
-        Es gibt 3 Klassen, A, B und C. Die Klasse A muss standartgemäß von jedem Endgerät implementiert werden. B 
-        und C sind Optional und müssen nicht vorhanden sein Alle Geräte die mehr als Klasse A unterstützen werden 
-        als ``higher Class end-devices ‘‘ genannt. \cite[S.10]{LoRaSpec}
+        Um maximal Energie zu sparen, aber trotzdem die Endgeräte passend zur Anwendung Daten empfangen können 
+        wurden, Geräteklassen eingeführt. Das Hauptmerkmal der Klassen sind die unterschiedlichen Empfangsmodie. 
+        Es gibt drei Klassen: A, B und C. Die Klasse A ist der Standad und in jedem Endgerät verhanden. Klasse B 
+        und C sind optional und können vorhanden sein und werden als ``Higher Class End-Devices ‘‘ bezeichnet. \cite[S.10]{LoRaSpec}
         \subsection{Klasse A}\label{sec:ClassA}
-            Klasse A wird auch (All end-Devicec) genannt, zeichnet sich durch den geringsten Stromverbrauch aus. Die 
-            Kommunikation wird von dem Endgeräte gestartet werden. Das bietet die Möglichkeit dass das Endgerät, wenn 
-            keine Daten gesendet werden müssen, in einen sehr sparsamen Schlafmodus wechselt. Um das Endgeräte nicht 
-            zum ``aufwachen‘‘ zwingen zu müssen, wurde auf einen Hardbeat oder ähnliches verzichtet. Dadurch kann das 
-            Endgerät so lange ``schlafen‘‘ wie es möchte. Klasse A erlaubt außerdem das das Endgerät andere Protokolle 
-            verwendet solange es keine LoRa Daten sendet oder empfängt. \cite[S.11 ff.]{LoRaSpec} Das Endgerät startet 
-            die Kommunikation in dem es Daten an das Gateway sendet. Daraufhin hat das Gateway die Möglichkeit 2 mal 
-            Daten zum Endgeräte senden. Die Empfangsfesnter werden RX1 und RX2 genannt. 
-
-            Die Empfangsfesnter RX1 und RX2 müssen mindestens solange geöffnet bleiben das sie eine beginnende 
-            Übertragung feststellen können. Falls keine Übertragung empfangen wird, wird das Empfangsfesnter wieder 
-            geschlossen. Empfangsfenster RX1 wird nach RECIEV\_DELAY1 zeiteiheiten +/- 20msec nach Beendigung des 
-            Uplinks geöffnet. Es wird die selbe Frequenz und Datenrate verwendet die auch bei den Downlink verwendet 
-            wurde. Wenn festgestellt in RX1 festgestellt wurde das keine Weiteren Daten mehr empfangen werden müssen 
-            kann auf das öffnen des RX2 Fensters auch verzichtet werden.
-
-            RX2 wird wird nach RECIEV\_DELAY2 Zeiteinheiten +/- 20msec nach Beendigung des Uplinks geöffnet. Allerdings
-            ist die Datenrate und Frequenz fest. Nur mittels spezieller MAC Kommandos kann dies verändert werden.
+            Klasse A wird auch ``All End-Devicec'' genannt. Sie zeichnen sich durch den geringsten Stromverbrauch aus. Die 
+            Kommunikation wird von dem Endgeräte gestartet. Müssen keine Daten gesendet, schaltet sich 
+            das Endgerät in einen sehr sparsamen Schlafmodus. Es wird auf ein Hardbeat oder ähnliches verzichtet.
+            Dadurch kann das Endgerät so lange schlafen bis ein vordefiniertes Ereignis auftritt. 
             
-            Für die Join-Prozedur wird immer die Klasse A verwendet. Die verwendete Frequenz entspricht der 
-            Empfangsfenster RX1 oder RX2.
+            Klasse A erlaubt außerdem das das Endgerät andere Protokolle verwendet solange es keine LoRa Daten sendet 
+            oder empfängt. \cite[S.11 ff.]{LoRaSpec} Das Endgerät startet 
+            die Kommunikation indem es Daten an das Gateway sendet. Daraufhin hsendet das Gateway zweimal 
+            Daten zum Endgeräte. Die Empfangsfenster werden RX1 und RX2 genannt. 
+
+            Die Empfangsfenster RX1 und RX2 müssen mindestens solange geöffnet bleiben, dass sie eine beginnende 
+            Übertragung feststellen können. Wird keine Übertragung empfangen, wird das Empfangsfenster 
+            geschlossen. Empfangsfenster RX1 wird nach RECIEV\_DELAY1 Zeiteiheiten +/- 20msec nach Beendigung des 
+            Uplinks geöffnet. Es wird die selbe Frequenz und Datenrate verwendet die auch beim Downlink verwendet 
+            wurde. 
+            RX2 wird nach RECIEV\_DELAY2 Zeiteinheiten +/- 20msec nach Beendigung des Uplinks geöffnet. Allerdings
+            ist die Datenrate und Frequenz nun fest definiert. Nur durch spezieller MAC-Kommandos kann dies verändert werden.
+            Wird bei RX1 festgestellt, dass keine weiteren Daten mehr übertragen werden müssen, 
+            kann auf das öffnen des RX2 Fensters verzichtet werden.
+            
+            Für die Join-Prozedur wird immer die Klasse A verwendet. Die verwendete Frequenz entspricht den 
+            Empfangsfenstern RX1 oder RX2.
         \subsection{Klasse B}
-            Die Klasse B (B für BEACON) bietet bidirektionale Kommunikation mit einer deterministischem Downlink Latenz.
+            Die Klasse B (B für BEACON) bietet bidirektionale Kommunikation mit einer deterministischen Downlink-Latenz.
             Um diese Latenz zu gewährleisten, muss die Kommunikation synchronisiert ablaufen. Außerdem muss 
             festgestellt werden, ob das Endgerät bzw. das Gateway noch in Reichweite ist. Dies wird mittels eines 
-            periodischem Beacon ermittelt. Dieser Beacon wird regelmäßig vom Gateway gesendet und dient der 
-            Synchronisation der Endgeräte. Zeitpunkten gesendet werde realisiert. Die Latenz ist einstellbar und kann 
-            bis zu 128 Sekunden.\cite[S.66 ff.]{LoRaSpec}
+            periodischen Beacon ermittelt. Dieser Beacon wird regelmäßig vom Gateway gesendet und dient der 
+            Synchronisation der Endgeräte. Die Latenz ist einstellbar und kann 
+            bis zu 128 Sekunden dauern.\cite[S.66 ff.]{LoRaSpec}
 
             Die Endgeräte öffnen in regelmäßigen Abständen ein Empfangsfenster das Pingslot genannt wird. Ein Downlink 
-            der in einem Pingslot gesendet wird, wird Ping genannt. Da immer das Gateway mit dem besten empfang die 
-            Daten an das Gateway sendet, muss das Endgerät selbständig feststellen wenn es einen Beacon mit einer 
-            unbekannten ID bekommt und durch eine Uplink dem Server mitteilen das es sich in einer neuen Umgebung ist. 
+            der in einem Pingslot gesendet wird, wird Ping genannt. Da immer das Gateway mit dem besten Empfang die 
+            Daten an das Gateway sendet, muss das Endgerät selbständig feststellen, dass es sich in einer neuen Umgebung befindet.
+            Dies ist der Fall , wenn es einen Beacon mit einer unbekannten ID empfängt. Durch eine Uplink teilt es dies 
+            dem Server mit. 
             Dadurch lernt der Server wo sich das Endgerät befindet und kann das Gateway mit dem besten Empfang wählen.
-            Obwohl das Endgerät durch die periodischen Beacon nicht ``schalfe‘‘ kann, ist die Klasse B für den 
-            Batteriebetrieb gedacht.
+            Obwohl das Endgerät durch die periodischen Beacon nicht schlafen kann, ist auch die Klasse B für den 
+            Batteriebetrieb geeignet.
 
             \subsubsection{Klassenwechsel A nach B}
-                Um einen Wechsel überhaupt zu ermöglichen muss der Netzwerkserver die Standard Pingslot Periode, die 
+                Um überhaupt einen Wechsel zu ermöglichen, muss der Netzwerkserver die Standard Pingslot Periode, die 
                 Pingslot Datenrate und den Pingslot Kanal kennen. Ale Endgeräte treten in Klasse A dem Netzwerk bei. 
-                Das wechseln in die Klasse B wird durch folgenden Prozess realisiert.
+                Der Wechsel in die Klasse B wird durch folgenden Prozess realisiert.
 
-                Als erstes muss das Programm des Endgerätes beim LoRaWAN Layer anfragen ob es möglich ist in Klasse B 
-                zu wechseln. Der Layer sucht nun nach einem Beacon. Wird ein Beacon entdeckt, wird die BEACON\_LOCKED 
+                Als erstes muss das Endgerätes beim LoRaWAN-Layer anfragen, ob ein Wechsel möglich ist. 
+                Der Layer sucht nun nach einem Beacon. Wird ein Beacon entdeckt, wird die BEACON\_LOCKED 
                 Serviceprimitive 
                 %\marginpar{erklären} 
-                zurückgeliefert. Wenn kein Beaconempfangen wurde wir die 
-                BEACON\_NOT\_FOUND primitive zurückgegeben. Um diesen Prozess zu beschleunigen kann das DeviceTimeReq 
+                zurückgeliefert. Wird kein Beacon empfangen, wird die BEACON\_NOT\_FOUND Serviceprimitive 
+                zurückgegeben. Um diesen Prozess zu beschleunigen kann das DeviceTimeReq 
                 MAC-Kommando verwendet werden. Damit wird das Gateway aufgefordert einen Beacon zu senden. Nun kann 
                 das Endgerät in den Modus B wechseln.
 
-                Als Zweites setzt der MAC Layer des Endgerätes das Class B Bit im FCtrl Feld des Upliks auf 1. Der MAC 
-                Layer ist auch verantwortlich die Pingslot und für die Beacons Empfangsfenster zu offen. Dabei muss mit 
-                der größten möglichen Abweichung der internen Uhr gerechnet werden und demensprechend die 
+                Als Zweites wird im Endgerätes das ClassB Bit im FCtrl Feld des Uplinks auf 1 gesetzt. 
+                Der MAC-Layer öffnet die Pingslots- und Beacons-Empfangsfenster. Dabei muss mit 
+                der größtmöglichen Abweichung der internen Uhr gerechnet werden und demensprechend die 
                 Empfangsfenster angepasst werden. Diese darf pro Beacon nicht mehr als +/- 1.3msec liegen. 
-                \cite[S.73]{LoRaSpec}Der Inhalt des Empfangenen Beacon wird mit der Signalsterke dem Programm des 
-                Endgerätes zur weiteren Verarbeitung gesendet. Damit kann z.B. die innere Uhr nachgestellt werden 
-                oder Ortswechsel festgestellt werden.
+                \cite[S.73]{LoRaSpec}. Der Inhalt des empfangenen Beacon wird mit der Information zur 
+                Signalstärke dem Gateway gesendet. Damit kann z.B. die innere Uhr synchronisiert 
+                oder eine Ortswechsel festgestellt werden.
             \subsubsection{Betrieb}
-                Damit der Netzwerkserver dem Endgerät mitteilen kann dass die Pingslot Frequenz und die Datenrate 
-                geändert werden soll gibt es den PingSlotChannelReq Mac-Kommando. Die neuen Werte sind in den 
+                Mit dem PingSlotChannelReq Mac-Kommando teilt der Netzwerkserver dem Endgerät mitteilen, dass 
+                die Pingslot Frequenz und die Datenrate zu ändern ist. Die neuen Werte sind in den 
                 Argumenten enthalten.
                         
-                Das Endgerät kann die Periode der Pingslot szu einer beliebigen Zeit ändern. Ist dies der Fall, so 
+                Das Endgerät kann die Periode der Pingslot zu einer beliebigen Zeit ändern. Ist dies der Fall, so 
                 muss das Endgerät in Klasse A wechseln und mittels dem MAC-Kommando PingSlotChannelReq die geänderte 
-                Periode Mitteilen. Danach kann zurück in die Klasse B gewechselt werden.
+                Periode mitteilen. Danach kann zurück in die Klasse B gewechselt werden.
 
-                Falls einige länger als 2 Stunden kein Beacon empfangen wird, kann die Synchronisation mit dem Netzwerk 
-                verloren gehen. Dadurch funktioniert die Kommunikation in Klasse B nicht mehr und es wird in Klasse A 
-                gewechselt. Nun kann versucht werden eine Verbindung mit der Klasse A aufzubauen. Das Programm des 
-                Endgerätes kann versuchen wieder in Klasse B zu wechseln. Dieser Prozess kann sich immer wieder 
-                wiederholen.
+                Falls mehr als 2 Stunden kein Beacon empfangen wurde, kann die Synchronisation mit dem Netzwerk 
+                verloren gehen. Dadurch funktioniert die Kommunikation in Klasse B nicht mehr. Die Kommunikation startet 
+                dann neu in Klasse A. Wechsel in Klasse B kann wie beschrieben versucht werden. 
+                Dieser Prozess kann beliegig wiederholt werden.
 
-                Um auch innerhalb der minimal 2 Standen in den kein Beacon empfangen wurde einen Kommunikation zu 
-                ermöglichen wird jedes Mal wenn ein Beacon verloren geht in den Beacon-Less Modus gewechselt. Dieser 
-                Modus orientiert sich ausschließlich an der internen Uhr.
-                Um die Abweichung auszugleichen werden die Empfangsfenster immer früher begonnen und immer später 
-                beendet. Das bedeutet einen höheren Energieverbrauch aber auch eine höhere Wahrscheinlichkeit noch 
-                Daten zu empfangen obwohl die Uhren des Gateways und des Endgerätes auseinanderlaufen.
+                Wird kein Beacon empfangen, wird in den Beacon-Less Modus gewechselt und eine Kommunikations kann 
+                weiterhin erfolgen. Dieser Modus orientiert sich ausschließlich an der internen Uhr.
+                Um die Abweichung auszugleichen werden die Empfangsfenster erweitert. Das bedeutet einen höheren 
+                Energieverbrauch, aber auch eine höhere Wahrscheinlichkeit noch 
+                Daten zu empfangen.
 
             \subsubsection{Singel / Multicast}
-                In Klasse B können die Nachrichten als Singelcast oder als Multicast Nachrichten verwendet werden. 
-                Eine Singelcast Nachricht wird an des Endgerät das im DevAfdr Feld der Nachricht codiert ist gesendet.
-                Im Multicastmodus wird das Paket an mehrere Endgeräte gesendet. Damit dise möglich ist müssen sich 
+                In Klasse B können die Nachrichten als Singelcast oder als Multicast Nachrichten ausgetauscht werden. 
+                Eine Singelcast Nachricht wird an des Endgerät das im DevAddr Feld der Nachricht codiert ist gesendet.
+                Im Multicastmodus wird das Paket an mehrere Endgeräte gesendet. Damit diese möglich ist, müssen sich 
                 die Endgeräte dieselbe Multicast Adresse und die dazugehörigen Schlüssel teilen. Durch verschiedene 
-                Multicastadresse ist es möglich sogenannte Multicastgruppen zu erzeugen die nicht alle sonder nur ein 
-                Teil aller Endgeräte beinhalten. LoRaWAN gibt allerding keine Methode vor wie die Adressen und 
-                Schlüssel verteilt werden. Diese Aufgabe muss in der Applikationsebene sprich im Programm der 
-                Endgeräte bzw. des Applikationsserver oder die Schlüssel und Adresse werden fest in den Programmcode 
-                programmiert.
+                Multicastadresse ist es möglich sogenannte Multicastgruppen zu erzeugen. Dort sind dann dann definierte 
+                Endgeräte enthalten. LoRaWAN gibt keine Methode vor wie die Adressen und 
+                Schlüssel verteilt werden. Die Verteilung muss entsprechend in der Applikationsebene sprich im Programm der 
+                Endgeräte bzw. des Applikationsserver implementiert werden. 
 
                 In Multicastnachrichten sind keine MAC-Kommandos erlaubt. Nur Daten dürfen als Multicastnachrichten 
-                übertragen werden. Dies wurde eingeführt da Multicastnachrichten nicht dieselbe Robustheit wie 
-                Singelcastnachrichten haben. Die Nachrichten dürfen nicht bestätigt werden da sonst eine große Last 
-                für das Netzt entstehen würde.\cite[S.84]{LoRaSpec}
+                übertragen werden. Dies wurde eingeführt da Multicastnachrichten nicht dieselbe Robustheit und Sicherheit wie 
+                Singelcastnachrichten haben. Die Nachrichten werden nicht bestätigt, um hohen Datentransfer zu verhindern.\cite[S.84]{LoRaSpec}
 
             \subsubsection{Beacon}
                 Wie schon erwähnt werden der Beacons verwendet um das Endgerät mit dem Netzwerk zu synchronisieren. 
-                Deswegen werden die Beacon Periodisch gesendet. Die Zeit zwischen zwei Beacon wir BEACKON\_Period 
+                Deswegen werden die Beacon periodisch gesendet. Die Zeit zwischen zwei Beacon wir BEACKON\_Period 
                 genannt. Die Endgeräte öffnen Empfangsfenster um diese Beacons zu empfangen. Ein Beacon zu übertragen 
-                dauert BEACON\_RESERVED lange. Das Beacon-Empfangsfenster wird BEACKON \_GUARD früher geöffnet um 
-                sicher zu stellen das Beacon auch wirklich erkannt werden kann. Außerdem wird die Beakon\_GUARD 
+                dauert BEACON\_RESERVED. Das Beacon-Empfangsfenster wird BEACKON\_GUARD früher geöffnet um 
+                sicher zu stellen das ein Beacon auch wirklich erkannt werden kann. Außerdem wird die Beakon\_GUARD 
                 benutzt um sicherzustellen dass kein Pingslot mehr geöffnet ist. Deswegen muss diese Beakon\_GUARD 
-                mindestens so lang sein wie ein maximaler Pingslot. Das hat den Vorteil, dass nicht darauf gedacht 
-                werden muss wann ein Pingslot geöffnet wurde, da er im Zweifelsfall fertig ist bevor ein Beacon 
-                empfangen wird. Vergleichbar ist dies mit der Distributed Coordination die bei WLAN Anwendung findet.
+                mindestens so lang sein wie ein maximaler Pingslot. Das hat den Vorteil, dass nicht darauf geachtet
+                werden muss, ob ein Pingslot noch geöffnet ist. Vergleichbar ist dies mit der Distributed Coordination 
+                bei WLAN Anwendungen.
 
-                Während versucht wird ein Beacon zu empfangen kann kein Pingslot geöffnet werden
+                Während Beacon Empfang, kann kein Pingslot geöffnet werden.
                 
-                Um Synchronisierungen durch die Beacon zu vermeiden, wie ``alle Endgeräte wollen sofort nach den 
-                Beacon senden wollen‘‘, wird mittels zufälliger Wartezeiten und zufälliger Pingslotperiode verhindert. 
-                Durch den Zufall wird die Wahrscheinlichkeit deiner Kollision geringer.
+                Um gleichzeitiges Senden mehrere Endgeräte nach Abschluss eines Beacon zu vermeiden,
+                werden zufällige Wartezeiten und zufällige Pingslotperiode verwendet. Dadurch wird die Wahrscheinlichkeit 
+                einer Kollision verringert.
 
                 Beacons haben ihr eigenes Paketformat. Diese Pakete sind immer gleich lang. Dadurch kann auf Header 
                 verzichtet werden was auch der Verarbeitungsgeschwindigkeit zugutekommt. Wie auch ein normales 
-                LoRa-Paket, so besteht auch das erste Feld des Beacon-Paketes aus der Preable. Danach folgt der 
-                BCNPayload. Der BCNPayload(Beacon Payload) lässt sich unterteilen in RFU, Time, CRC, GWSpecific, 
-                RFU, CRC. Die zwei CRC Felder weisen schon auf die logische Unterteilung in zwei hältern hin. Der 
-                erste Teil enthält Beacon spezifische Informationen (time und CRC). In dem Time Feld ist die Zeit 
-                seit 00:00:00, 01.01.1980 Modulo 2\^32 enthalten. das CRC Feld wird verwendet um die Korrektheit des 
-                Zeit und des RFU Feldes zu versichern. RFU steht wieder für ``Reserved for Future Usage‘‘ und wird 
-                nicht verwendet. Die andere Hälfte ist Gatewayspezifisch. Sie enthält das GwSpecific Feld und ein 
-                RFU Feld . Beide Fleder sind  durch ein zweites CRC Feld abgesichert ist. Das GwSpezific Feld lässt 
+                LoRa-Paket, so besteht auch das erste Feld des Beacon-Paketes aus der Preamble. Danach folgt der 
+                BCNPayload. Der BCNPayload (Beacon Payload) lässt sich unterteilen in RFU, Time, CRC, GWSpecific, 
+                RFU und CRC. Die zwei CRC Felder weisen schon auf die logische Unterteilung in zwei Hälften hin. Der 
+                erste Teil enthält Beacon spezifische Informationen (Time und CRC). In dem Time Feld ist die Zeit 
+                seit 00:00:00, 01.01.1980 Modulo 2\^32 enthalten. Das CRC Feld wird verwendet um die Korrektheit des 
+                Zeit und des RFU Feldes zu bestätigen. RFU steht wieder für ``Reserved for Future Usage‘‘ und wird 
+                nicht verwendet. Die andere Hälfte ist gatewayspezifisch. Sie enthält das GwSpecific Feld und ein 
+                RFU Feld. Beide Felder sind durch ein zweites CRC Feld abgesichert. Das GwSpezific Feld lässt 
                 sich unterteilen in InfoDesc und Info Felder. Das InfoDesc gibt an auf was sich das Infofeld bezieht. 
                 0 gibt an das die GPS-Koordinaten der ersten Antenne folgen. 1 steht für die GPS-Koordinaten der 
-                zweiten Antenne und 2 steht für die GPS-Koordinaten der dritten Antenne. Die werte 3 bis127 sind noch 
-                Solange sich im Info Feld Koordinaten enthalten kann dieses unterteilt werden in Längen- und 
-                Breitengrad.
+                zweiten Antenne und 2 steht für die GPS-Koordinaten der dritten Antenne. Die Werte 3 bis 127 sind noch unbenützt.
+                Die Koordinaten im Info Feld enthalten Längen- und Breitengrad.
                 
-                Auch Klasse A kann den Beacon nutzen, um herauszufinden von welchem Gateway es gerade Datenempfängt 
+                Auch Klasse A kann den Beacon nutzen, um herauszufinden von welchem Gateway es gerade Daten empfängt 
                 und um eventuelle Standortwechsel festzustellen.
                 
-                In Europa werden die Beacons auf einer festen Frequenz übertragen die sich nicht ändert. Nur über das 
-                MAC-Kommando PingSlotChannelReq. 
+                In Europa werden die Beacons auf einer festen Frequenz übertragen. Falls nötig kann die Frequenz mit dem  
+                MAC-Kommando PingSlotChannelReq geändert werden.
         \subsection{Klasse C}
-            C steht für CONTINUOUSLY Listening. Wie der Name schon sagt ist hier dauernd ein Empfangsfenster geöffnet.
-            Dafür wird es ermöglicht fast Latzen frei zu übertragen. Dies bedeutet aber auch das der Stromverbrauch am 
-            höchsten ist und somit die Klasse C nicht für den Batteriebetrieb geeignet. 
+            C steht für ``CONTINUOUSLY Listening''. Wie der Name schon sagt, ist hier dauernd ein Empfangsfenster geöffnet.
+            Dafür wird fast latenzfrei übertragen. Dies bedeutet aber auch erhöhter Stromverbrauch. Klasse C ist somit 
+            nicht für den Batteriebetrieb geeignet. 
 
-            Geräte die Klasse C implementieren sollen aus nicht die Klasse B implementieren das es sonst zu fejlern 
-            kommen kann.
+            Geräte die Klasse C implementieren haben, sollen Klasse B nicht verwenden um Fehler zu vermeiden.
 
-            Diese Klasse verwendet die Gleichen Empfangsfenster mit der gleichen Frequenz wie in Klasse A. Der große 
-            unterscheid besteht allerdings darin das RX2 immer dann geöffnet ist wenn nicht gerade Daten an das 
-            Gateway gesendet werden oder RX1 geöffnet ist. 
+            Diese Klasse verwendet die gleichen Empfangsfenster und die gleichen Frequenzen wie Klasse A. Der große 
+            unterscheid besteht allerdings darin das RX2 immer dann geöffnet ist, wenn nicht gerade Daten gesendet 
+            werden oder RX1 geöffnet ist. 
 
-            Auch in Klasse C ist es, wie in B, möglich Multicastnachrichten zu senden. Hierbei gelten die gleichen 
+            Auch in Klasse C können Multicastnachrichten gesendet werden. Hierbei gelten die gleichen 
             Regeln wie bei Klasse B.
 
     \section{Sicherheit} \label{sec:Sicherheit}  
