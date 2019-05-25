@@ -10,6 +10,7 @@
 \renewcommand{\baselinestretch}{1.5}
 \usepackage{cite}
 \usepackage{bibgerm}
+\usepackage{longtable}
 
 \author{Tobias Sigmann}
 \title{Seminararbeit: LoRaWAN}
@@ -250,7 +251,7 @@
                 Im Folgenden ist eine Liste aller MAC-Kommandos angegeben:
            
                     
-                \begin{tabular}{c |c | p{10.5cm} c}
+                \begin{longtable}{c |c | p{10.5cm} c}
                     CID & Kommandoname & Funktion \\
                     \hline
                     0x01 & ResetInd & Wird bei dem Beitritt mittels ABP vom Endgerät gesendet. Informiert das Netzwerk über den Beitritt. \\
@@ -262,7 +263,39 @@
                     0x04 & DutyCycleAns & Das Endgerät bestätigt den neuen Testzyklus \\
                     0x05 & RXParamSetupReq & ... \\
                     0x05 & RXParamSetupAns & ... \\
-                \end{tabular}
+                    0x06 & DevStatusReq & ... \\
+                    0x06 & DevStatusAns & ... \\
+                    0x07 & NewChannelReq & ... \\
+                    0x07 & NewChannelAns & ... \\
+                    0x08 & RXTimingSetupReq & ... \\
+                    0x08 & RXTimingSetupAns & ... \\
+                    0x09 & TxParamSetupReq & ... \\
+                    0x09 & TxParamSetupAns & ... \\
+                    0x0A & DlChannelReq & ... \\
+                    0x0A & DlChannelAns & ... \\
+                    0x0B & RekeyInd & ... \\
+                    0x0B & RekeyConf & ... \\
+                    0x0C & ADRParamSetupReq & ... \\
+                    0x0C & ADRParamSetupAns & ... \\
+                    0x0D & DeviceTimeReq & ... \\
+                    0x0D & DeviceTimeAns & ... \\
+                    0x0E & ForceRejoinReq & ... \\
+                    0x0F & RejoinParamSetupReq & ... \\
+                    0x0F & RejoinParamSetupAns & ... \\
+                    0x10 & PingSlotInfoReq & ... \\
+                    0x10 & PingSlotInfoAns & ... \\
+                    0x11 & PingSlotChannelReq & ... \\
+                    0x11 & PingSlotChannelAns & ... \\
+                    0x12 & BeaconTimingReq & ... \\
+                    0x12 & BeaconTimingAns & ... \\
+                    0x13 & BeaconFreqReq & ... \\
+                    0x13 & BeaconFreqAns & ... \\
+                    0x20 & DeviceModeInd & ... \\
+                    0x20 & DeviceModeConf & ... \\
+                    0x80-0xFF & Proprietary & ... \\
+                    
+                    
+                \end{longtable}
                 
 
 
@@ -375,28 +408,28 @@
             unterschiedliche Zeit ab bis sie erneut senden.
 
             \subsubsection{Adaptive Data Rate}\label{sec:ADR}
-            Adaprive Data Rate oder kurz ADR wird verwendet um die optimalste Senderate und die optimale 
-            Sendepower für das Endgerät zu finden und so die optimalste Datenübertragung zu erhalten. ADR kann nur 
-            verwendet werden wenn, im FHDR Feld des LoRa-Pakets das ADR Bit gesetzt ist, siehe 
-            \nameref{sec:protokoll}. Die Steuerung mit ADR findet durch den Netzwerkserver statt. Sobald der 
-            Netzwerkserver bereit ist, setzt er das Bit im Downlink-Paket. Ist das Endgerät auch bereit, so 
-            setzt es ebenfalls das ADR Bit und ADR kann verwendet werden. Ist ADR nicht möglich wird Standardübertragung 
-            verwendet.
+                Adaprive Data Rate oder kurz ADR wird verwendet um die optimalste Senderate und die optimale 
+                Sendepower für das Endgerät zu finden und so die optimalste Datenübertragung zu erhalten. ADR kann nur 
+                verwendet werden wenn, im FHDR Feld des LoRa-Pakets das ADR Bit gesetzt ist, siehe 
+                \nameref{sec:protokoll}. Die Steuerung mit ADR findet durch den Netzwerkserver statt. Sobald der 
+                Netzwerkserver bereit ist, setzt er das Bit im Downlink-Paket. Ist das Endgerät auch bereit, so 
+                setzt es ebenfalls das ADR Bit und ADR kann verwendet werden. Ist ADR nicht möglich wird Standardübertragung 
+                verwendet.
 
-            Die Steuerung findet durch spezielle MAC-Kommandos statt. Standardgemäß wird die höchste 
-            Übertragungsstärke verwendet, die geringste Übertragungsrate und zufälliger Kannal. Diese Parameter werden bei Bedarf 
-            vom Netzwerkserver durch das LinkADRReq MAC–Kommando angepasst. Die 
-            neuen Werte der Parameter sind in den Variablen des MAC-Kommandos codiert. Sobald die Werte geändert 
-            wurden, muss periodisch überprüft werden ob das 
-            Netzwerk die Nachrichten noch empfängt. Deshalb wird bei jedem Uplink der ADR\_ACK\_CNT Zähler erhöht. 
-            Wenn dieser Zähler den Schwellenwert ADR\_ACK\_LIMIT
-            überschreitet, wird das ADRACKReq Bit im Uplink gesetzt. Dieses signalisiert dem Netzwerkserver eine
-            Nachricht zu senden um die Verbindung zu bestätigen. Falls dieser Downlink nicht in 
-            ADR\_ACK\_DELAY Frames empfangen wird, wird zuerst die Übertragungsstärke auf das Maximum gesetzt. 
-            Gegebenenfalls wird außerdem die Datenrate verringert um die Reichweite zu erhöhen. Die Datenrate wird 
-            pro ADR\_ACK\_DELAY Frames schrittweise weiter bis zum minimaler Datetrate verringert. Falls diese schon 
-            minimal ist, werden alle Kanäle benutzt. Dies wird solange probiert bis eine Verbindung 
-            hergestellt werden kann. \cite[S.19 f]{LoRaSpec}         
+                Die Steuerung findet durch spezielle MAC-Kommandos statt. Standardgemäß wird die höchste 
+                Übertragungsstärke verwendet, die geringste Übertragungsrate und zufälliger Kannal. Diese Parameter werden bei Bedarf 
+                vom Netzwerkserver durch das LinkADRReq MAC–Kommando angepasst. Die 
+                neuen Werte der Parameter sind in den Variablen des MAC-Kommandos codiert. Sobald die Werte geändert 
+                wurden, muss periodisch überprüft werden ob das 
+                Netzwerk die Nachrichten noch empfängt. Deshalb wird bei jedem Uplink der ADR\_ACK\_CNT Zähler erhöht. 
+                Wenn dieser Zähler den Schwellenwert ADR\_ACK\_LIMIT
+                überschreitet, wird das ADRACKReq Bit im Uplink gesetzt. Dieses signalisiert dem Netzwerkserver eine
+                Nachricht zu senden um die Verbindung zu bestätigen. Falls dieser Downlink nicht in 
+                ADR\_ACK\_DELAY Frames empfangen wird, wird zuerst die Übertragungsstärke auf das Maximum gesetzt. 
+                Gegebenenfalls wird außerdem die Datenrate verringert um die Reichweite zu erhöhen. Die Datenrate wird 
+                pro ADR\_ACK\_DELAY Frames schrittweise weiter bis zum minimaler Datetrate verringert. Falls diese schon 
+                minimal ist, werden alle Kanäle benutzt. Dies wird solange probiert bis eine Verbindung 
+                hergestellt werden kann. \cite[S.19 f]{LoRaSpec}         
     \section{Lora Geräte Klassen} \label{sec:klassen}
         Um maximal Energie zu sparen aber trotzdem die Möglichkeit dass die Endgeräte agile Daten empfangen können 
         wurden die Geräteklassen eingeführt. Das Hauptmerkmal der Klassen sind die unterschiedlichen Empfangsmodien. 
@@ -569,7 +602,7 @@
             verwendet. Die Join-Nachricht wird mit dem JSIntKey(Joining Session Encryption Key) verschlüsselt. Der 
             Schlüssel wird mittels dem der aes128 Verschlüsslung generiert. Speziell wird der NWkKey mit der deinem 
             16Byte langem Wort verschlüsselt. Das Wort besteht am anfang aus der Konstant 0x06, danach folgt die DevEUI 
-            und zum Schluss wird mit =en aufgefüllt. Die Accept-Naxhricht wird ebenfalls verschlüsselt. Allerdings wird 
+            und zum Schluss wird mit ein aufgefüllt. Die Accept-Naxhricht wird ebenfalls verschlüsselt. Allerdings wird 
             her der JSEncKey(Joining Session Encryption Key) verwendet. Dieser wird auf die Gleiche weise erzeugt, 
             allerdings wird bei dem Verschlüsselungswort 0x06 durch 0x05 ersetzt. JSIntKey wird außerdem verwendet um den 
             MIC-Code in der Join-Nachricht zu berechnen.
@@ -595,7 +628,7 @@
             dem Applikationsserver und dem Endgerät verwendet. Dieser Schlüssel wir vom Programmierer vorgegeben, da er 
             mit dem Schlüssel des Applikationsserver übereinstimmen muss.\cite[S.50 ff]{LoRaSpec}
 
-        \subsubsection{Zähler}
+        \subsection{Zähler}
             Jedes Endgerät hat drei verscheidene Counter. Ein Framecounter für Uplinkframes FCntUp und zwei für 
             Downlinkframes NFCntDown und AFCntDown. 
 
