@@ -194,23 +194,23 @@
             \subsubsection{ABP}
                 Die einfachste Art des Beitritts heißt ABP was für ``Activation by Personalization'' zu Deutsch 
                 ``Aktivierung durch Personalisierung'' steht. Hierbei muss lediglich vor Inbetriebnahme des 
-                End-Gerätes 3 Konstanten definiert Werden. Manche Hersteller "brennen" diese drei Werte fest in den 
-                Chip ein, sodass er nicht geändert werden kann. Falls es nicht möglich ist dem Hersteller die 
-                gewünschten werte zukommen zu lasse, sind solche End-Geräte nur schlecht bis gar nicht für den Beitritt 
-                mittels ABP geeignet.
+                End-Gerätes 5 Konstanten definiert Werden. 
 
                 Als erstes muss die DevAdr(Geräteadresse) angegeben werden. Diese Adresse existiert nur einmal im 
                 Netzwerk und wird verwendet um das Endgerät zu identifizieren. Die Adresse wird vom Netzwerkserver 
-                erzeugt und muss Manuel von dort kopiert werden. 
+                erzeugt und muss Manuel von dort in den Programmcode eingetragen werden,
 
-                Mit Hilfe dieser 3 Werte kann die Join-Prozedur übersprungen werden. Daher kann 
-                das Endgerät direkt einem LoRa-Netz beitreten wenn es angeschaltet wird und muss nicht erst alle 
-                Schlüssel neu ableiten und aushandeln. Allerdings ist diese Methode deswegen weniger sicher, da immer 
-                dieselben Schlüssel verwendet werden.
+                Die anderen 4 Werte sind die Schlüssel die verwendet werden um die Kommunikation zu verschlüsseln. 
+                FNwkSIntKey, SNwkSIntKey, NwkSEncKey und AppSKey. Dies hat den Vorteil das die Join-Prozdeur 
+                übersprungen werden kann. Allerdings werden immer dieselben schlüssel verwendet was zu einem 
+                Sicherheitsproblem werden kann.
 
-                Nach Beitritt muss das ResetInd Mac Kommando im FOpt Feld gesendet werden gesendet werden solange bis 
-                ein ResetConf Kommando erhalten wird. Nun ist das Gerät im Netzwerk und kann unter der eingestellten 
-                Adresse und mit dem eigestellten Schlüssel arbeiten.\cite[S. 64]{LoRaSpec}    
+                Nach Beitritt muss das ResetInd Mac Kommando im FOpt Feld gesendet werden gesendet. Dieses Kommando 
+                teilt dem Netzwerkserver mit, dass das Endgerät online ist und das die Standard Übertragungsart, 
+                Frequenz und Chanel benutzt werden.
+
+                Das Netzwerk muss  mit einem ResetConf-Kommando antworten. In diesem Teilt es dem Endgerät die
+                unterstützten LoRa-Versionen mit. Danach kann die Kommunikation beginnen.
         \subsection{Protokoll} \label{sec:protokoll}
             Das LoRaWAN Protokoll ist optimiert für Batteriebetrieben Endgeräte die drahtlos kommunizieren möchten. 
             Um energieeffizent zu sein setzt LoRa hauptsächlich auf zwei Punkte. Die Modulationstechnick und eine 
@@ -591,8 +591,6 @@
         wenn vorhanden.
 
     \section{Ausblick}
-
-    Sobald dem Netzwerk erfolreich beigetreten wurde werden ein die benötigten schlüssel aud dem vorher gesetzetn Werten abgeleited. genauers dazu in kapitel \nameref{sec:Sicherheit}.
     %\marginpar{unconfirmed / confirmed, regionale Parameter}.
     %\section{Sonstige quellen}
     %    \url{https://lora-alliance.org/resource-hub}
