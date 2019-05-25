@@ -10,10 +10,9 @@
 \renewcommand{\baselinestretch}{1.5}
 \usepackage{cite}
 \usepackage{bibgerm}
-\setcounter{secnumdepth}{4}
 
 \author{Tobias Sigmann}
-\title{Seminararbeit: Lorawan}
+\title{Seminararbeit: LoRaWAN}
 \date{\today}
 
 \begin{document}
@@ -23,102 +22,102 @@
     \newpage
 
     \section{Einführung in Lora}
-        Lora ist ein Low Power, Wide Area (LPWA) Netzwerkprotokoll und somit sehr gut für batteriebetriebene kabellose Geräte geeignet. Deswegen wir Lora auch of im Internet of Things (IoT) Bereich verwendet.
-        Mittels der bidirektionalen Kommunikation ist es möglich Daten und Befehle über weite Strecken zu übertragen. Leider leidet darunter die Geschwindigkeit, sodas sich Lora nicht als WLAN Ersatz eignet.
-        Trotzdem können zwischen 0.3 und 50 kbps erreicht werden. In Europa werden 863 MHz bis 870 MHz verwendet. Allerdings variiert der Frequenzbereich für andere Kontinente. Je nach Bedingungen können so bis zu 20km entfernte Endgeräte erkannt und mit diesen kommuniziert werden.
-        Es ist sogar möglich den Standort des Gerätes zu bestimmen.
+    %    Lora ist ein Low Power, Wide Area (LPWA) Netzwerkprotokoll und somit sehr gut für batteriebetriebene kabellose Geräte geeignet. Deswegen wir Lora auch of im Internet of Things (IoT) Bereich verwendet.
+    %    Mittels der bidirektionalen Kommunikation ist es möglich Daten und Befehle über weite Strecken zu übertragen. Leider leidet darunter die Geschwindigkeit, sodas sich Lora nicht als WLAN Ersatz eignet.
+    %   Trotzdem können zwischen 0.3 und 50 kbps erreicht werden. In Europa werden 863 MHz bis 870 MHz verwendet. Allerdings variiert der Frequenzbereich für andere Kontinente. Je nach Bedingungen können so bis zu 20km entfernte Endgeräte erkannt und mit diesen kommuniziert werden.
+    %    Es ist sogar möglich den Standort des Gerätes zu bestimmen.
         
-        Eine Alternative zu Lora ist Sigfox, hierrauf werde ich nicht weiter eingehen.
-        LoRaWAN 1.1
-        \newline    
-        \cite{WhatIsLoRa}(Optimiert für Batterie Kapazität(Teilnehmer) Reichweite, Kosten
-        mehrjährige Batterielaufzeit, kleine Datenmengen, große Reichweite, LPWAN (Low Power WAN)
+    %    Eine Alternative zu Lora ist Sigfox, hierrauf werde ich nicht weiter eingehen.
+    %    LoRaWAN 1.1
+    %    \newline    
+    %    \cite{WhatIsLoRa}(Optimiert für Batterie Kapazität(Teilnehmer) Reichweite, Kosten
+    %    mehrjährige Batterielaufzeit, kleine Datenmengen, große Reichweite, LPWAN (Low Power WAN)
         
-        Kriterien für Lora: Netzwerk Architektur, Reichweite, Batterielaufzeit, Interreferenzrobustheit, Anzahl Konten, Sicherheit, bidirektionale Kommunikation, verschiedene Anwendungsunterstützung
+    %   Kriterien für Lora: Netzwerk Architektur, Reichweite, Batterielaufzeit, Interreferenzrobustheit, Anzahl Konten, Sicherheit, bidirektionale Kommunikation, verschiedene Anwendungsunterstützung
         
-        Orientiert für Mobile Adressierbare Endgeräte)
-        \newline{}
-            \cite{LoraLimit}(
-                alternativen: Sigfox, Ingneu, Dash7
+    %    Orientiert für Mobile Adressierbare Endgeräte)
+    %    \newline{}
+    %        \cite{LoraLimit}(
+    %           alternativen: Sigfox, Ingneu, Dash7
+    %            Klassen Kompromiss zwischen Reichweite, Performance(Latzen/ Durchsatz) und Energiebedarf
 
-                Klassen Kompromiss zwischen Reichweite, Performance(Latzen/ Durchsatz) und Energiebedarf
-
-                Energiesparend durch ADR (Adaptive Daten Rate)
-            )
-        \newline{}\newline{} Es wird folgen: Was ist lora, wo und wofür wird es benutzt, wie weit kann man senden und wie schnell...
+    %            Energiesparend durch ADR (Adaptive Daten Rate)
+    %        )
+    %   \newline{}\newline{} Es wird folgen: Was ist lora, wo und wofür wird es benutzt, wie weit kann man senden und wie schnell...
     \section{Aufbau eines Lora-Netzwerk}
-        Lora wird auch Deswegen gerne für IoT-Geräte verwendet, weil der Netzwerkaufbau ermöglicht die über Lora 
-        verwendeten Daten im Internet abzurufen und so ohne weiteres das Gerät mit dem Internet zu verbinden. Um 
-        die von den End-Geräten gesendeten LoRa-Pakete auf IP/TCP Pakete umzusetzen wird ein Gateway benötigt, 
-        das auf der einen Seite LoRa-Pakete empfängt/sendet und auf der anderen Seite TCP/IP Pakete verwendet.
-        Das Gateway implementiert aber keinerlei Logik. Hierzu ist ein Netzwerkserver zuständig der durch die 
+        LoRa ist ideal für IoT-Geräte, da per einfachem Netzwerkaufbau Datenaustausch mit dem Internet möglicht ist.
+        Um die von den End-Geräten gesendeten LoRa-Pakete auf IP/TCP Pakete umzusetzen wird ein Gateway als Schnittstelle
+        benötigt, um die LoRa-Pakete in TCP/IP Pakete umzuwandeln und umgekehrt.
+        Das Gateway implementiert aber keinerlei Logik. Hierzu ist ein Netzwerkserver zuständig der über die 
         Gateways das Netzwerk kontrolliert und steuert. Gleichzeitig stellt er die Verbindung zu einem 
-        Applikationsserver her, in dem er die vom Gateway empfangenen Daten Weiterleitet.
+        Applikationsserver her, in dem er die Daten weiterleitet.
 
-        Der Applikationsserver ist zuständig den die gesendete Nachrichten zu verarbeiten und gegebenenfalls selbst 
-        welche an die Endgeräte zu senden.
+        Der Applikationsserver ist zuständig die gesendeten Nachrichten zu verarbeiten und sendet Daten an die 
+        Endgeräte.
 
-        Diese Architektur wurde gewählt um die Laufzeit der Akku betriebenen Endgeräte, Anzahl der Endgeräte, Qualität 
-        Signals und Sicherheit des Netzwerkes möglichst hoch zu halten. \cite[S. 8 ff.]{WhatIsLoRa}
+        Diese Architektur wurde gewählt um geringen Energieverbrauch zu ermöglichen, bei gleichzeitiger 
+        höher Endgeräteanzahl, hoher Siganlqualität und entsprechnder Netzwerksicherheit. \cite[S. 8 ff.]{WhatIsLoRa}
         
         \subsection{Gateway}
-            Das Teilnetz das aus dem Gateway und mehreren LoRa-Endgeräten besteht ist Sternförmig aufbau. Jedes 
-            Endgeräten kommuniziert direkt mit dem Gateway. Diese Art der Kommunikation wird auch 
-            ``Single-Hop-Connection'' zu Deutsch (Einfacher-Sprung-Verbindung) genannt, da die gesendeten Daten ohne 
-            Umwege an das Gateway gesendet werden. Jedes Gateway ist mit mindestens einem Netzwerkserver verbunden.
+            Die LoRa-Endgeräte werden sternförmig an die Gateways angeschlossen und stellen ein Teilnetz dar. 
+            Jedes Endgeräten kommuniziert direkt mit dem Gateway. Diese Art der Kommunikation wird  
+            ``Single-Hop-Connection'' genannt, da die gesendeten Daten ohne Umwege an das Gateway gesendet werden. 
+            Jedes Gateway ist mit mindestens einem Netzwerkserver verbunden.
         
-            Ein Endgerät kann gleichzeitig an mehreren Gateways senden. Der Netzwerkserver ist zuständig die Pakete 
-            auf Duplikate zu überprüfen und nur einmalig an die Applikationsserver zu senden. Ein weiterer Vorteil ist 
-            das kein Übergabe der Endgeräte bei Standortwechsel zu andern Gateways nötig ist. Dadurch müssen die 
-            Gateways mit vielen Endgeräten kommuniziert. Um diese hohe Endgeräteanzahl zu ermöglichen wurde darauf 
-            verzichtet mit jedem Endgerät einzelne zu kommunizieren und stattdessen auf eine Parallele Kommunikation 
-            gesetzt. Hierzu werden adaptive Datenraten und Mehrkanal-Multi-Modem-Transceiver verwendet.
+            Ein Endgerät kann gleichzeitig an mehreren Gateways senden. Der Netzwerkserver überprüft die Pakete 
+            auf Duplikate und stellt sicher, dass jedes Paket nur einmal an die Applikationsserver gesendet werden.
+            Ein weiterer Vorteil ist das keine Endgeräteübergabe zwischen den Gateways bei Standortwechsel nötig sind.
+            Da die Gateways mit allen in der Reichweite befindlichen Endgeräten kommunizieren müssen, wurde 
+            auf Einzelkommunikation verzichtet und auf Parallelkommunikation gesetzt. 
+            Dazu werden adaptive Datenraten und Mehrkanal-Multi-Modem-Transceiver verwendet.
         
-            Durch die genannt Eigenschaften der Gateways wird eine gute Skalierbarkeit erzieht. Dadurch können neue 
-            Gateways die Anzahl der Endgeräte um das 6 bis 8-fach erhöhen.vgl. \cite[S.10]{WhatIsLoRa}
+            Durch die genannt Eigenschaften der Gateways wird eine gute Skalierbarkeit erzielt. Dadurch können neue 
+            Gateways die Anzahl der Endgeräte um das 6 bis 8-fach erhöhen. vgl. \cite[S.10]{WhatIsLoRa}
         \subsection{Netzwerkserver}
-            Der NetzwerkServer ist das ``Herzstück‘‘ eines jeden Lora-Netzwerkes. Er kann mit mehreren Gateways und 
+            Der Netzwerkserver ist das ``Herzstück‘‘ eines jeden Lora-Netzwerkes. Er kann mit mehreren Gateways und 
             mehreren Applikationsserver verbunden sein. 
 
-            Die wichtigste Aufgabe des Netzwerksserver ist das Steuern des LoRa-Teils des Netzwerkes. Der Server 
-            verwaltet jedes Endgerät separat indem es mit ihm den zu verwendenden Funkkanal Aushanelt und die Datenrate
-             kontrolliert wenn ADR(Adaptiv Data Rate) verwendet wird. Außerdem ist er bei dem Netzwerkbeitritt eines 
-             Endgerätes .beteiligt.
+            Die wichtigste Aufgabe des Netzwerksserver ist die Steuerung des LoRa-Netzwerks. Der Server 
+            verwaltet jedes Endgerät separat indem es mit ihm den zu verwendenden Funkkanal aushandelt und die Datenrate
+             kontrolliert wenn ADR (Adaptiv Data Rate) aktiv ist. Außerdem steuert er den Netzwerkbeitritt der 
+             Endgeräte.
 
-            Weiterhin überprüft er die empfangen Pakete auf ihre Korrektheit, Integrität und filtert Duplikate, die 
-            durch das Empfangen der gleichen Übertragung von einem Endgerät an verschieden Gateways, verursacht wurden.
-            Dabei ermittelt er auch die Gateways, die den besten empfang zu den jeweiligen Endgeräten hat und nutzt 
-            dieses um Daten an die Endgeräte zu senden.
+            Weiterhin überprüft er die empfangen Pakete auf ihre Korrektheit, Integrität und wie schon erwähnt 
+            filtert er Duplikate.
+            Dabei ermittelt er auch das Gateway mit dem besten Empfang zum jeweiligen Endgeräten und nutzt 
+            dieses dann um Daten an das Endgerät zu senden.
 
-            Es ist nicht immer möglich Daten direkt zu senden, da die Endgeräte nur manchmal empfangsbereit sind. Um 
+            Es ist nicht immer möglich Daten direkt zu senden, da die Endgeräte nicht immer empfangsbereit sind. Um 
             die Applikationsserver zu endlasten, puffert der Netzwerkserver die Daten und sendet diese zum nächst 
-            möglichem Zeitpunkten.
+            möglichen Zeitpunkt.
 
-            Eine weitere sehr Wichtige Ausgabe ist es eine API für den Applikationsserver bereitzustellen um eine 
+            Eine weitere sehr wichtige Ausgabe ist es eine Schnittstelle für den Applikationsserver bereitzustellen 
+            um eine 
             einfache und schnelle Kommunikation zu ermöglichen.
         \subsection{Join-Server}
-            Der Server kann mit mehreren Netzwerkservern verbunden werden und jeder Netzwerkserver kann mehrere 
-            Join-Server haben.
-
             Ein Join-Server wird benötigt um den Beitritt mittels OTAA zu ermöglichen. Mehr zu OTAA kann in dem 
-            Kappitel \nameref{sec:OTAA} gelesen werden. Wenn ein Endgerät dem Netzwerk beitreten möchte, leitend 
-            der Netzwerkserver die Anfragen an den Join-Server weiter. Dieser führt dann die nötige schritte des 
-            Beitritts aus wie z.B. ableiten von Schlüsseln oder Senden der nötigen Einstellungen. Um dies zu tun 
-            muss ihm der NwkKey und der AppKey bekannt sein, da diese zum verschlüsseln der Nachrichten verwendet 
-            werden aber aus Sicherheitsgründen nie über das Netzt übertragen werden dürfen. \cite[S. 9 f.]{LoRaBack}
+            Kappitel \nameref{sec:OTAA} gelesen werden. Wenn ein Endgerät dem Netzwerk beitreten möchte, leitent 
+            der Netzwerkserver die Anfragen an den Join-Server weiter. Dieser führt dann die nötige Beitrittschritte 
+            aus, wie z.B. ableiten von Schlüsseln oder Senden der nötigen Einstellungen. Dafür ist der NwkKey und 
+            der AppKey notwendig, da diese zum verschlüsseln der Nachrichten benötigt werden. 
+            Aus Sicherheitsgründen dürfen diese Schlüssel nie über das LoRa-Netz übertragen werden, sondern müssen
+            bei der Programmierung des Endgerätes vorgegeben werden. \cite[S. 9 f.]{LoRaBack}
+
+            Der Join-Server kann mit mehreren Netzwerkservern verbunden werden und jeder Netzwerkserver kann mehrere 
+            Join-Server haben.
         \subsection{End-Gerät}
             Endgeräte sind Geräte die Informationen mittels LoRa empfangen oder senden. Jedes Endgerät ist mit einem 
             bestimmten Applikationsserver verbunden.
 
-            Jedes Endgerät muss zur korrekten Funktion mehrere wichtige Informationen speichern.
+            Jedes Endgerät muss zur korrekten Funktion mehrere wichtige Informationen haben.
             \begin{itemize}
                 \item DevEUI: Globale Endgeräte\_ID die eindeutig für jedes Endgerät definiert ist. Vergleichbar 
                 mit der MAC-Adresse eines TCP/IP Gerätes.
-                \item JoinEUI: Globale Adresse des Join-Servers an den die Anfrage gehen soll. Wird nur für OTAA Geräte
+                \item JoinEUI: Globale Adresse des Join-Servers an den die Join-Anfrage gehen soll. Wird nur für OTAA Geräte
                 benötigt.
                 \item NwkKey und AppKey: Werden verwendet um spätere Schlüssel abzuleiten und die Kommunikation während
                 der Beitrittprozedur in ein Netzwerk abzusichern. Dafür müssen sie sowohl dem Join-Server als auch dem
-                Endgerät bekannt sein da sie nie übertragen werden.
+                Endgerät bekannt sein.
             \end{itemize}
             \cite[S.47 ff.]{LoRaSpec}
 
@@ -597,17 +596,14 @@
             Genau so wird mit den Downlink counter verfahren, bloß auf dem Endgerät. Im NFCntDown Zähler werden die 
             MAC-Kommando Nachrichten gezählt. AFCntDown wird für alle anderen Nachrichten verwendet.\cite[S.22 ff]{LoRaSec}
 
-    \section{Live-Beispiel}
-        wenn vorhanden.
-
-    \section{Ausblick}
-    %\marginpar{unconfirmed / confirmed, regionale Parameter}.
+    %\section{Live-Beispiel}
+    %\section{Ausblick}
     %\section{Sonstige quellen}
-    %    \url{https://lora-alliance.org/resource-hub}
-    %    QuickStart für ein kleines Projekt: \url{https://www.thethingsnetwork.org/docs/devices/node/quick-start.html#setup-arduino-ide}
-    %  
-    %   Weitere Infos \url{http://www.multitech.com/documents/publications/marketing-guides/lora_device_dev_guide_orange.pdf}
-        \newpage
+        %    \url{https://lora-alliance.org/resource-hub}
+        %    QuickStart für ein kleines Projekt: \url{https://www.thethingsnetwork.org/docs/devices/node/quick-start.html#setup-arduino-ide}
+        %  
+        %   Weitere Infos \url{http://www.multitech.com/documents/publications/marketing-guides/lora_device_dev_guide_orange.pdf}
+    \newpage
     \bibliographystyle{geralpha}
     \bibliography{myBib}
     %richtige namen finden
