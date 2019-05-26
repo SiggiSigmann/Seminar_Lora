@@ -337,6 +337,12 @@
                 eines Uplink-Paketes wird am Ende ein CRC Feld angefügt. Somit ergibt sich dann folgende Paketstruktur: 
                 Preamble, PHDR, PHDR\_CRC, PHYPayload, CRC.
 
+                \begin{figure}[ht]
+                    \centering
+                    \includegraphics[height=2cm]{LoRaHeader}
+                    \caption{Aufbau einer LoRa-NAchricht}
+                \end{figure}
+
                 Die Preamble ist eine Startsequenz und teilt dem Empfänger mit, dass gleich Daten gesendet werden. 
                 Sie ist nur ein Signal ohne Informationen.
 
@@ -360,13 +366,40 @@
                 Feld hinzugefügt: MHDR, MACPayload und MIC. MIC steht für ``Message Integrity Code'' und mit ihr wird 
                 die Korrektheit der des MACPayloads und des MHDR ermittelt.
 
+                \begin{figure}[ht]
+                    \centering
+                    \includegraphics[height=2cm]{PHYPayload}
+                    \caption{Aufbau des PHYPayload-Felds}
+                \end{figure}
+
                 Das MHDR Feld definiert die Daten im MACPayload-Feld. Auch dieses wird Feld in 
                 Unterfelder unterteilt: MType, RFU und Major. MType steht für ``Message Type''. Das MType-Feld beschreibt die Art der 
                 Nachricht, z.B. Datennachrichten oder Join-Nachrichten, \dots. 
+
+                \begin{longtable}{c |c }
+                    \centering
+                    MType & Description  \\
+                    \hline
+                    000 & Join-request \\
+                    001 & Join-accept \\
+                    010 & Unconfirmed Data Up \\
+                    011 & Unconfirmed Data Down \\
+                    100 & Confirmed Data Up \\
+                    101 & Confirmed Data Down \\
+                    110 & Rejoin-request \\
+                    111 & Proprietary \\
+                \end{longtable}
+
                 RFU steht für ``Reserved for Future Usag‘‘. Daher kann 
                 dieses Feld in der Version 1.1 und niedriger ignoriert werden. Das Major Unterfeld wird verwendet um das 
                 LoRa-Version der Nachricht zu definieren. Momentan ist nur der Wert 0 definiert. 0 steht für LoRaWan R1. 
                 Die restlichen Werte sind für zukünftige Updates reserviert.
+
+                \begin{figure}[ht]
+                    \centering
+                    \includegraphics[height=2cm]{MHDR}
+                    \caption{Aufbau des MHDR-Felds}
+                \end{figure}
 
                 Mit der Unterteilung des MACPayload springen wir in dem LoRa-Stack noch eine Ebene höher, in die 
                 Applikationsschicht. Im MACPayload-Feld sind Frameheader FHDR, Frame-Port FPort und 
@@ -376,6 +409,12 @@
                 werden sollen. Es gibt einige fest definierte Ports. Port 0x00 ist reserviert um MAC-Kommandos im FRMPayload Feld 
                 entgegenzunehmen. Die Ports 0x01 bis 0xDF sind anwendungsspezifische Ports und Port 0xE0 ist für das 
                 LoRaWAN-Test-Layer-Protokoll reserviert. Nachrichten mit anderen Port-Adressen werden verworfen. 
+                
+                \begin{figure}[ht]
+                    \centering
+                    \includegraphics[height=2cm]{MACPayload}
+                    \caption{Aufbau des MACPayload-Felds}
+                \end{figure}
 
                 Auch der FHDR ``Frame Header'' wird in einzelne Felder unterteilt: DevAddr, FCtrl, FCnt und Fopts. 
                 In dem Feld DevAddr (Device Address) wird die Zieladresse der Nachricht vermerkt. Im Feld FCnt 
@@ -385,6 +424,12 @@
                 können bis zu fünf MAC-Kommandos parallel zur Datenübertragung übermittelt werden. Die Anzahl kommt auf die Menge der 
                 mitgelieferten Variablen an. 
 
+                \begin{figure}[ht]
+                    \centering
+                    \includegraphics[height=2cm]{FHDR}
+                    \caption{Aufbau des FHDR-Felds}
+                \end{figure}
+
                 Das letzte Feld, das in Unterfelder unterteilt werden kann, ist das FCtrl-Feld. Hiermit wird das Endgeräte 
                 gesteuert und Nachrichten bestätigt. Es gibt leichte Unterschiede für Uplink- und Downlink-Nachrichten. 
                 Beide Nachrichtentypen haben ein ADR, ein ACK und ein FOptsLen Feld. Das ADR-Feld definiert, 
@@ -393,13 +438,26 @@
                 ist im MType Feld (Confirmed Data) definiert. In dem FOptsLen Feld wird die Länge des FOpts Feldes mitsamt des 
                 Headers eingetragen. Ist das FOptsLen 0, so ist kein FOpts Feld vorhanden.
 
+                
                 Ein Downlinkpaket hat zusätzlich ein RFU Feld das nicht verwendet wird und ein FPending Feld. In diesem 
                 Feld kann das Gateway bzw. der Netzwerkserver dem Endgerät mitteilen, dass noch mehr Daten folgen.
+
+                \begin{figure}[ht]
+                    \centering
+                    \includegraphics[height=2cm]{FCtrlDownlink}
+                    \caption{Aufbau des FCTRL(Downlink)-Felds}
+                \end{figure}
 
                 Dahingegen hat ein Uplink-Paket ein ClassB. Hier teilt das Endgerät dem Gateway mit, dass es auf 
                 Funktionsklasse B wechseln will. Zusätzlich hat das Uplink-Paket ein ADRACKReq Feld. Dieses Feld 
                 wird verwendet um zu überprüfen, dass das Netzwerk noch antwortet. 
                 Die genaue Funktionsweise ist im Kapitel \ref{sec:ADR} \nameref{sec:ADR} erklärt.
+
+                \begin{figure}[ht]
+                    \centering
+                    \includegraphics[height=2cm]{FCtrlUplink}
+                    \caption{Aufbau des FCTRL(Uplink)-Feld}
+                \end{figure}
 
                 Eine detailierte Beschreibung der LoRa-Paketstruktur findet man in der LoRaWA 1.1 Specification \cite{LoRaSpec}.   
                 
