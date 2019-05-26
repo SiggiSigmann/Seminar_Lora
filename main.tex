@@ -18,6 +18,10 @@
 
 \begin{document}
     \maketitle
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=\textwidth]{LoRA}
+    \end{figure}
     \newpage
     \tableofcontents
     \newpage
@@ -269,7 +273,8 @@
                 Im Folgenden ist eine Liste aller MAC-Kommandos angegeben:
            
                     
-                \begin{longtable}{c |c | p{10.5cm} c}
+                \begin{longtable}{c |c | p{9cm} c}
+                    \centering
                     CID & Kommandoname & Funktion \\
                     \hline
                     0x01 & ResetInd & Wird bei dem Beitritt mittels ABP vom Endgerät gesendet. Informiert das Netzwerk über den Beitritt. \\
@@ -598,6 +603,12 @@
                 
                 In Europa werden die Beacons auf einer festen Frequenz übertragen. Falls nötig kann die Frequenz mit dem  
                 MAC-Kommando PingSlotChannelReq geändert werden.
+
+                \begin{figure}[ht]
+                    \centering
+                    \includegraphics[width=\textwidth]{Beacon}
+                    \caption{Aufbau eines Beacons}
+                \end{figure}
         \subsection{Klasse C}
             C steht für ``CONTINUOUSLY Listening''. Wie der Name schon sagt, ist hier dauernd ein Empfangsfenster geöffnet.
             Dafür wird fast latenzfrei übertragen. Dies bedeutet aber auch erhöhter Stromverbrauch. Klasse C ist somit 
