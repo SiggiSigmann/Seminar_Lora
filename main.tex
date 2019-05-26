@@ -42,7 +42,7 @@
         bis zu mehreren Jahren) hat den Nachteil einer sehr gerigen Bandbreite (zwischen 0.3 und 50 kbps). 
 
 
-        \begin{figure}[h]
+        \begin{figure}[ht]
             \centering
             \includegraphics[width=13cm, height=7cm]{Einfuehrung}
             \caption{Funknetzvergleich}
@@ -66,6 +66,13 @@
 
         Diese Architektur wurde gewählt um geringen Energieverbrauch zu ermöglichen bei gleichzeitiger 
         hoher Endgeräteanzahl, hoher Siganlqualität und entsprechnder Netzwerksicherheit. \cite[S. 8 ff.]{WhatIsLoRa}
+        
+        \begin{figure}[ht]
+            \centering
+            \includegraphics[width=\textwidth]{Netzwerkaufbau}
+            \caption{Beispiel eines LoRa-Netzwerks}
+        \end{figure}
+
         
         \subsection{Gateway}
             Die LoRa-Endgeräte werden sternförmig an die Gateways angeschlossen und stellen ein Teilnetz dar. 
@@ -155,11 +162,12 @@
             Die oberste Schicht nennt sich Applikationsschicht und verpackt, verschlüsselt und authentifiziert 
             die Nutzdaten einer Nachricht.
 
-            \begin{figure}[h]
-                \includegraphics[width=\textwidth]{LoRaLayer}
-                \caption{LoRaStack \cite[S.7]{WhatIsLoRa}}
+            \begin{figure}[ht]
+                \centering
+                \includegraphics[width=10cm]{LoRaLayer}
+                \caption{Schichtenmodell}
             \end{figure}
-
+ 
         \subsection{Netzwerkbeitritt}
             Endgeräte sind immer einem bestimmten Netzwerk zugeordnet. Es gibt zwei Wege um ein neues Endgeräte zu einem 
             bestehenden Netzwerk hinzuzufügen.
