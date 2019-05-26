@@ -476,6 +476,13 @@
             
             Für die Join-Prozedur wird immer die Klasse A verwendet. Die verwendete Frequenz entspricht den 
             Empfangsfenstern RX1 oder RX2.
+
+            \begin{figure}[ht]
+                \centering
+                \includegraphics[width=10cm]{KlasseA}
+                \caption{Sende/Empfangsmodell}
+            \end{figure}
+ 
         \subsection{Klasse B}
             Die Klasse B (B für BEACON) bietet bidirektionale Kommunikation mit einer deterministischen Downlink-Latenz.
             Um diese Latenz zu gewährleisten muss die Kommunikation synchronisiert ablaufen. Außerdem muss 
@@ -492,6 +499,13 @@
             Dadurch lernt der Server wo sich das Endgerät befindet und kann das Gateway mit dem besten Empfang wählen.
             Obwohl das Endgerät durch die periodischen Beacon nicht schlafen kann, ist auch die Klasse B für den 
             Batteriebetrieb geeignet.
+
+            
+            \begin{figure}[ht]
+                \centering
+                \includegraphics[width=10cm]{KlasseB}
+                \caption{Sende/Empfangsmodell}
+            \end{figure}
 
             \subsubsection{Klassenwechsel A nach B}
                 Um überhaupt einen Wechsel zu ermöglichen, muss der Netzwerkserver die Standard Pingslot Periode, die 
@@ -598,6 +612,13 @@
             Auch in Klasse C können Multicastnachrichten gesendet werden. Hierbei gelten die gleichen 
             Regeln wie bei Klasse B.
 
+
+            \begin{figure}[ht]
+                \centering
+                \includegraphics[width=10cm]{KlasseC}
+                \caption{Sende/Empfangsmodell}
+            \end{figure}
+
     \section{Sicherheit} \label{sec:Sicherheit}  
         Sicherheit in netzwerkfähigen Systemen ist ein sehr wichtiges und heiß disktiertes Thema. Da alle LoRa-Geräte 
         drahtlos Daten übertragen, sind diese für alle empfangbar. Deshalb ist eine Verschlüsselung wichtig.
@@ -637,6 +658,12 @@
             Der ``Applikaction Session Key'' wird vom Applikationsserver und dem Endgerät verwendet. 
             Dieser Schlüssel wir vom Programmierer vorgegeben, da er 
             mit dem Schlüssel des Applikationsserver übereinstimmen muss.\cite[S.50 ff]{LoRaSpec}
+            \newpage
+            \begin{figure}[ht]
+                \centering
+                \includegraphics[width=\textwidth]{Schluessel}
+                \caption{Schlüselableitung \cite[S. 63]{LoRaSpec}}
+            \end{figure}
 
         \subsection{Zähler}\label{sec:Zaehler}
             Jedes Endgerät hat drei verscheidene Counter. Ein Framecounter für Uplinkframes FCntUp und zwei für 
